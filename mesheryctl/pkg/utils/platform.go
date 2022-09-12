@@ -694,6 +694,29 @@ func InstallprereqDocker() error {
 		return errors.Wrap(err, "failed to execute command")
 	}
 	log.Info("Prerequisite Docker Compose is installed.")
+
+	if err != nil {
+		dockerComposeBinaryURL = dockerComposeBinaryURLV2 + defaultDockerComposeV2
+	} else {
+		var dat map[string]interface{}
+		body, err := io.ReadAll(resp.Body)
+		if err != nil {
+			return errors.Wrap(err, "failed to read response body")
+		}
+		if err := json.Unmarshal(body, &dat); err != nil {
+			return errors.Wrap(err, "failed to unmarshal json into object")
+		}
+		num := dat["tag_name"]
+		dockerComposeBinaryURL = fmt.Sprintf(dockerComposeBinaryURLV2+"%v/docker-compose", num)
+	}
+	dockerComposeBinaryURL = dockerComposeBinaryURLV2 + "-" + osdetails
+	if err := meshkitutils.DownloadFile(dockerComposeBinaryV2, dockerComposeBinaryURL); err != nil {
+		return errors.Wrapf(err, "failed to download %s from %s", dockerComposeBinaryV2, dockerComposeBinaryURL)
+	}
+	if err := exec.Command("chmod", "+x", dockerComposeBinaryV2).Run(); err != nil {
+		return errors.Wrap(err, "failed to execute command")
+	}
+	log.Info("Prerequisite Docker Compose v2 is installed.")
 	return nil
 }
 

@@ -37,6 +37,9 @@ const (
 	defaultDockerComposeVersion = "1.24.1/docker-compose"
 	dockerComposeBinaryURL      = "https://github.com/docker/compose/releases/download/"
 	dockerComposeBinary         = "/usr/local/bin/docker-compose"
+	defaultDockerComposeV2      = "v2.10.2/docker-compose"
+	dockerComposeBinaryURLV2    = "https://github.com/docker/compose/releases/download/"
+	dockerComposeBinaryV2       = "/usr/local/lib/docker/cli-plugins/docker-compose"
 
 	// Meshery Kubernetes Deployment URLs
 	baseConfigURL = "https://raw.githubusercontent.com/layer5io/meshery-operator/master/config/"
