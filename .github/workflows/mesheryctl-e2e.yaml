@@ -29,6 +29,9 @@ jobs:
         k8s_version: ['v1.20.11', 'v1.21.5', 'v1.22.2']
         platform: ['docker', 'kubernetes']
     steps:
+      - name: Install lynx for xdg-open support
+        run: sudo apt-get install lynx
+
       - name: Setup Kubernetes
         uses: manusa/actions-setup-minikube@v2.4.1
         with:
@@ -38,9 +41,9 @@ jobs:
 
       - name: Run minikube tunnel
         run: |
+          export SHELL=/bin/bash
           echo 'Running minikube tunnel'
           minikube tunnel &> /dev/null &
-        shell: bash
 
       - name: Get Date
         id: date
@@ -50,7 +53,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Performance Tests
-        uses: layer5io/meshery-smp-action@master
+        uses: acald-creator/meshery-smp-action@master
         with:
           provider_token: ${{ secrets.PROVIDER_TOKEN }}
           platform: ${{ matrix.platform }}
@@ -60,13 +63,13 @@ jobs:
 
       - name: Deploy Service Mesh
         run: |
+          export SHELL=/bin/bash
           cat ~/auth.json
           echo | mesheryctl mesh deploy --adapter meshery-istio --namespace istio-system -t ~/auth.json ISTIO
           sleep 50
-        shell: '/bin/bash {0}'
 
       - name: Apply Pattern
-        uses: layer5io/meshery-service-mesh-patterns-action@master
+        uses: acald-creator/meshery-service-mesh-patterns-action@master
         with:
           provider_token: ${{ secrets.PROVIDER_TOKEN }}
           platform: ${{ matrix.platform }}
@@ -83,6 +86,9 @@ jobs:
         k8s_version: ['v1.20.11', 'v1.21.5', 'v1.22.2']
         platform: ['docker', 'kubernetes']
     steps:
+      - name: Install lynx for xdg-open support
+        run: sudo apt-get install lynx
+        
       - name: Setup Kubernetes
         uses: manusa/actions-setup-minikube@v2.4.1
         with:
@@ -92,9 +98,9 @@ jobs:
 
       - name: Run minikube tunnel
         run: |
+          export SHELL=/bin/bash
           echo 'Running minikube tunnel'
           minikube tunnel &> /dev/null &
-        shell: bash
 
       - name: Get Date
         id: date
@@ -104,7 +110,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run Performance Tests
-        uses: layer5io/meshery-smp-action@master
+        uses: acald-creator/meshery-smp-action@master
         with:
           provider_token: ${{ secrets.PROVIDER_TOKEN }}
           platform: ${{ matrix.platform }}
@@ -114,26 +120,26 @@ jobs:
       
       - name: Deploy Service Mesh
         run: |
+          export SHELL=/bin/bash
           echo | mesheryctl mesh deploy --adapter meshery-istio --namespace istio-system -t ~/auth.json ISTIO
           sleep 50
-        shell: '/bin/bash {0}'
 
       - name: Apply BookInfo Pattern
-        uses: layer5io/mesheryctl-service-mesh-patterns-action@master
+        uses: acald-creator/mesheryctl-service-mesh-patterns-action@master
         with:
           provider_token: ${{ secrets.PROVIDER_TOKEN }}
           platform: ${{ matrix.platform }}
           pattern_url: https://raw.githubusercontent.com/service-mesh-patterns/service-mesh-patterns/master/samples/bookInfoPattern.yaml
 
       - name: Apply Circuit Breaker Pattern
-        uses: layer5io/mesheryctl-service-mesh-patterns-action@master
+        uses: acald-creator/mesheryctl-service-mesh-patterns-action@master
         with:
           provider_token: ${{ secrets.PROVIDER_TOKEN }}
           platform: ${{ matrix.platform }}
           pattern_url: https://raw.githubusercontent.com/service-mesh-patterns/service-mesh-patterns/master/samples/servicemeshcon-na-2021/circuitbreaker.yaml
 
       - name: Apply Retries Pattern
-        uses: layer5io/mesheryctl-service-mesh-patterns-action@master
+        uses: acald-creator/mesheryctl-service-mesh-patterns-action@master
         with:
           provider_token: ${{ secrets.PROVIDER_TOKEN }}
           platform: ${{ matrix.platform }}
