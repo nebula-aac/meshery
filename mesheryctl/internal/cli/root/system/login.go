@@ -71,7 +71,8 @@ mesheryctl system login
 
 		var tokenData []byte
 		if providerFlag != "" {
-			var provider = providerFlag
+			provider := providerFlag
+			//			var provider = providerFlag
 			tokenData, err = utils.InitiateLogin(mctlCfg, provider)
 		} else {
 			tokenData, err = utils.InitiateLogin(mctlCfg, "")

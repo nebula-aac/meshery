@@ -19,8 +19,11 @@ func (ahpm ArtifactHubPackageManager) GetPackage() (models.Package, error) {
 	}
 	// update package information
 	for i, ap := range pkgs {
-		ap.UpdatePackageData()
+		err := ap.UpdatePackageData()
 		pkgs[i] = ap
+		if err != nil {
+			return nil, err
+		}
 	}
 	// filter only packages with crds
 	pkgs = artifacthub.FilterPackagesWithCrds(pkgs)

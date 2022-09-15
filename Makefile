@@ -22,10 +22,10 @@ include install/Makefile.show-help.mk
 #.SILENT: dep-check
 
 dep-check:
-ifeq ($(shell which go$(GOVERSION); echo $$?),1)
-	@echo "Dependency missing: go$(GOVERSION). Ensure 'go$(GOVERSION)' (specifically this version) is installed and available in your 'PATH'"
+ifeq ($(shell which go${GOVERSION}; echo $$?),1)
+	@echo "Dependency missing: go${GOVERSION}. Ensure 'go${GOVERSION}' (specifically this version) is installed and available in your 'PATH'"
 # Uncomment to force error and stop. Careful that ui builds may fail, too.
-# $(error Dependency missing: go$(GOVERSION). Ensure 'go$(GOVERSION)' (specifically this version) is installed and available in your 'PATH')
+# $(error Dependency missing: go${GOVERSION}. Ensure 'go${GOVERSION}' (specifically this version) is installed and available in your 'PATH')
 endif
 
 #-----------------------------------------------------------------------------
@@ -82,32 +82,32 @@ run-local: server-local error
 ## and point to (expect) a locally running Meshery Cloud or other Provider(s)
 ## for user authentication (requires go${GOVERSION}).
 server-local:
-	cd server; cd cmd; go$(GOVERSION) clean; go$(GOVERSION) mod tidy; \
+	cd server; cd cmd; go${GOVERSION} clean; go${GOVERSION} mod tidy; \
 	BUILD="$(GIT_VERSION)" \
 	PROVIDER_BASE_URLS=$(REMOTE_PROVIDER_LOCAL) \
 	PORT=9081 \
 	DEBUG=true \
 	ADAPTER_URLS=$(ADAPTER_URLS) \
 	APP_PATH=$(APPLICATIONCONFIGPATH) \
-	go$(GOVERSION) run main.go error.go
+	go${GOVERSION} run main.go error.go
 	
 run-fast: 
 	## "DEPRECATED: This target is deprecated. Use `make server`.
 
 ## Build and run Meshery Server on your local machine (requires go${GOVERSION}).
 server:
-	cd server; cd cmd; go$(GOVERSION) mod tidy; \
+	cd server; cd cmd; go${GOVERSION} mod tidy; \
 	BUILD="$(GIT_VERSION)" \
 	PROVIDER_BASE_URLS=$(MESHERY_CLOUD_PROD) \
 	PORT=9081 \
 	DEBUG=true \
 	ADAPTER_URLS=$(ADAPTER_URLS) \
 	APP_PATH=$(APPLICATIONCONFIGPATH) \
-	go$(GOVERSION) run main.go error.go;
+	go${GOVERSION} run main.go error.go;
 
 ## Build and run Meshery Server with no Kubernetes components on your local machine (requires go${GOVERSION}).
 server-skip-compgen:
-	cd server; cd cmd; go$(GOVERSION) mod tidy; \
+	cd server; cd cmd; go${GOVERSION} mod tidy; \
 	BUILD="$(GIT_VERSION)" \
 	PROVIDER_BASE_URLS=$(MESHERY_CLOUD_PROD) \
 	PORT=9081 \
@@ -115,11 +115,11 @@ server-skip-compgen:
 	ADAPTER_URLS=$(ADAPTER_URLS) \
 	APP_PATH=$(APPLICATIONCONFIGPATH) \
  	SKIP_COMP_GEN=true \
-	go$(GOVERSION) run main.go error.go;
+	go${GOVERSION} run main.go error.go;
 		
-## Build and run Meshery Server with no seed content (requires go$(GOVERSION)).
+## Build and run Meshery Server with no seed content (requires go${GOVERSION}).
 server-no-content:
-	cd server; cd cmd; go$(GOVERSION) mod tidy; \
+	cd server; cd cmd; go${GOVERSION} mod tidy; \
 	BUILD="$(GIT_VERSION)" \
 	PROVIDER_BASE_URLS=$(MESHERY_CLOUD_PROD) \
 	PORT=9081 \
@@ -127,17 +127,17 @@ server-no-content:
 	ADAPTER_URLS=$(ADAPTER_URLS) \
 	APP_PATH=$(APPLICATIONCONFIGPATH) \
 	SKIP_DOWNLOAD_CONTENT=true \
-	go$(GOVERSION) run main.go error.go;
+	go${GOVERSION} run main.go error.go;
 
 ## Lint check Meshery Server.
 golangci: error
 	golangci-lint run
 
-## Build Meshery's protobufs (requires go$(GOVERSION)).
+## Build Meshery's protobufs (requires go${GOVERSION}).
 proto-build:
 	# see https://grpc.io/docs/languages/go/quickstart/
-	# go$(GOVERSION) get -u google.golang.org/grpc
-	# go$(GOVERSION) get -u google.golang.org/protobuf/cmd/protoc-gen-go \
+	# go${GOVERSION} get -u google.golang.org/grpc
+	# go${GOVERSION} get -u google.golang.org/protobuf/cmd/protoc-gen-go \
 	#         google.golang.org/grpc/cmd/protoc-gen-go-grpc
 	# PATH=$(PATH):`pwd`/../protoc/bin:$(GOPATH)/bin
 	# export PATH=$PATH:`pwd`/../protoc/bin:$GOPATH/bin
