@@ -298,8 +298,8 @@ func (h *Handler) GetMesheryPatternsHandler(
 //
 // Used to get catalog patterns
 // responses:
-// 	200: mesheryPatternResponseWrapper
 //
+//	200: mesheryPatternResponseWrapper
 func (h *Handler) GetCatalogMesheryPatternsHandler(
 	rw http.ResponseWriter,
 	r *http.Request,
@@ -356,7 +356,8 @@ func (h *Handler) DeleteMesheryPatternHandler(
 //
 // Creates a local copy of a public pattern with id: id
 // responses:
-// 	200: noContentWrapper
+//
+//	200: noContentWrapper
 //
 // CloneMesheryPatternHandler clones a pattern with the given id
 func (h *Handler) CloneMesheryPatternHandler(
