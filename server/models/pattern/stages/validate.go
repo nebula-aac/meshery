@@ -40,7 +40,7 @@ func Validator(prov ServiceInfoProvider, act ServiceActionProvider) ChainStageFu
 
 			//Validate workload definition
 			if err := validateWorkload(svcSettings, wc); err != nil {
-				act.Terminate(fmt.Errorf("invalid workload definition: %s", err))
+				act.Terminate(fmt.Errorf("invalid workload definition: %w", err))
 				return
 			}
 			if k8s.Format {
@@ -79,19 +79,19 @@ func validateWorkload(comp map[string]interface{}, wc core.WorkloadCapability) e
 	// Create schema validator from the schema
 	rs := jsonschema.GlobalJSONSchema()
 	if err := json.Unmarshal([]byte(wc.OAMRefSchema), rs); err != nil {
-		return fmt.Errorf("failed to create schema: %s", err)
+		return fmt.Errorf("failed to create schema: %w", err)
 	}
 
 	// Create json settings
 	jsonSettings, err := json.Marshal(comp)
 	if err != nil {
-		return fmt.Errorf("failed to generate schema from the PatternFile settings: %s", err)
+		return fmt.Errorf("failed to generate schema from the PatternFile settings: %w", err)
 	}
 
 	// Validate the json against the schema
 	errs, err := rs.ValidateBytes(context.TODO(), jsonSettings)
 	if err != nil {
-		return fmt.Errorf("error occurred during schema validation: %s", err)
+		return fmt.Errorf("error occurred during schema validation: %w", err)
 	}
 	if len(errs) > 0 {
 		return fmt.Errorf("invalid settings: %s", errs)
@@ -104,7 +104,7 @@ func validateTrait(trait interface{}, tc core.TraitCapability, compType string) 
 	// Create schema validator from the schema
 	rs := jsonschema.GlobalJSONSchema()
 	if err := json.Unmarshal([]byte(tc.OAMRefSchema), rs); err != nil {
-		return fmt.Errorf("failed to create schema: %s", err)
+		return fmt.Errorf("failed to create schema: %w", err)
 	}
 
 	// Check if the trait applied to the component is legal or not
@@ -121,7 +121,7 @@ func validateTrait(trait interface{}, tc core.TraitCapability, compType string) 
 	jsonCompTraitProp, err := json.Marshal(trait)
 	if err != nil {
 		return fmt.Errorf(
-			"failed to generate schema from the PatternFile's service type %s trait: %s",
+			"failed to generate schema from the PatternFile's service type %s trait: %w",
 			compType,
 			err,
 		)
@@ -130,7 +130,7 @@ func validateTrait(trait interface{}, tc core.TraitCapability, compType string) 
 	// Validate the json against the schema
 	errs, err := rs.ValidateBytes(context.TODO(), jsonCompTraitProp)
 	if err != nil {
-		return fmt.Errorf("error occurred during schema validation: %s", err)
+		return fmt.Errorf("error occurred during schema validation: %w", err)
 	}
 	if len(errs) > 0 {
 		return fmt.Errorf("invalid traits: %s", errs)

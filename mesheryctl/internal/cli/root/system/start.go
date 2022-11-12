@@ -25,17 +25,14 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
-
+	"github.com/docker/docker/api/types"
+	"github.com/docker/docker/client"
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/constants"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
-
-	"github.com/docker/docker/api/types"
-	"github.com/docker/docker/client"
-
 	meshkitutils "github.com/layer5io/meshkit/utils"
 	meshkitkube "github.com/layer5io/meshkit/utils/kubernetes"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

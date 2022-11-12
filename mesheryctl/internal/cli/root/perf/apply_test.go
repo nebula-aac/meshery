@@ -1,6 +1,7 @@
 package perf
 
 import (
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -64,23 +65,23 @@ func TestApplyCmd(t *testing.T) {
 	tests := []tempTestStruct{
 		{"Run Test with Existing profile", []string{"apply", "new"},
 			[]utils.MockURL{
-				{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: 200},
-				{Method: "GET", URL: existingProfileRunTest, Response: apply1002, ResponseCode: 200},
+				{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: http.StatusOK},
+				{Method: "GET", URL: existingProfileRunTest, Response: apply1002, ResponseCode: http.StatusOK},
 			},
 			apply1001output,
 			testToken, false,
 		},
 		{"Run Test with Existing profile with --url", []string{"apply", "new", "--url", "https://www.google.com"},
 			[]utils.MockURL{
-				{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: 200},
-				{Method: "GET", URL: existingProfileRunTest, Response: apply1002, ResponseCode: 200},
+				{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: http.StatusOK},
+				{Method: "GET", URL: existingProfileRunTest, Response: apply1002, ResponseCode: http.StatusOK},
 			},
 			apply1001output,
 			testToken, false,
 		},
 		{"Run Test with Existing profile with --url without protocol", []string{"apply", "new", "--url", "www.google.com"},
 			[]utils.MockURL{
-				{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: 200},
+				{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: http.StatusOK},
 				{Method: "GET", URL: existingProfileRunTest, Response: apply1003, ResponseCode: 400},
 			},
 			apply1002output,
@@ -88,7 +89,7 @@ func TestApplyCmd(t *testing.T) {
 		},
 		{"Run Test with new profile with --url without protocol", []string{"apply", "test", "--url", "www.google.com"},
 			[]utils.MockURL{
-				{Method: "POST", URL: profileURL, Response: apply1004, ResponseCode: 200},
+				{Method: "POST", URL: profileURL, Response: apply1004, ResponseCode: http.StatusOK},
 				{Method: "GET", URL: newProfileRunTest, Response: apply1003, ResponseCode: 400},
 			},
 			apply1002output,
@@ -101,7 +102,7 @@ func TestApplyCmd(t *testing.T) {
 		},
 		{"No profiles found with given name", []string{"apply", "new", "--yes"},
 			[]utils.MockURL{
-				{Method: "GET", URL: profileURL, Response: apply1006, ResponseCode: 200},
+				{Method: "GET", URL: profileURL, Response: apply1006, ResponseCode: http.StatusOK},
 			},
 			apply1006output,
 			testToken, true,
@@ -112,7 +113,7 @@ func TestApplyCmd(t *testing.T) {
 			testToken, true,
 		},
 		{"Run Test with Existing profile with Invalid URL", []string{"apply", "new", "--url", "invalid-url"},
-			[]utils.MockURL{{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: 200}},
+			[]utils.MockURL{{Method: "GET", URL: profileURL, Response: apply1001, ResponseCode: http.StatusOK}},
 			apply1004output,
 			testToken, true,
 		},

@@ -5,11 +5,10 @@ import (
 	"net/http"
 	"strings"
 
-	"golang.org/x/text/cases"
-	"golang.org/x/text/language"
-
 	"github.com/layer5io/meshery/server/models"
 	SMP "github.com/layer5io/service-mesh-performance/spec"
+	"golang.org/x/text/cases"
+	"golang.org/x/text/language"
 )
 
 // SMPMeshes defines the JSON payload structure for available meshes api

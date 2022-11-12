@@ -28,7 +28,6 @@ import (
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/system"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
 	log "github.com/sirupsen/logrus"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )

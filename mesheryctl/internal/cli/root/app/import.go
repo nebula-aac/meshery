@@ -104,7 +104,7 @@ func importApp(sourceType string, file string, appURL string, save bool) (*model
 		utils.Log.Debug("App file saved")
 		var response []*models.MesheryApplication
 		// failsafe (bad api call)
-		if resp.StatusCode != 200 {
+		if resp.StatusCode != http.StatusOK {
 			return nil, errors.Errorf("Response Status Code %d, possible Server Error", resp.StatusCode)
 		}
 		defer resp.Body.Close()
@@ -157,7 +157,7 @@ func importApp(sourceType string, file string, appURL string, save bool) (*model
 		utils.Log.Debug("remote hosted app request success")
 		var response []*models.MesheryApplication
 		// failsafe (bad api call)
-		if resp.StatusCode != 200 {
+		if resp.StatusCode != http.StatusOK {
 			return nil, errors.Errorf("Response Status Code %d, possible Server Error", resp.StatusCode)
 		}
 		defer resp.Body.Close()

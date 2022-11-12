@@ -1,6 +1,7 @@
 package pattern
 
 import (
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -45,7 +46,7 @@ func TestDeleteCmd(t *testing.T) {
 					Method:       "DELETE",
 					URL:          testContext.BaseURL + "/api/pattern/deploy",
 					Response:     "delete.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 			},
 			Token:       filepath.Join(fixturesDir, "token.golden"),

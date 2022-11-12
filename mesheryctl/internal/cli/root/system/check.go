@@ -10,20 +10,18 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/pkg/errors"
-
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/constants"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
 	"github.com/layer5io/meshery/server/handlers"
 	"github.com/layer5io/meshery/server/models"
 	meshkitkube "github.com/layer5io/meshkit/utils/kubernetes"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	k8sVersion "k8s.io/apimachinery/pkg/version"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	k8sVersion "k8s.io/apimachinery/pkg/version"
 )
 
 var (
@@ -406,7 +404,7 @@ func (hc *HealthChecker) runMesheryVersionHealthChecks() error {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	// failed to fetch response for server version
-	if err != nil || resp.StatusCode != 200 {
+	if err != nil || resp.StatusCode != http.StatusOK {
 		if hc.Options.PrintLogs { // log if we're supposed to
 			log.Info("!! failed to check Meshery Server version. try starting Meshery with `mesheryctl system start`")
 			skipServerLogs = true
@@ -499,7 +497,7 @@ func (hc *HealthChecker) runAdapterHealthChecks() error {
 	var adapters []*models.Adapter
 	resp, err := client.Do(req)
 	// failed to grab response from the request
-	if err != nil || resp.StatusCode != 200 {
+	if err != nil || resp.StatusCode != http.StatusOK {
 		if hc.Options.PrintLogs {
 			log.Info("!! Failed to connect to Meshery Adapters")
 			// skip further as we failed to grab the response from server
@@ -551,13 +549,13 @@ func (hc *HealthChecker) runAdapterHealthChecks() error {
 		if !skipAdapter {
 			// needs multiple defer as Body.Close needs a valid response
 			defer resp.Body.Close()
-			if resp.StatusCode != 200 {
+			if resp.StatusCode != http.StatusOK {
 				if hc.Options.PrintLogs { // incase we're printing logs
 					log.Infof("!! Meshery Adapter for %s is running but not reachable", name)
 				} else { // or we're supposed to grab the errors
 					return fmt.Errorf("!! Meshery Adapter for %s is running, but not reachable", name)
 				}
-			} else { // if status == 200 we check if we are supposed to print logs
+			} else { // if status == http.StatusOK we check if we are supposed to print logs
 				if hc.Options.PrintLogs { // incase we're printing logs
 					log.Infof("✓ %s adapter is running and reachable", name)
 				}

@@ -4,9 +4,8 @@ import (
 	"context"
 
 	"github.com/layer5io/meshery/server/models"
-	"gorm.io/gorm"
-
 	meshsyncmodel "github.com/layer5io/meshsync/pkg/model"
+	"gorm.io/gorm"
 )
 
 func GetAddonsState(ctx context.Context, selectors []MeshType, provider models.Provider, cid []string) ([]*AddonList, error) {

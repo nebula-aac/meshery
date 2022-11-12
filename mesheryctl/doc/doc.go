@@ -11,10 +11,9 @@ import (
 	"strings"
 	"time"
 
+	"github.com/layer5io/meshery/mesheryctl/internal/cli/root"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
-
-	"github.com/layer5io/meshery/mesheryctl/internal/cli/root"
 )
 
 const markdownTemplateCommand = `---

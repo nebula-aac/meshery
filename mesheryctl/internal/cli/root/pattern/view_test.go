@@ -1,6 +1,7 @@
 package pattern
 
 import (
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -59,7 +60,7 @@ func TestPatternView(t *testing.T) {
 
 			// mock response
 			httpmock.RegisterResponder("GET", tt.URL,
-				httpmock.NewStringResponder(200, apiResponse))
+				httpmock.NewStringResponder(http.StatusOK, apiResponse))
 
 			// Expected response
 			testdataDir := filepath.Join(currDir, "testdata")

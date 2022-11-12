@@ -15,6 +15,8 @@ import (
 	"fortio.org/fortio/fgrpc"
 	"fortio.org/fortio/fhttp"
 	"fortio.org/fortio/periodic"
+	v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
+	v32 "github.com/envoyproxy/go-control-plane/envoy/config/metrics/v3"
 	"github.com/golang/protobuf/ptypes/wrappers"
 	"github.com/layer5io/gowrk2/api"
 	"github.com/layer5io/meshery/server/models"
@@ -23,9 +25,6 @@ import (
 	nighthawk_proto "github.com/layer5io/nighthawk-go/pkg/proto"
 	"github.com/sirupsen/logrus"
 	"google.golang.org/protobuf/types/known/durationpb"
-
-	v3 "github.com/envoyproxy/go-control-plane/envoy/config/core/v3"
-	v32 "github.com/envoyproxy/go-control-plane/envoy/config/metrics/v3"
 )
 
 var (

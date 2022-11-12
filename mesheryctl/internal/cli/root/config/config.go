@@ -2,17 +2,15 @@ package config
 
 import (
 	"fmt"
+	"net/http"
 	"os"
 	"path/filepath"
 	"strings"
 
+	"github.com/layer5io/meshery/mesheryctl/pkg/constants"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-
-	"github.com/layer5io/meshery/mesheryctl/pkg/constants"
-
-	"net/http"
 )
 
 // Version unmarshals the json response from the server's version api
@@ -241,7 +239,7 @@ func (ctx *Context) ValidateVersion() error {
 		}
 	}()
 
-	if resp.StatusCode == 404 {
+	if resp.StatusCode == http.StatusNotFound {
 		log.Fatal("version " + ctx.Version + " is not a valid Meshery release")
 	}
 

@@ -2,7 +2,6 @@ package models
 
 import (
 	"net/http"
-
 	"time"
 
 	"github.com/layer5io/meshkit/utils/events"

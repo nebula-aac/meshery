@@ -10,7 +10,6 @@ import (
 	"strings"
 
 	"github.com/layer5io/meshery/server/models"
-
 	"github.com/sirupsen/logrus"
 )
 

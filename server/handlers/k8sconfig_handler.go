@@ -9,15 +9,10 @@ import (
 	"net/http"
 	"path/filepath"
 
-	mcore "github.com/layer5io/meshery/server/models/meshmodel/core"
-
-	// for GKE kube API authentication
-	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
-
 	"github.com/gofrs/uuid"
-
 	"github.com/layer5io/meshery/server/helpers"
 	"github.com/layer5io/meshery/server/models"
+	mcore "github.com/layer5io/meshery/server/models/meshmodel/core"
 	"github.com/layer5io/meshery/server/models/pattern/core"
 	"github.com/layer5io/meshkit/models/meshmodel"
 	"github.com/layer5io/meshkit/models/oam/core/v1alpha1"
@@ -25,6 +20,8 @@ import (
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	// for GKE kube API authentication
+	_ "k8s.io/client-go/plugin/pkg/client/auth/gcp"
 )
 
 // SaveK8sContextResponse - struct used as (json marshaled) response to requests for saving k8s contexts

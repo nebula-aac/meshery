@@ -7,13 +7,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/manifoldco/promptui"
-	termbox "github.com/nsf/termbox-go"
-
 	"github.com/ghodss/yaml"
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
 	"github.com/layer5io/meshery/server/models"
+	"github.com/manifoldco/promptui"
+	termbox "github.com/nsf/termbox-go"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"

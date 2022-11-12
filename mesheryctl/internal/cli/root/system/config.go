@@ -23,16 +23,13 @@ import (
 	"os/exec"
 
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
-
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
 	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-
-	"k8s.io/client-go/tools/clientcmd"
-	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"k8s.io/client-go/tools/clientcmd"
+	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 )
 
 func getContexts(configFile string) ([]string, error) {

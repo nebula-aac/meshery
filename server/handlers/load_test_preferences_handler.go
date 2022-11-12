@@ -6,10 +6,9 @@ import (
 	"io"
 	"net/http"
 
-	"google.golang.org/protobuf/encoding/protojson"
-
 	"github.com/layer5io/meshery/server/models"
 	SMP "github.com/layer5io/service-mesh-performance/spec"
+	"google.golang.org/protobuf/encoding/protojson"
 )
 
 // UserTestPreferenceHandler is used for persisting load test preferences

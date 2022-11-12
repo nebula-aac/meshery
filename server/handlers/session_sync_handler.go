@@ -1,10 +1,9 @@
 package handlers
 
 import (
+	"encoding/json"
 	"net/http"
 	"time"
-
-	"encoding/json"
 
 	"github.com/layer5io/meshery/server/models"
 )

@@ -3,10 +3,9 @@ package v1alpha1
 import (
 	"time"
 
-	intstrutil "k8s.io/apimachinery/pkg/util/intstr"
-
 	batchv1 "k8s.io/api/batch/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	intstrutil "k8s.io/apimachinery/pkg/util/intstr"
 )
 
 // ClusterAnalysisTemplate holds the template for performing canary analysis

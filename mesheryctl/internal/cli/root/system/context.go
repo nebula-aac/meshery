@@ -18,15 +18,14 @@ import (
 	"fmt"
 	"sort"
 
-	log "github.com/sirupsen/logrus"
-	"gopkg.in/yaml.v2"
-
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
 	"github.com/manifoldco/promptui"
 	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	"gopkg.in/yaml.v2"
 )
 
 var (

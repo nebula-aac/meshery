@@ -3,6 +3,7 @@ package perf
 import (
 	"flag"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -83,16 +84,16 @@ func TestProfileCmd(t *testing.T) {
 
 	tests := []tempTestStruct{
 		{"standard profiles output", []string{"profile"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: http.StatusOK},
 		}, profile1001output, testToken, false},
 		{"profiles searching istio", []string{"profile", "istio"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1002, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1002, ResponseCode: http.StatusOK},
 		}, profile1002output, testToken, false},
 		{"profiles searching test 3", []string{"profile", "test", "3"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1003, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1003, ResponseCode: http.StatusOK},
 		}, profile1003output, testToken, false},
 		{"Unmarshal error", []string{"profile"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1005, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1005, ResponseCode: http.StatusOK},
 		}, profile1010output, testToken, true},
 		{"failing add authentication test", []string{"profile"}, []utils.MockURL{}, profile1011output, testToken + "invalid-path", true},
 		{"Server Error 400", []string{"profile"}, []utils.MockURL{
@@ -101,15 +102,15 @@ func TestProfileCmd(t *testing.T) {
 	}
 
 	testsforLogrusOutputs := []tempTestStruct{
-		{"No profiles found", []string{"profile", "--view"}, []utils.MockURL{{Method: "GET", URL: profileURL, Response: profile1004, ResponseCode: 200}}, profile1005output, testToken, false},
+		{"No profiles found", []string{"profile", "--view"}, []utils.MockURL{{Method: "GET", URL: profileURL, Response: profile1004, ResponseCode: http.StatusOK}}, profile1005output, testToken, false},
 		{"standard profiles in json output", []string{"profile", "-o", "json"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: http.StatusOK},
 		}, profile1006output, testToken, false},
 		{"standard profiles in yaml output", []string{"profile", "-o", "yaml"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: http.StatusOK},
 		}, profile1007output, testToken, false},
 		{"invalid output format", []string{"profile", "-o", "invalid"}, []utils.MockURL{
-			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: 200},
+			{Method: "GET", URL: profileURL, Response: profile1001, ResponseCode: http.StatusOK},
 		}, profile1008output, testToken, true},
 	}
 

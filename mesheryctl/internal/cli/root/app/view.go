@@ -90,7 +90,7 @@ mesheryctl app view --all
 		if err != nil {
 			return err
 		}
-		if res.StatusCode != 200 {
+		if res.StatusCode != http.StatusOK {
 			// failsafe for the case when a valid uuid v4 is not an id of any application (bad api call)
 			return errors.Errorf("Response Status Code %d, possible invalid ID", res.StatusCode)
 		}

@@ -2,6 +2,7 @@ package app
 
 import (
 	"flag"
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -96,7 +97,7 @@ func TestAppView(t *testing.T) {
 
 			// mock response
 			httpmock.RegisterResponder("GET", tt.URL,
-				httpmock.NewStringResponder(200, apiResponse))
+				httpmock.NewStringResponder(http.StatusOK, apiResponse))
 
 			// Expected response
 			testdataDir := filepath.Join(currDir, "testdata")

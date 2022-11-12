@@ -64,7 +64,7 @@ func getSourceTypes() error {
 		return err
 	}
 
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		return errors.Errorf("Response Status Code %d, possible Server Error", resp.StatusCode)
 	}
 	defer resp.Body.Close()

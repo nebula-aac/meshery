@@ -1,6 +1,7 @@
 package app
 
 import (
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -45,13 +46,13 @@ func TestOffboardCmd(t *testing.T) {
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/pattern",
 					Response:     "apply.patternSave.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "DELETE",
 					URL:          testContext.BaseURL + "/api/application/deploy",
 					Response:     "offboard.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 			},
 			Token:       filepath.Join(fixturesDir, "token.golden"),

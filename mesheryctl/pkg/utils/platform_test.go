@@ -2,6 +2,7 @@ package utils
 
 import (
 	"encoding/json"
+	"net/http"
 	"os"
 	"path/filepath"
 	"testing"
@@ -120,7 +121,7 @@ func TestDownloadManifests(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			httpmock.RegisterResponder("GET", tt.url, httpmock.NewStringResponder(200, apiResponse))
+			httpmock.RegisterResponder("GET", tt.url, httpmock.NewStringResponder(http.StatusOK, apiResponse))
 
 			manifests := []Manifest{tt.manifest}
 
@@ -199,7 +200,7 @@ func TestDownloadOperatorManifest(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			for _, url := range tt.urls {
-				httpmock.RegisterResponder("GET", url, httpmock.NewStringResponder(200, apiResponse))
+				httpmock.RegisterResponder("GET", url, httpmock.NewStringResponder(http.StatusOK, apiResponse))
 			}
 
 			if err := DownloadOperatorManifest(); (err != nil) != tt.wantErr {
@@ -302,7 +303,7 @@ func TestGetManifestTreeURL(t *testing.T) {
 			// mock response
 			apiResponse := NewGoldenFile(t, tt.fixture, fixturesDir).Load()
 			httpmock.RegisterResponder("GET", tt.url,
-				httpmock.NewStringResponder(200, apiResponse))
+				httpmock.NewStringResponder(http.StatusOK, apiResponse))
 			actualurl, err := GetManifestTreeURL(tt.version)
 			if err != nil {
 				if tt.expectErr {
@@ -363,7 +364,7 @@ func TestListManifests(t *testing.T) {
 			// mock response
 			apiResponse := NewGoldenFile(t, tt.fixture, fixturesDir).Load()
 			httpmock.RegisterResponder("GET", tt.url,
-				httpmock.NewStringResponder(200, apiResponse))
+				httpmock.NewStringResponder(http.StatusOK, apiResponse))
 			manifests, err := ListManifests(tt.url)
 			if err != nil {
 				if tt.expectErr {

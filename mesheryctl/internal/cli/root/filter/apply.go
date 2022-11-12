@@ -71,7 +71,7 @@ mesheryctl exp filter apply --file https://github.com/layer5io/wasm-filters/tree
 
 			var response *models.FiltersAPIResponse
 			// failsafe (bad api call)
-			if resp.StatusCode != 200 {
+			if resp.StatusCode != http.StatusOK {
 				return ErrInvalidAPICall(resp.StatusCode)
 			}
 			defer resp.Body.Close()
@@ -125,7 +125,7 @@ mesheryctl exp filter apply --file https://github.com/layer5io/wasm-filters/tree
 					log.Debug("saved filter file")
 					var response []*models.MesheryApplication
 					// failsafe (bad api call)
-					if resp.StatusCode != 200 {
+					if resp.StatusCode != http.StatusOK {
 						return ErrInvalidAPICall(resp.StatusCode)
 					}
 					defer resp.Body.Close()
@@ -192,7 +192,7 @@ mesheryctl exp filter apply --file https://github.com/layer5io/wasm-filters/tree
 				log.Debug("remote hosted filter request success")
 				var response []*models.MesheryFilter
 				// failsafe (bad api call)
-				if resp.StatusCode != 200 {
+				if resp.StatusCode != http.StatusOK {
 					return ErrInvalidAPICall(resp.StatusCode)
 				}
 				defer resp.Body.Close()
@@ -227,7 +227,7 @@ mesheryctl exp filter apply --file https://github.com/layer5io/wasm-filters/tree
 			return err
 		}
 
-		if res.StatusCode == 200 {
+		if res.StatusCode == http.StatusOK {
 			log.Info("filter successfully deployed")
 		}
 		log.Info(string(body))

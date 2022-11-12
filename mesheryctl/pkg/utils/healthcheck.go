@@ -12,7 +12,6 @@ import (
 
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	meshkitkube "github.com/layer5io/meshkit/utils/kubernetes"
-
 	"github.com/pkg/errors"
 	"github.com/spf13/viper"
 	v1 "k8s.io/api/core/v1"
@@ -133,7 +132,7 @@ func IsMesheryRunning(currPlatform string) (bool, error) {
 	// Checking if Meshery is running with the URL obtained
 	resp, _ := http.Get(urlTest)
 
-	if resp != nil && resp.StatusCode == 200 {
+	if resp != nil && resp.StatusCode == http.StatusOK {
 		return true, nil
 	}
 

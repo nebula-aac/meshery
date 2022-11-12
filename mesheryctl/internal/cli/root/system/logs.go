@@ -24,17 +24,14 @@ import (
 	"os/exec"
 	"strings"
 
-	"github.com/pkg/errors"
-
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
-
 	meshkitkube "github.com/layer5io/meshkit/utils/kubernetes"
+	"github.com/pkg/errors"
 	log "github.com/sirupsen/logrus"
-	apiCorev1 "k8s.io/api/core/v1"
-
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+	apiCorev1 "k8s.io/api/core/v1"
 )
 
 // IsPodRequired checks if a given pod is specified in the required pods

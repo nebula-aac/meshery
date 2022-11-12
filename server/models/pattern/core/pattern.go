@@ -282,8 +282,8 @@ func getRandomAlphabetsOfDigit(length int) (s string) {
 }
 
 // processCytoElementsWithPattern iterates over all the cyto elements, convert each into a patternfile service and exposes a callback to handle that service
-func processCytoElementsWithPattern(eles []cytoscapejs.Element, pf *Pattern, callback func(svc Service, ele cytoscapejs.Element) error) error {
-	for _, elem := range eles {
+func processCytoElementsWithPattern(eels []cytoscapejs.Element, pf *Pattern, callback func(svc Service, ele cytoscapejs.Element) error) error {
+	for _, elem := range eels {
 		// Try to create Service object from the elem.scratch's _data field
 		// if this fails then immediately fail the process and return an error
 		castedScratch, ok := elem.Scratch.(map[string]interface{})

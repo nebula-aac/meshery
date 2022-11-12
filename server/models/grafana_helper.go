@@ -10,13 +10,11 @@ import (
 	"strings"
 	"time"
 
+	"github.com/gosimple/slug"
+	"github.com/grafana-tools/sdk"
+	"github.com/sirupsen/logrus"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
-
-	"github.com/gosimple/slug"
-	"github.com/sirupsen/logrus"
-
-	"github.com/grafana-tools/sdk"
 )
 
 // GrafanaClient represents a client to Grafana in Meshery

@@ -24,11 +24,10 @@ import (
 	"github.com/olekukonko/tablewriter"
 	"github.com/pkg/browser"
 	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 	"gopkg.in/yaml.v2"
-
-	log "github.com/sirupsen/logrus"
 )
 
 const (

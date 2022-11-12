@@ -1,6 +1,7 @@
 package app
 
 import (
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -52,25 +53,25 @@ func TestOnboardCmd(t *testing.T) {
 					Method:       "GET",
 					URL:          testContext.BaseURL + "/api/application/types",
 					Response:     "view.applicationTypes.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/application/Kubernetes%20Manifest",
 					Response:     "onboard.applicationSave.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/pattern",
 					Response:     "apply.patternSave.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/application/deploy",
 					Response:     "onboard.applicationdeploy.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 			},
 			Token:       filepath.Join(fixturesDir, "token.golden"),
@@ -85,19 +86,19 @@ func TestOnboardCmd(t *testing.T) {
 					Method:       "GET",
 					URL:          testContext.BaseURL + "/api/application/types",
 					Response:     "view.applicationTypes.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/pattern",
 					Response:     "apply.patternSave.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/application/deploy",
 					Response:     "onboard.applicationdeploy.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 			},
 			Token:       filepath.Join(fixturesDir, "token.golden"),

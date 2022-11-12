@@ -84,8 +84,8 @@ mesheryctl pattern delete [file | URL]
 			}
 			utils.Log.Debug("remote hosted pattern request success")
 			var response []*models.MesheryPattern
-			// If API returns a non 200 status, return error
-			if resp.StatusCode != 200 {
+			// If API returns a non http.StatusOK status, return error
+			if resp.StatusCode != http.StatusOK {
 				return errors.Errorf("Response Status Code %d, possible Server Error", resp.StatusCode)
 			}
 			defer resp.Body.Close()

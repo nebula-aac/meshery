@@ -73,7 +73,7 @@ mesheryctl app offboard -f [filepath]
 
 		var response []*models.MesheryPattern
 		// bad api call
-		if resp.StatusCode != 200 {
+		if resp.StatusCode != http.StatusOK {
 			return errors.Errorf("Response Status Code %d, possible Server Error", resp.StatusCode)
 		}
 
@@ -107,7 +107,7 @@ mesheryctl app offboard -f [filepath]
 			return err
 		}
 
-		if res.StatusCode == 200 {
+		if res.StatusCode == http.StatusOK {
 			utils.Log.Info("app successfully offboarded")
 		}
 		utils.Log.Info(string(body))

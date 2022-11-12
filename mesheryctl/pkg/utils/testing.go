@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"io"
+	"net/http"
 	"os"
 	"path/filepath"
 	"reflect"
@@ -209,7 +210,7 @@ func StartMockery(t *testing.T) {
 	// For validate version requests
 	url1 := "https://github.com/" + constants.GetMesheryGitHubOrg() + "/" + constants.GetMesheryGitHubRepo() + "/releases/tag/" + "v0.5.54"
 	httpmock.RegisterResponder("GET", url1,
-		httpmock.NewStringResponder(200, apiResponse))
+		httpmock.NewStringResponder(http.StatusOK, apiResponse))
 }
 
 // stop HTTP mock client

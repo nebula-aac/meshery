@@ -86,7 +86,7 @@ func MakeRequest(req *http.Request) (*http.Response, error) {
 	}
 
 	// failsafe for bad api call
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		return nil, ErrFailReqStatus(resp.StatusCode)
 	}
 

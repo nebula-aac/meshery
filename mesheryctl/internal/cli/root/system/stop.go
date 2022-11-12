@@ -19,21 +19,19 @@ import (
 	"os"
 	"os/exec"
 
+	"github.com/layer5io/meshery-operator/api/v1alpha1"
 	"github.com/layer5io/meshery/mesheryctl/internal/cli/root/config"
 	"github.com/layer5io/meshery/mesheryctl/pkg/utils"
+	meshkitkube "github.com/layer5io/meshkit/utils/kubernetes"
 	"github.com/pkg/errors"
+	log "github.com/sirupsen/logrus"
+	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	apiextension "k8s.io/apiextensions-apiserver/pkg/client/clientset/clientset"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"k8s.io/client-go/kubernetes"
-
-	meshkitkube "github.com/layer5io/meshkit/utils/kubernetes"
-	log "github.com/sirupsen/logrus"
-	"github.com/spf13/cobra"
-	"github.com/spf13/viper"
 	controllerConfig "sigs.k8s.io/controller-runtime/pkg/client/config"
-
-	"github.com/layer5io/meshery-operator/api/v1alpha1"
 )
 
 var (

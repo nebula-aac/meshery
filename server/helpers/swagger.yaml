@@ -3853,7 +3853,7 @@ definitions:
       type: integer
     title: UUID is an array type to represent the value of a UUID, as defined in RFC-4122.
     type: array
-    x-go-package: github.com/gofrs/uuid
+    x-go-package: github.com/google/uuid
   UserPrefsExtension:
     description: UserPrefsExtension describes the user preference extension point
       in the UI

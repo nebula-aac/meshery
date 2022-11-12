@@ -3,9 +3,8 @@ package models
 import (
 	"github.com/gofrs/uuid"
 	"github.com/layer5io/meshery/server/internal/sql"
-	"github.com/lib/pq"
-
 	SMP "github.com/layer5io/service-mesh-performance/spec"
+	"github.com/lib/pq"
 )
 
 // PerformanceProfile represents the performance profile that needs

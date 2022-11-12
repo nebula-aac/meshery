@@ -1,6 +1,7 @@
 package pattern
 
 import (
+	"net/http"
 	"path/filepath"
 	"runtime"
 	"testing"
@@ -45,13 +46,13 @@ func TestApplyCmd(t *testing.T) {
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/pattern",
 					Response:     "apply.patternSave.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 				{
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/pattern/deploy",
 					Response:     "apply.patternDeploy.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 			},
 			Token:       filepath.Join(fixturesDir, "token.golden"),
@@ -66,7 +67,7 @@ func TestApplyCmd(t *testing.T) {
 					Method:       "POST",
 					URL:          testContext.BaseURL + "/api/pattern/deploy",
 					Response:     "apply.patternDeploy.response.golden",
-					ResponseCode: 200,
+					ResponseCode: http.StatusOK,
 				},
 			},
 			Token:       filepath.Join(fixturesDir, "token.golden"),
