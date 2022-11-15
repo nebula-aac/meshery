@@ -1,33 +1,24 @@
 import { NoSsr } from '@mui/material'
 import Head from 'next/head'
+import Image from 'next/image'
 import React from 'react'
-import { updatePagePath } from '../lib/store';
-import { AnyAction, bindActionCreators, Dispatch } from '@reduxjs/toolkit'
-import { connect } from 'react-redux'
-import { getPath } from '../lib/path'
+import ProviderComponent from '../components/ProviderComponent'
+import styles from '../styles/Home.module.css'
 
-class Index extends React.Component<{}, {value:string}> {
+class Index extends React.Component {
   componentDidMount(): void {
-    console.log(`path: ${getPath()}`);
-    this.props.updatePagePath
-    // this.props.updatePagePath({ path : getPath() });
   }
 
-  render(): React.ReactNode {
+  render() {
     return (
       <NoSsr>
-        <Head>
-          <title>Dashboard | Meshery</title>
-        </Head>
+        <ProviderComponent />
       </NoSsr>
     )
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>) => ({ updatePagePath : bindActionCreators(updatePagePath, dispatch)});
-
-export default connect(null, mapDispatchToProps)(Index);
-
+export default Index
 /*
 export default function Home() {
   return (

@@ -1,0 +1,15 @@
+version: '3'
+
+tasks:
+  run-ui-dev:
+    cmds:
+      - npx turbo dev
+  ui-lint:
+    cmds:
+      - npx turbo lint
+  ui-test:
+    cmds:
+      - npx turbo test
+  ui-build:
+    cmds:
+      - npx turbo build lint

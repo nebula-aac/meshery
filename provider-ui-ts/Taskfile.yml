@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  run-provider-ui-dev:
+    desc: Run Provider-UI in dev mode
+    cmds:
+      - npm run dev
+  alpha-run-provider-ui-dev:
+    desc: Run Provider-UI in alpha Turbo mode
+    cmds:
+      - ./node_modules/.bin/next dev --turbo
+  provider-ui-lint:
+    desc: Run ESlint in `provider-ui`
+    cmds:
+      - npm run lint
+  provider-ui-test:
+    desc: Run Integration and Unit testings in `provider-ui`
+    cmds:
+      - npm run test
+  provider-ui-build:
+    desc: Build Provider-Ui
+    cmds:
+      - npm run build

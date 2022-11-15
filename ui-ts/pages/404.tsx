@@ -1,8 +1,6 @@
-import { NoSsr } from '@material-ui/core';
+import { NoSsr } from '@mui/material';
 import Head from 'next/head'
-import Image from 'next/image'
 import React from 'react'
-import styles from '../styles/Home.module.css'
 
 class Error extends React.Component {
   componentDidMount(): void {
