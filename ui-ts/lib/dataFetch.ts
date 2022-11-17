@@ -2,7 +2,7 @@ import fetch from 'isomorphic-unfetch'
 
 const dataFetch = (url: string, options: any, successFn: (result: any) => void, errorFn: (error: any) => void) => {
     fetch(url, options)
-        .then(res => {
+        .then((res: { status: number; redirected: any; ok: any; json: () => any; text: () => Promise<any> }) => {
             if (res.status === 401) {
                 if (window.location.host.endsWith("3000")) {
                     window.location.href = "/user/login"
