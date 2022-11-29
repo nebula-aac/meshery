@@ -1,13 +1,13 @@
 //@ts-check
-import { Grid, Paper, Typography, Button } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
+import { Grid, Paper, Typography, Button } from "@mui/material";
+import { Pagination } from "@mui/lab";
 import React, { useState } from "react";
 import MesheryPatternCard from "./MesheryPatternCard";
 import PatternConfiguratorComponent from "../configuratorComponents/patternConfigurator"
 import { FILE_OPS, ACTIONS } from "../../utils/Enum";
 import ConfirmationMsg from "../ConfirmationModal";
 import { getComponentsinFile } from "../../utils/utils";
-import PublishIcon from "@material-ui/icons/Publish";
+import PublishIcon from "@mui/icons/Publish";
 import useStyles from "./Grid.styles";
 import Validation from "../Validation";
 import PublishModal from "../PublishModal";

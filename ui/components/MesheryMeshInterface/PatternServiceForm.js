@@ -1,9 +1,9 @@
 // @ts-check
-import { AppBar, Button, makeStyles, Tab, Tabs, Typography } from "@material-ui/core";
+import { AppBar, Button, makeStyles, Tab, Tabs, Typography } from "@mui/material";
 import React, { useEffect } from "react";
 import { getMeshProperties } from "../../utils/nameMapper";
 import PatternServiceFormCore from "./PatternServiceFormCore";
-import SettingsIcon from '@material-ui/icons/Settings';
+import SettingsIcon from '@mui/icons/Settings';
 
 const useStyles = makeStyles(() => ({
   appBar : {

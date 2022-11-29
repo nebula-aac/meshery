@@ -2,29 +2,29 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
   NoSsr, TableCell, IconButton, Paper, createTheme, Popper, ClickAwayListener, Fade
-} from "@material-ui/core";
+} from "@mui/material";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import MUIDataTable from "mui-datatables";
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 import Moment from "react-moment";
 import { withSnackbar } from "notistack";
-import { MuiThemeProvider, withStyles } from '@material-ui/core/styles';
-import CloseIcon from "@material-ui/icons/Close";
+import { MuiThemeProvider, withStyles } from '@mui/styles';
+import CloseIcon from "@mui/icons/Close";
 import { updateResultsSelection, clearResultsSelection, updateProgress } from "../../lib/store";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableSortLabel from "@mui/material/TableSortLabel";
 // import dataFetch from "../../lib/data-fetch";
 import CustomToolbarSelect from "../CustomToolbarSelect";
 import MesheryChart from "../MesheryChart";
 import GrafanaCustomCharts from "../GrafanaCustomCharts";
 import GenericModal from "../GenericModal";
-import BarChartIcon from '@material-ui/icons/BarChart';
-import InfoIcon from '@material-ui/icons/Info';
+import BarChartIcon from '@mui/icons/BarChart';
+import InfoIcon from '@mui/icons/Info';
 import fetchPerformanceResults from "../graphql/queries/PerformanceResultQuery";
 import subscribePerformanceProfiles from "../graphql/subscriptions/PerformanceResultSubscription";
 import NodeDetails from "../NodeDetails";
-import ReplyIcon from '@material-ui/icons/Reply';
+import ReplyIcon from '@mui/icons/Reply';
 import FacebookIcon from "./assets/facebookIcon";
 import LinkedinIcon from "./assets/linkedinIcon"
 import TwitterIcon from "./assets/twitterIcon";

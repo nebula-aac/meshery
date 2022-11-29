@@ -2,15 +2,15 @@
 import React, { useState } from "react";
 import {
   Divider, Grid, IconButton, Typography, Tooltip
-} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Fullscreen from "@material-ui/icons/Fullscreen";
+} from "@mui/material";
+import Button from "@mui/material/Button";
+import DeleteIcon from "@mui/icons/Delete";
+import Fullscreen from "@mui/icons/Fullscreen";
 import Moment from "react-moment";
 import FlipCard from "../FlipCard";
 import { UnControlled as CodeMirror } from "react-codemirror2";
-import FullscreenExit from "@material-ui/icons/FullscreenExit";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
+import FullscreenExit from "@mui/icons/FullscreenExit";
+import DoneAllIcon from '@mui/icons/DoneAll';
 import useStyles from "../MesheryPatterns/Cards.styles";
 import YAMLDialog from "../YamlDialog";
 import UndeployIcon from "../../public/static/img/UndeployIcon";

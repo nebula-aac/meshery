@@ -1,20 +1,20 @@
 /* eslint-disable */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import SaveOutlinedIcon from '@material-ui/icons/SaveOutlined';
-import { withStyles } from '@material-ui/core/styles';
-import { Autocomplete } from '@material-ui/lab'
-import Grid from '@material-ui/core/Grid';
+import Button from '@mui/material/Button';
+import SaveOutlinedIcon from '@mui/icons/SaveOutlined';
+import { withStyles } from '@mui/styles';
+import { Autocomplete } from '@mui/lab'
+import Grid from '@mui/material/Grid';
 import {
   NoSsr, Tooltip, IconButton, CircularProgress, FormControl, RadioGroup, FormControlLabel, Radio,
-} from '@material-ui/core';
+} from '@mui/material';
 import dataFetch from '../lib/data-fetch';
-import TextField from '@material-ui/core/TextField';
+import TextField from '@mui/material/TextField';
 import { withSnackbar } from 'notistack';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons/Close';
 import { updateLoadTestPref, updateProgress } from '../lib/store';
 import { durationOptions } from '../lib/prePopulatedOptions';
 import { ctxUrl } from '../utils/multi-ctx';

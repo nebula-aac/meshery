@@ -1,9 +1,9 @@
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/styles';
+import Grid from '@mui/material/Grid';
+import { makeStyles } from '@mui/styles';
 import { canExpand } from '@rjsf/utils';
 import AddIcon from '../../../../assets/icons/AddIcon';
-import { Box, IconButton, Typography } from '@material-ui/core';
+import { Box, IconButton, Typography } from '@mui/material';
 import { EnlargedTextTooltip } from '../EnlargedTextTooltip';
 import HelpOutlineIcon from '../../../../assets/icons/HelpOutlineIcon';
 import ExpandMoreIcon from '../../../../assets/icons/ExpandMoreIcon';

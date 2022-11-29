@@ -1,8 +1,8 @@
 import React from "react";
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons/Close';
 import { connect } from 'react-redux';
-import NoSsr from '@material-ui/core/NoSsr';
+import NoSsr from '@mui/material/NoSsr';
 import {
   Badge,
   Drawer,
@@ -11,12 +11,12 @@ import {
   Typography,
   Tabs,
   Tab
-} from '@material-ui/core';
-import BellIcon from '@material-ui/icons/Notifications';
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import ErrorIcon from '@material-ui/icons/Error';
-import { withStyles } from '@material-ui/core/styles';
-import amber from '@material-ui/core/colors/amber';
+} from '@mui/material';
+import BellIcon from '@mui/icons/Notifications';
+import DoneAllIcon from '@mui/icons/DoneAll';
+import ErrorIcon from '@mui/icons/Error';
+import { withStyles } from '@mui/styles';
+import amber from '@mui/material/colors/amber';
 import { eventTypes } from '../lib/event-types';
 import MesheryEventViewer from './MesheryEventViewer';
 // import { bindActionCreators } from 'redux';

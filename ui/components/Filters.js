@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
-import { withStyles, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
-import {  createTheme } from '@material-ui/core/styles';
+import { withStyles, makeStyles, MuiThemeProvider } from "@mui/styles";
+import {  createTheme } from '@mui/styles';
 import {
   NoSsr,
   TableCell,
@@ -13,23 +13,23 @@ import {
   Tooltip,
   Typography,
   Button
-} from "@material-ui/core";
+} from "@mui/material";
 import { UnControlled as CodeMirror } from "react-codemirror2";
-import DeleteIcon from "@material-ui/icons/Delete";
+import DeleteIcon from "@mui/icons/Delete";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import MUIDataTable from "mui-datatables";
 import Moment from "react-moment";
 import { withSnackbar } from "notistack";
-import CloseIcon from "@material-ui/icons/Close";
-import EditIcon from "@material-ui/icons/Edit";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
+import CloseIcon from "@mui/icons/Close";
+import EditIcon from "@mui/icons/Edit";
+import DoneAllIcon from '@mui/icons/DoneAll';
 import { toggleCatalogContent, updateProgress } from "../lib/store";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
+import TableSortLabel from "@mui/material/TableSortLabel";
 import dataFetch from "../lib/data-fetch";
 import UploadImport from "./UploadImport";
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+import FullscreenIcon from '@mui/icons/Fullscreen';
+import FullscreenExitIcon from '@mui/icons/FullscreenExit';
 import { FILE_OPS } from "../utils/Enum";
 import ViewSwitch from "./ViewSwitch";
 import CatalogFilter from "./CatalogFilter";
@@ -39,7 +39,7 @@ import { ctxUrl } from "../utils/multi-ctx";
 import ConfirmationMsg from "./ConfirmationModal";
 import UndeployIcon from "../public/static/img/UndeployIcon";
 import { getComponentsinFile } from "../utils/utils";
-import PublishIcon from "@material-ui/icons/Publish";
+import PublishIcon from "@mui/icons/Publish";
 import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
 import fetchCatalogFilter from "./graphql/queries/CatalogFilterQuery";
 import LoadingScreen from "./LoadingComponents/LoadingComponent";

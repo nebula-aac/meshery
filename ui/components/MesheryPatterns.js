@@ -1,17 +1,17 @@
 // @ts-check
 import {
   Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, NoSsr, TableCell, Tooltip, Typography
-} from "@material-ui/core";
-import { createTheme, makeStyles, MuiThemeProvider, withStyles } from "@material-ui/core/styles";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
-import SaveIcon from '@material-ui/icons/Save';
+} from "@mui/material";
+import { createTheme, makeStyles, MuiThemeProvider, withStyles } from "@mui/styles";
+import TableSortLabel from "@mui/material/TableSortLabel";
+import CloseIcon from "@mui/icons/Close";
+import DeleteIcon from "@mui/icons/Delete";
+import FullscreenIcon from '@mui/icons/Fullscreen';
+import FullscreenExitIcon from '@mui/icons/FullscreenExit';
+import SaveIcon from '@mui/icons/Save';
 import MUIDataTable from "mui-datatables";
 import { withSnackbar } from "notistack";
-import AddIcon from "@material-ui/icons/AddCircleOutline";
+import AddIcon from "@mui/icons/AddCircleOutline";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { UnControlled as CodeMirror } from "react-codemirror2";
 import Moment from "react-moment";
@@ -27,11 +27,11 @@ import ViewSwitch from "./ViewSwitch";
 import CatalogFilter from "./CatalogFilter";
 import MesheryPatternGrid from "./MesheryPatterns/MesheryPatternGridView";
 import UndeployIcon from "../public/static/img/UndeployIcon";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
-import DoneIcon from '@material-ui/icons/Done';
-import PublicIcon from '@material-ui/icons/Public';
+import DoneAllIcon from '@mui/icons/DoneAll';
+import DoneIcon from '@mui/icons/Done';
+import PublicIcon from '@mui/icons/Public';
 import ConfirmationMsg from "./ConfirmationModal";
-import PublishIcon from "@material-ui/icons/Publish";
+import PublishIcon from "@mui/icons/Publish";
 import PromptComponent from "./PromptComponent";
 import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
 import fetchCatalogPattern from "./graphql/queries/CatalogPatternQuery";

@@ -1,24 +1,24 @@
 //@ts-check
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
+import { ToggleButton, ToggleButtonGroup } from "@mui/lab";
 import React, { useEffect, useState, useRef } from "react";
 import PromptComponent from "../PromptComponent";
-import GridOnIcon from "@material-ui/icons/GridOn";
-import CloseIcon from "@material-ui/icons/Close";
-import TableChartIcon from "@material-ui/icons/TableChart";
+import GridOnIcon from "@mui/icons/GridOn";
+import CloseIcon from "@mui/icons/Close";
+import TableChartIcon from "@mui/icons/TableChart";
 import PerformanceProfileTable from "./PerformanceProfileTable";
 import PerformanceProfileGrid from "./PerformanceProfileGrid";
 import dataFetch from "../../lib/data-fetch";
-import IconButton from "@material-ui/core/IconButton";
-import AddIcon from "@material-ui/icons/AddCircleOutline";
+import IconButton from "@mui/material/IconButton";
+import AddIcon from "@mui/icons/AddCircleOutline";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { updateProgress } from "../../lib/store";
 import { withSnackbar } from "notistack";
 import GenericModal from "../GenericModal";
 import MesheryPerformanceComponent from "./index";
-import { Paper, Typography, Button } from "@material-ui/core";
+import { Paper, Typography, Button } from "@mui/material";
 import fetchPerformanceProfiles from "../graphql/queries/PerformanceProfilesQuery";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles } from "@mui/styles";
 import subscribePerformanceProfiles from "../graphql/subscriptions/PerformanceProfilesSubscription";
 
 const MESHERY_PERFORMANCE_URL = "/api/user/performance/profiles";

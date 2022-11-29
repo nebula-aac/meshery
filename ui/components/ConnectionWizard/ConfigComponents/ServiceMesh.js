@@ -5,10 +5,10 @@ import {
   Grid,
   Button,
   IconButton,
-} from "@material-ui/core/";
+} from "@mui/material/";
 import { configureAdapterWithNotification } from "../helpers/serviceMeshes";
 import { withSnackbar } from "notistack";
-import CloseIcon from "@material-ui/icons/Close";
+import CloseIcon from "@mui/icons/Close";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { updateAdaptersInfo, updateProgress } from "../../../lib/store";

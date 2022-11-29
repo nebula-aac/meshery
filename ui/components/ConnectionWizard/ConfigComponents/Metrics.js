@@ -7,7 +7,7 @@ import {
   Grid,
   Button,
   IconButton,
-} from "@material-ui/core/";
+} from "@mui/material/";
 import { withSnackbar } from "notistack";
 import { useState } from "react";
 import { connect } from "react-redux";
@@ -15,8 +15,8 @@ import { bindActionCreators } from "redux";
 import { updateGrafanaConfig, updateProgress, updatePrometheusConfig } from "../../../lib/store";
 import ReactSelectWrapper from "../../ReactSelectWrapper"
 import { handleGrafanaConfigure, handlePrometheusConfigure } from "../helpers/metrics";
-import CloseIcon from "@material-ui/icons/Close";
-import { composeWithDevTools } from "redux-devtools-extension";
+import CloseIcon from "@mui/icons/Close";
+import { composeWithDevTools } from "@redux-devtools/extension";
 
 
 const styles = () => ({})

@@ -1,6 +1,6 @@
-import { ToggleButton, ToggleButtonGroup } from "@material-ui/lab";
-import GridOnIcon from "@material-ui/icons/GridOn";
-import TableChartIcon from "@material-ui/icons/TableChart";
+import { ToggleButton, ToggleButtonGroup } from "@mui/lab";
+import GridOnIcon from "@mui/icons/GridOn";
+import TableChartIcon from "@mui/icons/TableChart";
 
 function ViewSwitch({ view, changeView }) {
   return (

@@ -1,6 +1,6 @@
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import { Button } from "@material-ui/core";
+import VisibilityIcon from '@mui/icons/Visibility';
+import VisibilityOffIcon from '@mui/icons/VisibilityOff';
+import { Button } from "@mui/material";
 
 function CatalogFilter({ catalogVisibility, handleCatalogVisibility, hideCatalog }) {
   return (

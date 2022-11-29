@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import {
   NoSsr, TextField, Grid, Button, Chip, MenuItem,
-} from '@material-ui/core';
+} from '@mui/material';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import { updateProgress } from '../lib/store';
 import { trueRandom } from '../lib/trueRandom';
 import dataFetch from '../lib/data-fetch';
-import CodeIcon from '@material-ui/icons/Code';
-import Alert from '@material-ui/lab/Alert';
+import CodeIcon from '@mui/icons/Code';
+import Alert from '@mui/lab/Alert';
 
 const promStyles = (theme) => ({
   prometheusWrapper : { padding : theme.spacing(5), },

@@ -2,10 +2,10 @@ import React, {
   useEffect,
   useState } from 'react';
 import Cookies from 'universal-cookie';
-import { makeStyles, MuiThemeProvider } from '@material-ui/core/styles';
-import { createTheme } from '@material-ui/core/styles';
-import { Typography, Grid, Button, IconButton } from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
+import { makeStyles, MuiThemeProvider } from '@mui/styles';
+import { createTheme } from '@mui/styles';
+import { Typography, Grid, Button, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons/Close';
 
 
 const getMuiTheme = () => createTheme({

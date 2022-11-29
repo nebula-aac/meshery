@@ -1,5 +1,5 @@
-import { withStyles } from "@material-ui/styles";
-import { Tooltip } from "@material-ui/core";
+import { withStyles } from "@mui/styles";
+import { Tooltip } from "@mui/material";
 
 const EnlargedTextTooltip = withStyles((theme) => ({
   tooltip : {

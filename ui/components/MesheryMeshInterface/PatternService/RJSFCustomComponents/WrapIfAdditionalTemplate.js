@@ -1,8 +1,8 @@
 import React from "react";
-import FormControl from "@material-ui/core/FormControl";
-import Grid from "@material-ui/core/Grid";
-import InputLabel from "@material-ui/core/InputLabel";
-import Input from "@material-ui/core/Input";
+import FormControl from "@mui/material/FormControl";
+import Grid from "@mui/material/Grid";
+import InputLabel from "@mui/material/InputLabel";
+import Input from "@mui/material/Input";
 import {
   ADDITIONAL_PROPERTY_FLAG,
 } from "@rjsf/utils";

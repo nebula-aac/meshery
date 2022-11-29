@@ -1,11 +1,11 @@
 //@ts-check
 import React from "react";
 import PropTypes from "prop-types";
-import Button from "@material-ui/core/Button";
-import Typography from "@material-ui/core/Typography";
-import { Autocomplete } from "@material-ui/lab";
-import { withStyles } from "@material-ui/core/styles";
-import Grid from "@material-ui/core/Grid";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import { Autocomplete } from "@mui/lab";
+import { withStyles } from "@mui/styles";
+import Grid from "@mui/material/Grid";
 import { URLValidator } from "../../utils/URLValidator";
 import {
   NoSsr,
@@ -23,16 +23,16 @@ import {
   ExpansionPanel,
   ExpansionPanelSummary,
   ExpansionPanelDetails,
-} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
+} from "@mui/material";
+import TextField from "@mui/material/TextField";
 import { withSnackbar } from "notistack";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import CloseIcon from "@material-ui/icons/Close";
-import GetAppIcon from "@material-ui/icons/GetApp";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import HelpOutlineOutlinedIcon from "@material-ui/icons/HelpOutlineOutlined";
-import SaveOutlinedIcon from "@material-ui/icons/SaveOutlined";
+import CloseIcon from "@mui/icons/Close";
+import GetAppIcon from "@mui/icons/GetApp";
+import ExpandMoreIcon from "@mui/icons/ExpandMore";
+import HelpOutlineOutlinedIcon from "@mui/icons/HelpOutlineOutlined";
+import SaveOutlinedIcon from "@mui/icons/SaveOutlined";
 import {
   updateLoadTestData,
   updateStaticPrometheusBoardConfig,

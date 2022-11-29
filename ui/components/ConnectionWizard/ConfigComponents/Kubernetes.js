@@ -5,8 +5,8 @@ import {
   InputAdornment,
   MenuItem,
   Grid,
-} from "@material-ui/core/";
-import BackupIcon from "@material-ui/icons/Backup";
+} from "@mui/material/";
+import BackupIcon from "@mui/icons/Backup";
 import { withSnackbar } from "notistack";
 import { useState } from "react";
 import { fetchContexts, submitConfig } from "../helpers/kubernetesHelpers";

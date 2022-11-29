@@ -1,6 +1,6 @@
 import React from 'react';
-import { Grid, NoSsr, Typography } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import { Grid, NoSsr, Typography } from '@mui/material';
+import { withStyles } from '@mui/styles';
 import {
   fortioResultToJsChartData, makeChart, makeOverlayChart, makeMultiChart,
 } from '../lib/chartjs-formatter';
@@ -13,10 +13,10 @@ import {
   LinkedinIcon,
   FacebookIcon
 } from "react-share"
-import ReplyIcon from '@material-ui/icons/Reply';
-import IconButton from "@material-ui/core/IconButton";
-import Paper from '@material-ui/core/Paper';
-import { ClickAwayListener, Fade, Popper } from "@material-ui/core";
+import ReplyIcon from '@mui/icons/Reply';
+import IconButton from "@mui/material/IconButton";
+import Paper from '@mui/material/Paper';
+import { ClickAwayListener, Fade, Popper } from "@mui/material";
 import classNames from "classnames";
 
 const styles = (theme) => ({

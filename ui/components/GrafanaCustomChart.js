@@ -1,17 +1,17 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import {
   NoSsr, IconButton, Card, CardContent, CardHeader,
   Tooltip, LinearProgress, Box
-} from '@material-ui/core';
+} from '@mui/material';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withSnackbar } from 'notistack';
 import moment from 'moment';
-import OpenInNewIcon from '@material-ui/icons/OpenInNewOutlined';
-import WarningIcon from '@material-ui/icons/Warning';
-import CachedIcon from '@material-ui/icons/Cached';
+import OpenInNewIcon from '@mui/icons/OpenInNewOutlined';
+import WarningIcon from '@mui/icons/Warning';
+import CachedIcon from '@mui/icons/Cached';
 import dataFetch from '../lib/data-fetch';
 import { updateProgress } from '../lib/store';
 import GrafanaCustomGaugeChart from './GrafanaCustomGaugeChart';

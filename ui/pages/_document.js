@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Document, { Head, Main, NextScript, Html } from "next/document";
-import flush from "styled-jsx/server";
+// import flush from "styled-jsx/server";
 
 /**
  * setupGA setups up the google analtyics in meshery UI
@@ -130,7 +130,6 @@ MesheryDocument.getInitialProps = (ctx) => {
           // eslint-disable-next-line react/no-danger
           dangerouslySetInnerHTML={{ __html: css }}
         />
-        {flush() || null}
       </React.Fragment>
     ),
   };

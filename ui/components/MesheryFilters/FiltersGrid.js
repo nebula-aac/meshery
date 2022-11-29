@@ -1,12 +1,12 @@
 //@ts-check
-import { Grid, Paper, Typography, Button } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
+import { Grid, Paper, Typography, Button } from "@mui/material";
+import { Pagination } from "@mui/lab";
 import React, { useState } from "react";
 import FiltersCard from "./FiltersCard";
 import { FILE_OPS } from "../../utils/Enum";
 import ConfirmationMsg from "../ConfirmationModal";
 import { getComponentsinFile } from "../../utils/utils";
-import PublishIcon from "@material-ui/icons/Publish";
+import PublishIcon from "@mui/icons/Publish";
 import useStyles from "../MesheryPatterns/Grid.styles";
 
 const INITIAL_GRID_SIZE = { xl : 4, md : 6, xs : 12 };

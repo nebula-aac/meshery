@@ -2,20 +2,20 @@ import {
   Chip, Grid, IconButton, List, ListItem, ListItemText, Menu, MenuItem, Switch,
   Tooltip, Paper, NoSsr, TableCell, TableContainer, Table, Button, Typography,
   TextField, FormGroup, InputAdornment
-} from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import CloseIcon from "@material-ui/icons/Close";
+} from '@mui/material';
+import MoreVertIcon from '@mui/icons/MoreVert';
+import TableSortLabel from "@mui/material/TableSortLabel";
+import CloseIcon from "@mui/icons/Close";
 import { withSnackbar } from "notistack";
 import { useState, useEffect, useRef } from 'react';
 import DataTable from "mui-datatables";
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import dataFetch, { promisifiedDataFetch } from '../lib/data-fetch';
 import PromptComponent from './PromptComponent';
-import CloudUploadIcon from "@material-ui/icons/CloudUpload";
-import AddIcon from "@material-ui/icons/AddCircleOutline";
+import CloudUploadIcon from "@mui/icons/CloudUpload";
+import AddIcon from "@mui/icons/AddCircleOutline";
 import MeshsyncStatusQuery from './graphql/queries/MeshsyncStatusQuery';
 import NatsStatusQuery from './graphql/queries/NatsStatusQuery';
 import changeOperatorState from './graphql/mutations/OperatorStatusMutation';

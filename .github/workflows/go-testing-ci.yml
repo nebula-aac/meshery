@@ -20,22 +20,24 @@ on:
 jobs:
   unit-tests:
     name: Unit tests
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
       - name: Install lynx for xdg-open support
         run: sudo apt-get install lynx
       - name: Setup Go
-        uses: actions/setup-go@master
+        uses: actions/setup-go@v3
         with:
           go-version: "1.19"
+          check-latest: true
+          cache: true
       - name: Run coverage
         run: go test --short ./... -race -coverprofile=coverage.txt -covermode=atomic
       - name: Upload coverage to Codecov
         if: github.repository == 'meshery/meshery'
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           files: ./coverage.txt
           flags: unittests
@@ -44,7 +46,7 @@ jobs:
     name: Integration tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 2
       - name: Install lynx for xdg-open support
@@ -61,7 +63,7 @@ jobs:
         run: go test -run Integration ./... -race -coverprofile=coverage.txt -covermode=atomic -timeout 40m
       - name: Upload coverage to Codecov
         if: github.repository == 'meshery/meshery'
-        uses: codecov/codecov-action@v1
+        uses: codecov/codecov-action@v3
         with:
           files: ./coverage.txt
           flags: gointegrationtests

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
-import TableRow from '@material-ui/core/TableRow';
-import IconButton from '@material-ui/core/IconButton';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { withStyles } from '@mui/styles';
+import TableFooter from '@mui/material/TableFooter';
+import TablePagination from '@mui/material/TablePagination';
+import TableRow from '@mui/material/TableRow';
+import IconButton from '@mui/material/IconButton';
+import KeyboardArrowLeft from '@mui/icons/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons/KeyboardArrowRight';
 
 const actionsStyles = (theme) => ({ wrapper : { flexShrink : 0,
   color : theme.palette.text.secondary,

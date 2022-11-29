@@ -1,5 +1,5 @@
-import HelpOutline from "@material-ui/icons/HelpOutline";
-import { withStyles } from "@material-ui/styles";
+import HelpOutline from "@mui/icons/HelpOutline";
+import { withStyles } from "@mui/styles";
 
 const HelpOutlineIcon = withStyles(() => ({
   root : {

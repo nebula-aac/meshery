@@ -1,5 +1,5 @@
-import { IconButton } from "@material-ui/core";
-import { Cancel } from "@material-ui/icons";
+import { IconButton } from "@mui/material";
+import { Cancel } from "@mui/icons";
 import { useSnackbar } from "notistack";
 
 /**

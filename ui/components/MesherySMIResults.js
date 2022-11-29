@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@mui/styles';
 import {
   TableRow, TableCell, IconButton, Table, TableBody, TableHead, Tooltip
-} from '@material-ui/core';
+} from '@mui/material';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import MUIDataTable from 'mui-datatables';
 import Moment from 'react-moment';
 import { withSnackbar } from 'notistack';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons/Close';
 import { updateProgress, } from '../lib/store';
 import dataFetch from '../lib/data-fetch';
 

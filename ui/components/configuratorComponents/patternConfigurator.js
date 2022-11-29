@@ -1,13 +1,13 @@
 
 import {
   Accordion, AccordionDetails, AccordionSummary, AppBar, ButtonGroup, CircularProgress, Divider, FormControl, Grid, IconButton, makeStyles, MenuItem, Paper, TextField, Toolbar, Tooltip, Typography,
-} from "@material-ui/core";
-import DeleteIcon from "@material-ui/icons/Delete";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import FileCopyIcon from '@material-ui/icons/FileCopy';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import SaveIcon from '@material-ui/icons/Save';
-import { Autocomplete } from '@material-ui/lab';
+} from "@mui/material";
+import DeleteIcon from "@mui/icons/Delete";
+import ExpandMoreIcon from "@mui/icons/ExpandMore";
+import FileCopyIcon from '@mui/icons/FileCopy';
+import ListAltIcon from '@mui/icons/ListAlt';
+import SaveIcon from '@mui/icons/Save';
+import { Autocomplete } from '@mui/lab';
 import jsYaml from "js-yaml";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { SchemaContext } from "../../utils/context/schemaSet";

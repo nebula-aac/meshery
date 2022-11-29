@@ -8,8 +8,8 @@ import {
   Typography,
   Collapse,
   withStyles
-} from "@material-ui/core";
-import { ExpandLess, ExpandMore } from "@material-ui/icons";
+} from "@mui/material";
+import { ExpandLess, ExpandMore } from "@mui/icons";
 
 const styles = theme => ({
   nested : {

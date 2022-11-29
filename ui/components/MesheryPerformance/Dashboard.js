@@ -6,11 +6,11 @@ import { updateProgress } from "../../lib/store";
 import { bindActionCreators } from "redux";
 import {
   Button, Grid, Paper, Typography
-} from "@material-ui/core";
-import IconButton from "@material-ui/core/IconButton";
-import { makeStyles, useTheme } from "@material-ui/core/styles";
-import useMediaQuery from '@material-ui/core/useMediaQuery';
-import CloseIcon from "@material-ui/icons/Close";
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import { makeStyles, useTheme } from "@mui/styles";
+import useMediaQuery from '@mui/material/useMediaQuery';
+import CloseIcon from "@mui/icons/Close";
 import { withRouter } from "next/router";
 import MesheryMetrics from "../MesheryMetrics";
 import PerformanceCalendar from "./PerformanceCalendar";
