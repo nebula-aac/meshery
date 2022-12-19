@@ -2,11 +2,24 @@ import {
   Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Tooltip, Typography
 } from "@material-ui/core";
 import useStyles from "./MesheryPatterns/Cards.styles";
-import { UnControlled as CodeMirror } from "react-codemirror2";
 import FullscreenExit from "@material-ui/icons/FullscreenExit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Fullscreen from "@material-ui/icons/Fullscreen";
 import Save from "@material-ui/icons/Save";
+import dynamic from 'next/dynamic'
+
+const CodeMirror = dynamic(() => {
+  import('codemirror/mode/yaml/yaml')
+  import('codemirror/mode/javascript/javascript')
+  import('codemirror/addon/lint/lint')
+  import('codemirror/addon/lint/yaml-lint')
+  import('codemirror/addon/lint/json-lint')
+  import('codemirror/addon/lint/lint.css')
+  import('codemirror/lib/codemirror.css')
+  import('codemirror/theme/material.css')
+  import('codemirror/mode/css/css')
+  return import('@uiw/react-codemirror')
+}, { ssr : false })
 
 const YAMLDialog = ({
   fullScreen,

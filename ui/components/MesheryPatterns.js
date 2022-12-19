@@ -13,7 +13,6 @@ import MUIDataTable from "mui-datatables";
 import { withSnackbar } from "notistack";
 import AddIcon from "@material-ui/icons/AddCircleOutline";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -40,6 +39,20 @@ import { SchemaContext } from "../utils/context/schemaSet";
 import Validation from "./Validation";
 import { ACTIONS, FILE_OPS } from "../utils/Enum";
 import PublishModal from "./PublishModal";
+import dynamic from 'next/dynamic'
+
+const CodeMirror = dynamic(() => {
+  import('codemirror/mode/yaml/yaml')
+  import('codemirror/mode/javascript/javascript')
+  import('codemirror/addon/lint/lint')
+  import('codemirror/addon/lint/yaml-lint')
+  import('codemirror/addon/lint/json-lint')
+  import('codemirror/addon/lint/lint.css')
+  import('codemirror/lib/codemirror.css')
+  import('codemirror/theme/material.css')
+  import('codemirror/mode/css/css')
+  return import('@uiw/react-codemirror')
+}, { ssr : false })
 
 const styles = (theme) => ({
   grid : {

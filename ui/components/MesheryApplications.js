@@ -12,7 +12,6 @@ import SaveIcon from '@material-ui/icons/Save';
 import MUIDataTable from "mui-datatables";
 import { withSnackbar } from "notistack";
 import React, { useEffect, useRef, useState } from "react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -33,6 +32,20 @@ import { trueRandom } from "../lib/trueRandom";
 import PublishIcon from "@material-ui/icons/Publish";
 import InfoIcon from '@material-ui/icons/Info';
 import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
+import dynamic from 'next/dynamic'
+
+const CodeMirror = dynamic(() => {
+  import('codemirror/mode/yaml/yaml')
+  import('codemirror/mode/javascript/javascript')
+  import('codemirror/addon/lint/lint')
+  import('codemirror/addon/lint/yaml-lint')
+  import('codemirror/addon/lint/json-lint')
+  import('codemirror/addon/lint/lint.css')
+  import('codemirror/lib/codemirror.css')
+  import('codemirror/theme/material.css')
+  import('codemirror/mode/css/css')
+  return import('@uiw/react-codemirror')
+}, { ssr : false })
 
 const styles = (theme) => ({
   grid : { padding : theme.spacing(2), },

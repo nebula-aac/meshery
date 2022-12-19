@@ -9,7 +9,6 @@ import Save from "@material-ui/icons/Save";
 import Fullscreen from "@material-ui/icons/Fullscreen";
 import Moment from "react-moment";
 import FlipCard from "../FlipCard";
-import { UnControlled as CodeMirror } from "react-codemirror2";
 import FullscreenExit from "@material-ui/icons/FullscreenExit";
 import UndeployIcon from "../../public/static/img/UndeployIcon";
 import DoneAllIcon from '@material-ui/icons/DoneAll';
@@ -17,6 +16,20 @@ import DoneIcon from '@material-ui/icons/Done';
 import useStyles from "./Cards.styles";
 import YAMLDialog from "../YamlDialog";
 import PublicIcon from '@material-ui/icons/Public';
+import dynamic from 'next/dynamic'
+
+const CodeMirror = dynamic(() => {
+  import('codemirror/mode/yaml/yaml')
+  import('codemirror/mode/javascript/javascript')
+  import('codemirror/addon/lint/lint')
+  import('codemirror/addon/lint/yaml-lint')
+  import('codemirror/addon/lint/json-lint')
+  import('codemirror/addon/lint/lint.css')
+  import('codemirror/lib/codemirror.css')
+  import('codemirror/theme/material.css')
+  import('codemirror/mode/css/css')
+  return import('@uiw/react-codemirror')
+}, { ssr : false })
 
 const INITIAL_GRID_SIZE = { xl : 4, md : 6, xs : 12 };
 

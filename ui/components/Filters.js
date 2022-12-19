@@ -14,7 +14,6 @@ import {
   Typography,
   Button
 } from "@material-ui/core";
-import { UnControlled as CodeMirror } from "react-codemirror2";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -44,6 +43,20 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
 import fetchCatalogFilter from "./graphql/queries/CatalogFilterQuery";
 import LoadingScreen from "./LoadingComponents/LoadingComponent";
+import dynamic from 'next/dynamic'
+
+const CodeMirror = dynamic(() => {
+  import('codemirror/mode/yaml/yaml')
+  import('codemirror/mode/javascript/javascript')
+  import('codemirror/addon/lint/lint')
+  import('codemirror/addon/lint/yaml-lint')
+  import('codemirror/addon/lint/json-lint')
+  import('codemirror/addon/lint/lint.css')
+  import('codemirror/lib/codemirror.css')
+  import('codemirror/theme/material.css')
+  import('codemirror/mode/css/css')
+  return import('@uiw/react-codemirror')
+}, { ssr : false })
 
 const styles = (theme) => ({
   grid : {
