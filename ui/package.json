@@ -54,6 +54,7 @@
     "@redux-devtools/extension": "^3.2.3",
     "@rjsf/core": "^5.0.0-beta.11",
     "@rjsf/material-ui": "^5.0.0-beta.11",
+    "@rjsf/utils": "^5.0.0-beta.14",
     "@rjsf/validator-ajv6": "^5.0.0-beta.11",
     "@uiw/react-codemirror": "^3.2.9",
     "autoprefixer": "^10.4.13",
