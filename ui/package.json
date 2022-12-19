@@ -79,7 +79,6 @@
     "moment": "^2.29.4",
     "mui-datatables": "^3.7.8",
     "next": "^12.3.4",
-    "next-compose": "0.0.2",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "notistack": "^1.0.10",
     "patch-package": "^6.4.7",
