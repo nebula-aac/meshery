@@ -26,6 +26,7 @@ module.exports = {
     "cypress"
   ],
   "rules" : {
+    "@next/next/no-img-element" : "off",
     "array-bracket-spacing" : ["error", "never"],
     "comma-style" : ["error"],
     "jsx-quotes" : ["error", "prefer-double"],
@@ -69,5 +70,5 @@ module.exports = {
     "no-dupe-keys" : "error",
     "react/jsx-filename-extension" : [1, { "extensions" : [".js", ".jsx"] }],
     "react/prop-types" : "off"
-  }
+  },
 };
