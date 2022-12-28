@@ -1,7 +1,6 @@
 import { isValidElement, useEffect, useRef, useState } from "react"
 
 // mui v5
-import Paper from "@mui/material/Paper"
 import { createTheme, ThemeProvider } from "@mui/material";
 
 let theme = createTheme()
@@ -46,15 +45,13 @@ function FlipCard({ children, duration = 500, onClick, onShow }) {
           onClick && onClick
           onShow && onShow
         }}>
-        <Paper
+        <div
           style={{
             transform : flipped
               ? "scale(-1,1)"
               : undefined,
             transition : `transform ${duration}ms`,
-            transformOrigin : "50% 50% 10%"
-          }}
-          sx={{
+            transformOrigin : "50% 50% 10%",
             transformStyle : "preserve-3d",
             boxShadow : "0 4px 8px 0 rgba(0,0,0,0.2)",
             backgroundColor : "#FFF",
@@ -79,7 +76,7 @@ function FlipCard({ children, duration = 500, onClick, onShow }) {
               </div>
             )
           }
-        </Paper>
+        </div>
       </div>
     </ThemeProvider>
   )
