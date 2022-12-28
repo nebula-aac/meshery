@@ -1,19 +1,27 @@
 //@ts-check
 import React, { useState } from "react";
-import {
-  Divider, Grid, IconButton, Typography, Tooltip
-} from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
-import Fullscreen from "@material-ui/icons/Fullscreen";
+
 import Moment from "react-moment";
-import FlipCard from "../FlipCard";
-import { UnControlled as CodeMirror } from "react-codemirror2";
-import FullscreenExit from "@material-ui/icons/FullscreenExit";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import useStyles from "../MesheryPatterns/Cards.styles";
-import YAMLDialog from "../YamlDialog";
+import FlipCard from "../FlipCard";
 import UndeployIcon from "../../public/static/img/UndeployIcon";
+
+// mui v5
+import Button from "@mui/material/Button"
+import Grid from "@mui/material/Grid"
+import Typography from '@mui/material/Typography'
+import Divider from "@mui/material/Divider"
+import IconButton from '@mui/material/IconButton'
+import Tooltip from "@mui/material/Tooltip"
+
+// mui v5 icons
+import DoneAllIcon from "@mui/icons-material/DoneAll"
+import DeleteIcon from "@mui/icons-material/Delete"
+import Fullscreen from '@mui/icons-material/Fullscreen';
+import FullscreenExit from '@mui/icons-material/FullscreenExit';
+
+import dynamic from 'next/dynamic';
+const YAMLDialog = dynamic(() => import('../YamlDialogLayout'),)
 
 const INITIAL_GRID_SIZE = { xl : 4, md : 6, xs : 12 };
 
@@ -140,7 +148,7 @@ function FiltersCard({
               </Typography>
               <Tooltip
                 title="Enter Fullscreen"
-                arrow interactive
+                arrow
                 placement="top"
               >
                 <IconButton
@@ -165,19 +173,9 @@ function FiltersCard({
               <Divider variant="fullWidth" light />
 
               { catalogContentKeys.length === 0 ?
-                <CodeMirror
+                <YAMLDialog
                   value={showCode && filter_file}
                   className={fullScreen ? classes.fullScreenCodeMirror : ""}
-                  options={{
-                    theme : "material",
-                    lineNumbers : true,
-                    lineWrapping : true,
-                    gutters : ["CodeMirror-lint-markers"],
-                    // @ts-ignore
-                    lint : true,
-                    mode : "text/x-yaml",
-                  }}
-                  onChange={(_, data, val) => setYaml(val)}
                 />
                 :
                 catalogContentKeys.map((title, index) => (
@@ -210,7 +208,7 @@ function FiltersCard({
             <Grid item xs={12}>
               { visibility === "private" ? <div className={classes.deleteButton} >
                 <Tooltip
-                  title="Delete" arrow interactive placement="bottom"
+                  title="Delete" arrow placement="bottom"
                 >
                   <IconButton onClick={(ev) =>
                     genericClickHandler(ev,deleteHandler)
