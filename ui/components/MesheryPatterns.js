@@ -1,45 +1,62 @@
 // @ts-check
-import {
-  Avatar, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, NoSsr, TableCell, Tooltip, Typography
-} from "@material-ui/core";
-import { createTheme, makeStyles, MuiThemeProvider, withStyles } from "@material-ui/core/styles";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
-import SaveIcon from '@material-ui/icons/Save';
-import MUIDataTable from "mui-datatables";
-import { withSnackbar } from "notistack";
-import AddIcon from "@material-ui/icons/AddCircleOutline";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+
+// mui v4
+import { Avatar, NoSsr, TableCell, TableSortLabel } from "@material-ui/core";
+import { createTheme, MuiThemeProvider, withStyles } from "@material-ui/core/styles";
+
+import MUIDataTable from "mui-datatables";
+import { withSnackbar } from "notistack";
 import dataFetch from "../lib/data-fetch";
 import { toggleCatalogContent, updateProgress } from "../lib/store";
-import DesignConfigurator from "../components/configuratorComponents/patternConfigurator";
 import UploadImport from "./UploadImport";
 import { ctxUrl } from "../utils/multi-ctx";
 import { generateValidatePayload, getComponentsinFile, randomPatternNameGenerator as getRandomName } from "../utils/utils";
+
+import UndeployIcon from "../public/static/img/UndeployIcon";
 import ViewSwitch from "./ViewSwitch";
 import CatalogFilter from "./CatalogFilter";
 import MesheryPatternGrid from "./MesheryPatterns/MesheryPatternGridView";
-import UndeployIcon from "../public/static/img/UndeployIcon";
+import PromptComponent from "./PromptComponent";
+import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
+import fetchCatalogPattern from "./graphql/queries/CatalogPatternQuery";
+import { SchemaContext } from "../utils/context/schemaSet";
+import Validation from "./Validation";
+import { ACTIONS, FILE_OPS } from "../utils/Enum";
+import PublishModal from "./PublishModal";
+
+import dynamic from 'next/dynamic'
+
+const LoadingScreen = dynamic(() => import('./LoadingComponents/LoadingComponent'), {})
+const DesignConfigurator = dynamic(() => import('../components/configuratorComponents/patternConfigurator'), {})
+
+
+// mui v4 icons
 import DoneAllIcon from '@material-ui/icons/DoneAll';
 import DoneIcon from '@material-ui/icons/Done';
 import PublicIcon from '@material-ui/icons/Public';
 import ConfirmationMsg from "./ConfirmationModal";
 import PublishIcon from "@material-ui/icons/Publish";
-import PromptComponent from "./PromptComponent";
-import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
-import fetchCatalogPattern from "./graphql/queries/CatalogPatternQuery";
-import LoadingScreen from "./LoadingComponents/LoadingComponent";
-import { SchemaContext } from "../utils/context/schemaSet";
-import Validation from "./Validation";
-import { ACTIONS, FILE_OPS } from "../utils/Enum";
-import PublishModal from "./PublishModal";
+import AddIcon from "@material-ui/icons/AddCircleOutline";
+import CloseIcon from "@material-ui/icons/Close";
+import DeleteIcon from "@material-ui/icons/Delete";
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+import SaveIcon from '@material-ui/icons/Save';
+
+// mui v5
+import Button from "@mui/material/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from '@mui/material/DialogTitle'
+import Typography from '@mui/material/Typography'
+import Divider from "@mui/material/Divider"
+import IconButton from '@mui/material/IconButton'
+import Tooltip from "@mui/material/Tooltip"
 
 const styles = (theme) => ({
   grid : {
@@ -109,43 +126,9 @@ const styles = (theme) => ({
   // }
 });
 
-const useStyles = makeStyles((theme) => ({
-  backButton : {
-    marginRight : theme.spacing(2),
-  },
-  yamlDialogTitle : {
-    display : "flex",
-    alignItems : "center"
-  },
-  yamlDialogTitleText : {
-    flexGrow : 1
-  },
-  fullScreenCodeMirror : {
-    height : '100%',
-    '& .CodeMirror' : {
-      minHeight : "300px",
-      height : '100%',
-    }
-  },
-  autoComplete : {
-    width : "120px",
-    minWidth : "120px",
-    maxWidth : 150,
-    marginRight : "auto"
-  },
-  iconPatt : {
-    width : "10px",
-    height : "10px",
-    "& .MuiAvatar-img" : {
-      height : '60%',
-      width : '60%'
-    }
-  }
-}));
-
 function TooltipIcon({ children, onClick, title }) {
   return (
-    <Tooltip title={title} placement="top" arrow interactive >
+    <Tooltip title={title} placement="top" arrow>
       <IconButton onClick={onClick}>
         {children}
       </IconButton>
@@ -153,77 +136,65 @@ function TooltipIcon({ children, onClick, title }) {
   );
 }
 
-function YAMLEditor({ pattern, onClose, onSubmit }) {
-  const classes = useStyles();
-  const [yaml, setYaml] = useState("");
-  const [fullScreen, setFullScreen] = useState(false);
-
-  const toggleFullScreen = () => {
-    setFullScreen(!fullScreen);
-  };
-
+function PatternsDialog({ onClose, fullScreen, pattern, toggleFullScreen }) {
   return (
-    <Dialog onClose={onClose} aria-labelledby="pattern-dialog-title" open maxWidth="md" fullScreen={fullScreen} fullWidth={!fullScreen}>
-      <DialogTitle disableTypography id="pattern-dialog-title" className={classes.yamlDialogTitle}>
-        <Typography variant="h6" className={classes.yamlDialogTitleText}>
-          {pattern.name}
-        </Typography>
-        <TooltipIcon
-          title={fullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-          onClick={toggleFullScreen}>
+    <Dialog onClose={onClose} aria-labelledby="filter-dialog-title" open maxWidth="md" fullScreen={fullScreen} fullWidth={!fullScreen}>
+      <DialogTitle id="filter-dialog-title" sx={{ display : "flex", alignItems : "center" }}>
+        <Typography sx={{ flexGrow : 1 }}>{pattern.name}</Typography>
+        <TooltipIcon title={fullScreen ? "Exit Fullscreen" : "Enter Fullscreen"} onClick={toggleFullScreen}>
           {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </TooltipIcon>
         <TooltipIcon title="Exit" onClick={onClose}>
           <CloseIcon />
         </TooltipIcon>
       </DialogTitle>
+    </Dialog>
+  )
+}
+
+function PatternsFooter({ pattern, yaml, onSubmit }) {
+  return (
+    <DialogActions>
+      <Tooltip title="Update Pattern">
+        <IconButton
+          aria-label="Update"
+          color="primary"
+          onClick={() => onSubmit({
+            data : yaml, id : pattern.id, name : pattern.name, type : FILE_OPS.UPDATE
+          })}
+        >
+          <SaveIcon />
+        </IconButton>
+      </Tooltip>
+      <Tooltip title="Delete Pattern">
+        <IconButton
+          aria-label="Delete"
+          color="primary"
+          onClick={() => onSubmit({
+            data : yaml,
+            id : pattern.id,
+            name : pattern.name,
+            type : FILE_OPS.DELETE
+          })}
+        >
+          <DeleteIcon />
+        </IconButton>
+      </Tooltip>
+    </DialogActions>
+  )
+}
+
+export function PatternsYAMLEditor({ children }) {
+  return (
+    <>
+      <PatternsDialog />
       <Divider variant="fullWidth" light />
       <DialogContent>
-        <CodeMirror
-          value={pattern.pattern_file}
-          className={fullScreen ? classes.fullScreenCodeMirror : ""}
-          options={{
-            theme : "material",
-            lineNumbers : true,
-            lineWrapping : true,
-            gutters : ["CodeMirror-lint-markers"],
-            // @ts-ignore
-            lint : true,
-            mode : "text/x-yaml",
-          }}
-          onChange={(_, data, val) => setYaml(val)}
-        />
+        {children}
       </DialogContent>
-      <Divider variant="fullWidth" light />
-      <DialogActions>
-        <Tooltip title="Update Pattern">
-          <IconButton
-            aria-label="Update"
-            color="primary"
-            onClick={() => onSubmit({
-              data : yaml, id : pattern.id, name : pattern.name, type : FILE_OPS.UPDATE
-            })}
-          >
-            <SaveIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title="Delete Pattern">
-          <IconButton
-            aria-label="Delete"
-            color="primary"
-            onClick={() => onSubmit({
-              data : yaml,
-              id : pattern.id,
-              name : pattern.name,
-              type : FILE_OPS.DELETE
-            })}
-          >
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      </DialogActions>
-    </Dialog>
-  );
+      <PatternsFooter />
+    </>
+  )
 }
 
 function resetSelectedPattern() {
@@ -1144,7 +1115,7 @@ function MesheryPatterns({
     <>
       <NoSsr>
         {selectedRowData && Object.keys(selectedRowData).length > 0 && (
-          <YAMLEditor pattern={selectedRowData} onClose={resetSelectedRowData()} onSubmit={handleSubmit} />
+          <PatternsYAMLEditor pattern={selectedRowData} onClose={resetSelectedRowData()} onSubmit={handleSubmit} />
         )}
         {selectedPattern.show &&
           <DesignConfigurator onSubmit={handleSubmit} show={setSelectedPattern} pattern={selectedPattern.pattern} />
