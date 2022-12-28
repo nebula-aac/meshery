@@ -50,6 +50,9 @@ module.exports = {
   //      return pathMap
   //    }
   //  },
+  images : {
+    unoptimized : true,
+  },
   webpack : (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
