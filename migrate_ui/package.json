@@ -1,0 +1,18 @@
+{
+  "name": "migrate-ui",
+  "version": "4.0.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "4.12.4",
+    "clsx": "latest",
+    "next": "13.1.1",
+    "prop-types": "latest",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}
