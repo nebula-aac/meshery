@@ -1,12 +1,10 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Head from 'next/head';
-import { ThemeProvider } from '@mui/material/styles';
-import CssBaseline from '@mui/material/CssBaseline';
 import { CacheProvider } from '@emotion/react';
 import MesheryLayout from '../components/MesheryLayout';
-import theme from '../src/theme';
 import createEmotionCache from '../src/createEmotionCache';
+import { Provider } from 'react-redux';
+import store from '@/lib/store';             
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -16,9 +14,11 @@ export default function MyApp(props) {
 
   return (
     <CacheProvider value={emotionCache}>
-      <MesheryLayout>
-        <Component {...pageProps} />
-      </MesheryLayout>
+      <Provider store={store}>
+        <MesheryLayout>
+          <Component {...pageProps} />
+        </MesheryLayout>
+      </Provider>
     </CacheProvider>
   );
 }

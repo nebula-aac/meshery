@@ -1,4 +1,4 @@
-import dataFetch from "@/lib/data-fetch";
+import DataFetch from "@/lib/dataFetch";;
 
 /**
  * @typedef {{k8sConfig : import("./mesheryEnvironmentSlice").KubernetesCluster, meshAdapters: import("../mesheryComponents/mesheryComponentsSlice").AdaptersListType, grafana: import("./mesheryEnvironmentSlice").GrafanaType , promethues: import("./mesheryEnvironmentSlice").PrometheusType, loadTestPreferences: [], anonymousUsageStats: boolean, anonymousPerfResults: boolean, updatedAt: string | Date }} MesheryPreferenceType
@@ -10,7 +10,7 @@ import dataFetch from "@/lib/data-fetch";
  */
 export const mesherySystemSync = () =>
   new Promise((res, rej) => {
-    dataFetch(
+    DataFetch(
       "/api/system/sync",
       {
         credentials: "same-origin",
@@ -28,7 +28,7 @@ export const mesherySystemSync = () =>
 
 export const promGrafMeshScan = () =>
   new Promise((res, rej) => {
-    dataFetch(
+    DataFetch(
       "/api/system/meshsync/grafana",
       {
         credentials: "same-origin",

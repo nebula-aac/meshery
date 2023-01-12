@@ -1,8 +1,9 @@
-import { GraphQLClient } from 'graphql-ws'
+import { createClient } from 'graphql-ws';
 import { Environment, Network, Store, RecordSource } from 'relay-runtime'
-import { promisifiedDataFetch } from "../lib/dataFetch"
+import { promisifiedDataFetch } from './dataFetch'
 
-const graphqlWS = new GraphQLClient("ws://localhost:3000/api/system/graphql/query")
+/*
+const graphqlWS = createClient({ urll: "ws://localhost:3000/api/system/graphql/query" })
 
 function fetchQuery(operation, variables) {
     return promisifiedDataFetch("/api/system/graphql/query", {
@@ -33,3 +34,4 @@ const environment = new Environment({
 });
 
 export default environment;
+*/

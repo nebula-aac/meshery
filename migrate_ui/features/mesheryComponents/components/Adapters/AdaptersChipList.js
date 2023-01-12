@@ -1,9 +1,6 @@
-/* eslint-disable react/prop-types */
 import React from "react";
 import { AdapterChip } from "./AdapterChip";
-// import { CircularProgress, Grid } from "@mui/material";
-import { CircularProgress  } from "@material-ui/core";
-// import { useTheme } from "@mui/system";
+import CircularProgress from "@mui/material/CircularProgress"
 
 /**
  * React component that renders the list of adapters

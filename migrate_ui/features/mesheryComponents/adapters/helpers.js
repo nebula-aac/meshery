@@ -1,8 +1,8 @@
-import dataFetch from "@/lib/dataFetch"
+import DataFetch from "@/lib/dataFetch";
 
 export const fetchAvailableAdapters = () =>
     new Promise((res, rej) =>
-        dataFetch(
+        DataFetch(
             "/api/system/adapters",
             {
                 credentials: "same-origin",

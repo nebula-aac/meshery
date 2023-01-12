@@ -1,9 +1,6 @@
-/* eslint-disable react/prop-types */
 import React from "react";
-// import { Tooltip } from "@mui/material";
-import Tooltip from "@material-ui/core/Tooltip";
 import Image from "next/image";
-import { useTheme } from "@mui/system";
+import Tooltip from "@mui/material/Tooltip";
 import Chip from "@/components/Chip";
 
 /**

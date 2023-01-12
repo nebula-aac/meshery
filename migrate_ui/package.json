@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/cache": "latest",
@@ -14,6 +14,7 @@
     "@emotion/server": "latest",
     "@emotion/styled": "latest",
     "@fortawesome/fontawesome-svg-core": "^6.2.1",
+    "@fortawesome/free-brands-svg-icons": "^6.2.1",
     "@fortawesome/free-regular-svg-icons": "^6.2.1",
     "@fortawesome/free-solid-svg-icons": "^6.2.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
@@ -22,21 +23,25 @@
     "@mui/material": "latest",
     "@next/font": "latest",
     "@reduxjs/toolkit": "^1.9.1",
+    "classnames": "^2.3.2",
     "graphql-ws": "^5.11.2",
     "js-yaml": "^4.1.0",
     "next": "latest",
     "next-redux-wrapper": "^8.1.0",
+    "notistack": "^2.0.8",
     "prop-types": "latest",
     "react": "latest",
     "react-dom": "latest",
     "react-redux": "^8.0.5",
     "react-relay": "^14.1.0",
     "redux": "^4.2.0",
-    "relay-runtime": "^14.1.0"
+    "relay-runtime": "^14.1.0",
+    "ws": "^8.12.0"
   },
   "devDependencies": {
     "eslint": "latest",
     "eslint-config-next": "latest",
+    "eslint-plugin-react-hooks": "^4.6.0",
     "graphql": "^16.6.0",
     "relay-compiler": "^14.1.0"
   }

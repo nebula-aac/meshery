@@ -1,7 +1,7 @@
-import dataFetch from "@/lib/data-fetch";
+import DataFetch from "@/lib/dataFetch";;
 
 export const fetchProviderDetails = () => new Promise((res, rej) => {
-    dataFetch(
+    DataFetch(
       "/api/provider/capabilities",
       {
         credentials: "same-origin",

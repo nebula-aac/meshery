@@ -1,4 +1,4 @@
-import dataFetch from "@/lib/data-fetch";
+import DataFetch from "@/lib/dataFetch";;
 import fetchPerformanceResults from "./graphql/queries/PerformanceResultQuery";
 
 /**
@@ -7,7 +7,7 @@ import fetchPerformanceResults from "./graphql/queries/PerformanceResultQuery";
  */
 export const fetchTestProfiles = () =>
   new Promise((res, rej) => {
-    dataFetch(
+    DataFetch(
       "/api/user/performance/profiles",
       { credentials: "include" },
       (result) => {

@@ -1,5 +1,5 @@
 import { graphql, requestSubscription } from "relay-runtime";
-import environment from "../../../lib/relayEnvironment";
+import environment from "@lib/relayEnvironment";
 
 const k8sContextSubscription = graphql`
 subscription K8sContextSubscription($selector: PageFilter!) {

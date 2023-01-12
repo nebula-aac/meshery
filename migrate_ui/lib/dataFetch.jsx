@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 
-const useFetch = (url, options = {}) => {
+function DataFetch(url, options = {}) {
     const [data, setData] = useState(null)
     const [error, setError] = useState(null)
     const [loading, setIsLoading] = useState(true)
 
     useEffect(() => {
+        console.log("dataFetch fetching...")
         const fetchData = async () => {
             setIsLoading(true);
             try {
@@ -37,12 +38,12 @@ const useFetch = (url, options = {}) => {
         fetchData();
     }, [url, options]);
 
-    return { data, error, isLoading };
+    return { data, error, loading };
 };
 
 export function promisifiedDataFetch(url, options = {}) {
     return new Promise((resolve, reject) => {
-        dataFetch(
+        DataFetch(
             url,
             options,
             (result) => resolve(result),
@@ -51,4 +52,4 @@ export function promisifiedDataFetch(url, options = {}) {
     });
 }
 
-export default useFetch;
+export default DataFetch;

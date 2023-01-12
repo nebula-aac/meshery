@@ -1,0 +1,51 @@
+.root {
+    display: flex;
+    min-height: "100vh";
+}
+
+.mainContent {
+    flex: 1;
+    padding: "48px 36px 24px";
+    background-color: "#eaeff1";
+}
+
+.appContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.footerText {
+     cursor: pointer;
+     display: inline;
+     vertical-align: middle;
+}
+
+.footerIcon {
+    display: inline;
+    vertical-align: top;
+}
+
+.icon {
+    font-size: 20;
+}
+
+.categoryHeader {
+    padding-top: 16;
+    padding-bottom: 16;
+}
+
+.itemCategory {
+    background-color: JungleGreen;
+    box-shadow: "0 -1px 0 #404854 inset";
+    padding-top: 16;
+    padding-bottom: 16;
+}
+
+.version {
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: "0.8rem";
+    padding-bottom: "1rem";
+}

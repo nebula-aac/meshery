@@ -1,4 +1,4 @@
-import dataFetch from "@/lib/data-fetch";
+import DataFetch from "@/lib/dataFetch";;
 
 export const fetchKuberernetesClusters = () =>
   new Promise((res) => {
@@ -6,7 +6,7 @@ export const fetchKuberernetesClusters = () =>
   });
 
 export const submitKubernetesClusterConfig = (formData) => new Promise((res, rej) => 
-dataFetch(
+DataFetch(
       "/api/system/kubernetes",
       {
         credentials : "same-origin",

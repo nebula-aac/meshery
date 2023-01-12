@@ -39,6 +39,8 @@ const initialState = {
   extensions: {},
   loading: false,
   errors: null,
+  capabilities: [],
+  name: ""
 };
 
 export const fetchProviderDetailsThunk = createAsyncThunk("provider/fetchProviderDetails", async () => {
