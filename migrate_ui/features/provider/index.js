@@ -1,0 +1,1 @@
+export { fetchProviderDetailsThunk } from "./providerSlice";

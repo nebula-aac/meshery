@@ -1,0 +1,18 @@
+.footerText {
+    cursor: pointer;
+    display: inline;
+    vertical-align: middle;
+}
+
+.footerIcon {
+    display: inline;
+    vertical-align: top;
+}
+
+.icon {
+    font-size: 20;
+}
+
+.ComLink {
+    text-decoration: none;
+}
