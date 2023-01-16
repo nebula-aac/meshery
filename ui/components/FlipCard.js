@@ -1,7 +1,8 @@
-//@ts-check
-import React, { useState, useRef, useEffect } from "react";
-import { withStyles } from "@material-ui/core/styles";
+import { isValidElement, useEffect, useRef, useState } from "react"
+// mui v5
+import { createTheme, ThemeProvider } from "@mui/material";
 
+/*
 const styles = (theme) => ({
   card : { height : '100%',
     backgroundColor : "transparent",
@@ -18,6 +19,9 @@ const styles = (theme) => ({
   frontContent : {},
   backContent : { transform : "scale(-1, 1)",maxWidth : "50vw" },
 });
+*/
+
+let theme = createTheme()
 
 function GetChild(children, key) {
   if (children.length != 2) throw Error("FlipCard requires exactly two child components");
@@ -25,13 +29,11 @@ function GetChild(children, key) {
   return children[key];
 }
 
-function FlipCard({
-  classes, duration = 500, onClick, onShow, children
-}) {
-  const [flipped, setFlipped] = useState(false);
-  const [activeBack, setActiveBack] = useState(false);
+function FlipCard({ children, duration = 500, onClick, onShow }) {
+  const [flipped, setFlipped] = useState(false)
+  const [activeBack, setActiveBack] = useState(false)
 
-  const timeout = useRef(null);
+  const timeout = useRef(null)
 
   const Front = GetChild(children, 0);
   const Back = GetChild(children, 1);
@@ -46,47 +48,56 @@ function FlipCard({
     // hence ones execution doesn't blocks another.
     // 2. setTimeout will put its callback at the end of current context's end hence ensuring
     // this callback doesn't gets blocked by another JS process.
-    if (timeout.current) clearTimeout(timeout.current);
+    if (timeout.current) clearTimeout(timeout.current)
 
     timeout.current = setTimeout(() => {
-      setActiveBack(flipped);
-    }, duration / 6);
-  }, [flipped]);
+      setActiveBack(flipped)
+    }, duration / 6)
+  }, [flipped])
 
   return (
-    <div
-      className={classes.card}
-      onClick={() => {
-        setFlipped((flipped) => !flipped);
-        onClick && onClick();
-        onShow && onShow();
-      }}
-    >
-      <div
-        className={classes.innerCard}
-        style={{ transform : flipped
-          ? "scale(-1,1)"
-          : undefined,
-        transition : `transform ${duration}ms`,
-        transformOrigin : "50% 50% 10%" }}
-      >
-        {!activeBack
-          ? (
-            <div className={`${classes.content} ${classes.frontContent}`}>
-              {React.isValidElement(Front)
-                ? Front
-                : null}
-            </div>
-          )
-          : (
-            <div className={`${classes.content} ${classes.backContent}`}>{React.isValidElement(Back)
-              ? Back
-              : null}</div>
-          )}
+    <ThemeProvider theme={theme}>
+      <div style={{ height : "100%", backgroundColor : "transparent", perspective : theme.spacing(125) }}
+        onClick={() => {
+          setFlipped((flipped) => !flipped)
+          onClick && onClick
+          onShow && onShow
+        }}>
+        <div
+          style={{
+            transform : flipped
+              ? "scale(-1,1)"
+              : undefined,
+            transition : `transform ${duration}ms`,
+            transformOrigin : "50% 50% 10%",
+            transformStyle : "preserve-3d",
+            boxShadow : "0 4px 8px 0 rgba(0,0,0,0.2)",
+            backgroundColor : "#FFF",
+            cursor : "pointer",
+            padding : theme.spacing(2),
+            borderRadius : theme.spacing(1),
+          }}>
+          {!activeBack
+            ? (
+              <div style={{ backfaceVisibility : "hidden" }}>
+                {isValidElement(Front)
+                  ? Front : null
+                }
+              </div>
+            )
+            :
+            (
+              <div style={{ transform : "scale(-1, 1)" }}>
+                {isValidElement(Back)
+                  ? Back : null
+                }
+              </div>
+            )
+          }
+        </div>
       </div>
-    </div>
-  );
+    </ThemeProvider>
+  )
 }
 
-// @ts-ignore
-export default withStyles(styles)(FlipCard);
+export default FlipCard

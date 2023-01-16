@@ -1,4 +1,24 @@
 module.exports = {
+  async rewrites() {
+    return [
+      {
+        source : '/api',
+        destination : 'http://localhost:9081/api',
+      },
+      {
+        source : '/user/login',
+        destination : 'http://localhost:9081/user/login',
+      },
+      {
+        source : '/user/logout',
+        destination : 'http://localhost:9081/user/logout',
+      },
+      {
+        source : '/provider',
+        destination : 'http://localhost:9081/provider',
+      },
+    ]
+  },
   exportPathMap : function () {
     return {
       '/404' : { page : '/404' },
@@ -30,6 +50,9 @@ module.exports = {
   //      return pathMap
   //    }
   //  },
+  images : {
+    unoptimized : true,
+  },
   webpack : (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,

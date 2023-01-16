@@ -1,13 +1,20 @@
 //@ts-check
-import { Grid, Paper, Typography, Button } from "@material-ui/core";
-import { Pagination } from "@material-ui/lab";
 import React, { useState } from "react";
+import { Pagination } from "@material-ui/lab";
 import FiltersCard from "./FiltersCard";
 import { FILE_OPS } from "../../utils/Enum";
 import ConfirmationMsg from "../ConfirmationModal";
 import { getComponentsinFile } from "../../utils/utils";
-import PublishIcon from "@material-ui/icons/Publish";
 import useStyles from "../MesheryPatterns/Grid.styles";
+
+// mui v5
+import Button from "@mui/material/Button"
+import Grid from "@mui/material/Grid"
+import Paper from "@mui/material/Paper"
+import Typography from "@mui/material/Typography"
+
+// mui v5 icons
+import PublishIcon from "@mui/icons-material/Publish"
 
 const INITIAL_GRID_SIZE = { xl : 4, md : 6, xs : 12 };
 
@@ -19,61 +26,60 @@ function FilterCardGridItem({ filter, handleDeploy, handleUndeploy, handleSubmit
     <Grid item {...gridProps}>
       <FiltersCard
         name={filter.name}
-        updated_at={filter.updated_at}
         created_at={filter.created_at}
+        updated_at={filter.updated_at}
         filter_file={filter.filter_file}
         requestFullSize={() => setGridProps({ xl : 12, md : 12, xs : 12 })}
         requestSizeRestore={() => setGridProps(INITIAL_GRID_SIZE)}
         handleDeploy={handleDeploy}
         handleUndeploy={handleUndeploy}
         handleClone={handleClone}
-        deleteHandler={() => handleSubmit({ data : yaml, id : filter.id, type : FILE_OPS.DELETE ,name : filter.name })}
+        deleteHandler={() => handleSubmit({ data : yaml, id : filter.id, type : FILE_OPS.DELETE, name : filter.name })}
         setSelectedFilters={() => setSelectedFilters({ filter : filter, show : true })}
         setYaml={setYaml}
         description={filter.desciption}
         visibility={filter.visibility}
       />
     </Grid>
-  );
+  )
 }
 
-function FiltersGrid({ filters=[],handleDeploy, handleUndeploy, handleClone, handleSubmit,urlUploadHandler,uploadHandler, setSelectedFilter, selectedFilter, pages = 1,setPage, selectedPage, UploadImport, fetch }) {
+function FiltersGrid({
+  filters=[],
+  handleDeploy,
+  handleUndeploy,
+  handleClone,
+  handleSubmit,
+  urlUploadHandler,
+  uploadHandler,
+  setSelectedFilter,
+  selectedFilter,
+  pages = 1,
+  setPage,
+  selectedPage,
+  UploadImport
+}) {
 
   const classes = useStyles()
 
-  const [importModal, setImportModal] = useState({
-    open : false
-  });
-
+  const [importModal, setImportModal] = useState({ open : false })
   const handleUploadImport = () => {
-    setImportModal({
-      open : true
-    });
+    setImportModal({ open : true })
   }
-
   const handleUploadImportClose = () => {
-    setImportModal({
-      open : false
-    });
+    setImportModal({ open : false })
   }
 
-  const [modalOpen, setModalOpen] = useState({
-    open : false,
-    deploy : false,
-    filter_file : null,
-    name : "",
-    count : 0
-  });
-
+  const [modalOpen, setModalOpen] = useState({ open : false, deploy : false, filter_file : null, name : "", count : 0 })
   const handleModalClose = () => {
     setModalOpen({
       open : false,
+      deploy : false,
       filter_file : null,
       name : "",
       count : 0
-    });
+    })
   }
-
   const handleModalOpen = (filter, isDeploy) => {
     setModalOpen({
       open : true,
@@ -81,7 +87,7 @@ function FiltersGrid({ filters=[],handleDeploy, handleUndeploy, handleClone, han
       filter_file : filter.filter_file,
       name : filter.name,
       count : getComponentsinFile(filter.filter_file)
-    });
+    })
   }
 
   return (
