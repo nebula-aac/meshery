@@ -43,6 +43,9 @@ import PublishIcon from "@material-ui/icons/Publish";
 import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
 import fetchCatalogFilter from "./graphql/queries/CatalogFilterQuery";
 import LoadingScreen from "./LoadingComponents/LoadingComponent";
+import CodeMirror from "codemirror";
+
+/*
 import dynamic from 'next/dynamic'
 
 const CodeMirror = dynamic(() => {
@@ -57,6 +60,7 @@ const CodeMirror = dynamic(() => {
   import('codemirror/mode/css/css')
   return import('@uiw/react-codemirror')
 }, { ssr : false })
+*/
 
 const styles = (theme) => ({
   grid : {

@@ -28,20 +28,7 @@ import MesheryMetrics from "./MesheryMetrics";
 import MesheryResultDialog from "./MesheryResultDialog";
 import ReactSelectWrapper from "./ReactSelectWrapper";
 import ConfirmationMsg from "./ConfirmationModal";
-import dynamic from 'next/dynamic'
-
-const CodeMirror = dynamic(() => {
-  import('codemirror/mode/yaml/yaml')
-  import('codemirror/mode/javascript/javascript')
-  import('codemirror/addon/lint/lint')
-  import('codemirror/addon/lint/yaml-lint')
-  import('codemirror/addon/lint/json-lint')
-  import('codemirror/addon/lint/lint.css')
-  import('codemirror/lib/codemirror.css')
-  import('codemirror/theme/material.css')
-  import('codemirror/mode/css/css')
-  return import('@uiw/react-codemirror')
-}, { ssr : false })
+import CodeMirror from "codemirror";
 
 const styles = (theme) => ({
   smWrapper : { backgroundColor : "#eaeff1", },

@@ -11,20 +11,7 @@ import { trueRandom } from '../../../lib/trueRandom';
 import dataFetch from '../../../lib/data-fetch';
 import CodeIcon from '@material-ui/icons/Code';
 import Alert from '@material-ui/lab/Alert';
-import dynamic from 'next/dynamic'
-
-const CodeMirror = dynamic(() => {
-  import('codemirror/mode/yaml/yaml')
-  import('codemirror/mode/javascript/javascript')
-  import('codemirror/addon/lint/lint')
-  import('codemirror/addon/lint/yaml-lint')
-  import('codemirror/addon/lint/json-lint')
-  import('codemirror/addon/lint/lint.css')
-  import('codemirror/lib/codemirror.css')
-  import('codemirror/theme/material.css')
-  import('codemirror/mode/css/css')
-  return import('@uiw/react-codemirror')
-}, { ssr : false })
+import CodeMirror from "codemirror";
 
 const promStyles = (theme) => ({
   prometheusWrapper : { padding : theme.spacing(5), },

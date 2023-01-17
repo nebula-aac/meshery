@@ -8,18 +8,22 @@ import Fullscreen from "@material-ui/icons/Fullscreen";
 import Save from "@material-ui/icons/Save";
 import dynamic from 'next/dynamic'
 
-const CodeMirror = dynamic(() => {
-  import('codemirror/mode/yaml/yaml')
-  import('codemirror/mode/javascript/javascript')
-  import('codemirror/addon/lint/lint')
-  import('codemirror/addon/lint/yaml-lint')
-  import('codemirror/addon/lint/json-lint')
-  import('codemirror/addon/lint/lint.css')
-  import('codemirror/lib/codemirror.css')
-  import('codemirror/theme/material.css')
-  import('codemirror/mode/css/css')
-  return import('@uiw/react-codemirror')
-}, { ssr : false })
+export const CodeMirror = dynamic(
+  async () => {
+    await import('codemirror/mode/yaml/yaml')
+    await import('codemirror/mode/javascript/javascript')
+    await import('codemirror/addon/lint/lint')
+    await import('codemirror/addon/lint/yaml-lint')
+    await import('codemirror/addon/lint/json-lint')
+    await import('codemirror/addon/lint/lint.css')
+    await import('codemirror/lib/codemirror')
+    await import('codemirror/lib/codemirror.css')
+    await import('codemirror/theme/material.css')
+    await import('codemirror/mode/css/css')
+    await import('@uiw/react-codemirror/esm/index')
+    await import('@uiw/react-codemirror/lib/codemirror.css')
+    return import('@uiw/react-codemirror')
+  }, { ssr : false })
 
 const YAMLDialog = ({
   fullScreen,
@@ -48,7 +52,7 @@ const YAMLDialog = ({
       </DialogTitle>
       <Divider variant="fullWidth" light />
       <DialogContent>
-        <CodeMirror
+        {<CodeMirror
           value={config_file}
           className={fullScreen ? classes.fullScreenCodeMirror : ""}
           options={{
@@ -61,7 +65,7 @@ const YAMLDialog = ({
             mode : "text/x-yaml",
           }}
           onChange={(_, data, val) => setYaml(val)}
-        />
+        />}
       </DialogContent>
       <Divider variant="fullWidth" light />
       <DialogActions>

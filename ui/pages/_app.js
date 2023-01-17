@@ -43,8 +43,26 @@ import "./styles/AnimatedMeshery.css"
 import "./styles/AnimatedMeshPattern.css"
 import "./styles/AnimatedMeshSync.css"
 import PlaygroundMeshDeploy from './extension/AccessMesheryModal';
+import dynamic from 'next/dynamic'
 
-/*
+export const CodeMirror = dynamic(
+  async () => {
+    await import('codemirror/mode/yaml/yaml')
+    await import('codemirror/mode/javascript/javascript')
+    await import('codemirror/addon/lint/lint')
+    await import('codemirror/addon/lint/yaml-lint')
+    await import('codemirror/addon/lint/json-lint')
+    await import('codemirror/addon/lint/lint.css')
+    await import('codemirror/lib/codemirror')
+    await import('codemirror/lib/codemirror.css')
+    await import('codemirror/theme/material.css')
+    await import('codemirror/mode/css/css')
+    await import('@uiw/react-codemirror/esm/index')
+    await import('@uiw/react-codemirror/lib/codemirror.css')
+    return import('@uiw/react-codemirror')
+  }, { ssr : false })
+
+
 if (typeof window !== 'undefined') {
   require('codemirror/mode/yaml/yaml');
   require('codemirror/mode/javascript/javascript');
@@ -59,7 +77,6 @@ if (typeof window !== 'undefined') {
     window.jsonlint = require('jsonlint-mod');
   }
 }
-*/
 
 async function fetchContexts(number = 10, search = "") {
   return await promisifiedDataFetch(`/api/system/kubernetes/contexts?pageSize=${number}&search=${encodeURIComponent(search)}`)
