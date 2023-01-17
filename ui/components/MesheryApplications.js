@@ -1,38 +1,60 @@
-import {
-  Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, NoSsr,
-  TableCell, Tooltip, Typography, Button
-} from "@material-ui/core";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import TableSortLabel from "@material-ui/core/TableSortLabel";
-import CloseIcon from "@material-ui/icons/Close";
-import DeleteIcon from "@material-ui/icons/Delete";
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
-import SaveIcon from '@material-ui/icons/Save';
-import MUIDataTable from "mui-datatables";
-import { withSnackbar } from "notistack";
 import React, { useEffect, useRef, useState } from "react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
+import { withSnackbar } from "notistack";
 import Moment from "react-moment";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+
+// project import
 import dataFetch from "../lib/data-fetch";
 import { updateProgress } from "../lib/store";
 import { FILE_OPS } from "../utils/Enum";
 import { ctxUrl } from "../utils/multi-ctx";
 import { getComponentsinFile, randomPatternNameGenerator as getRandomName } from "../utils/utils";
-import PromptComponent from "./PromptComponent";
-import UploadImport from "./UploadImport";
-import UndeployIcon from "../public/static/img/UndeployIcon";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import ConfirmationMsg from "./ConfirmationModal";
 import ViewSwitch from "./ViewSwitch";
 import ApplicationsGrid from "./MesheryApplications/ApplicationsGrid";
 import { fileDownloader } from "../utils/fileDownloader";
 import { trueRandom } from "../lib/trueRandom";
+import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
+import PromptComponent from "./PromptComponent";
+import UploadImport from "./UploadImport";
+import UndeployIcon from "../public/static/img/UndeployIcon";
+
+// mui v4
+import { withStyles } from "@material-ui/core/styles";
+import TableSortLabel from "@material-ui/core/TableSortLabel";
+import MUIDataTable from "mui-datatables";
 import PublishIcon from "@material-ui/icons/Publish";
 import InfoIcon from '@material-ui/icons/Info';
-import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
+
+// codemirror
+import { basicSetup, EditorView } from "codemirror"
+import { StreamLanguage } from "@codemirror/language"
+import { yaml } from "@codemirror/legacy-modes/mode/yaml"
+import { linter, lintGutter } from "@codemirror/lint"
+import { materialDark } from 'cm6-theme-material-dark'
+
+// mui v5
+import NoSsr from "@mui/material/NoSsr"
+import Button from "@mui/material/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from '@mui/material/DialogTitle'
+import TableCell from "@mui/material/TableCell"
+import Typography from '@mui/material/Typography'
+import Divider from "@mui/material/Divider"
+import IconButton from '@mui/material/IconButton'
+import Tooltip from "@mui/material/Tooltip"
+import Paper from '@mui/material/Paper'
+
+// mui v5 icons
+import CloseIcon from "@mui/icons-material/Close"
+import DoneAllIcon from "@mui/icons-material/DoneAll"
+import DeleteIcon from "@mui/icons-material/Delete"
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import SaveIcon from "@material-ui/icons/Save";
 
 const styles = (theme) => ({
   grid : { padding : theme.spacing(2), },
@@ -67,7 +89,7 @@ const styles = (theme) => ({
   // }
 });
 
-
+/*
 const useStyles = makeStyles((theme) => ({
   codeMirror : {
     '& .CodeMirror' : {
@@ -96,6 +118,7 @@ const useStyles = makeStyles((theme) => ({
     }
   },
 }));
+*/
 
 
 function TooltipIcon({ children, onClick, title }) {
@@ -109,23 +132,42 @@ function TooltipIcon({ children, onClick, title }) {
 }
 
 function YAMLEditor({ application, onClose, onSubmit }) {
-  const classes = useStyles();
-  const [yaml, setYaml] = useState("");
-  const [fullScreen, setFullScreen] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false)
 
   const toggleFullScreen = () => {
-    setFullScreen(!fullScreen);
-  };
+    setFullScreen(!fullScreen)
+  }
+
+  useEffect(() => {
+    const jsyaml = require('js-yaml')
+
+    const yamlLinter = linter(view => {
+      let diagnostics = []
+
+      try {
+        jsyaml.load(view.state.doc)
+      } catch (e) {
+        var loc = e.mark;
+        var from = loc ? loc.position : 0;
+        var to = from;
+        var severity = "error";
+        diagnostics.push({ from : from, to : to, message : e.message, severity : severity });
+      }
+      return diagnostics
+    })
+
+    new EditorView({
+      doc : "",
+      extensions : [basicSetup, StreamLanguage.define(yaml), lintGutter(), yamlLinter, materialDark],
+      parent : document.querySelector("#editor")
+    })
+  }, []);
 
   return (
-    <Dialog onClose={onClose} aria-labelledby="application-dialog-title" open maxWidth="md" fullScreen={fullScreen} fullWidth={!fullScreen}>
-      <DialogTitle disableTypography id="application-dialog-title" className={classes.ymlDialogTitle}>
-        <Typography variant="h6" className={classes.ymlDialogTitleText}>
-          {application.name}
-        </Typography>
-        <TooltipIcon
-          title={fullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-          onClick={toggleFullScreen}>
+    <Dialog onClose={onClose} aria-labelledby="filter-dialog-title" open maxWidth="md" fullScreen={fullScreen} fullWidth={!fullScreen}>
+      <DialogTitle id="filter-dialog-title" sx={{ display : "flex", alignItems : "center" }}>
+        <Typography sx={{ flexGrow : 1 }}>{application.name}</Typography>
+        <TooltipIcon title={fullScreen ? "Exit Fullscreen" : "Enter Fullscreen"} onClick={toggleFullScreen}>
           {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </TooltipIcon>
         <TooltipIcon title="Exit" onClick={onClose}>
@@ -134,19 +176,7 @@ function YAMLEditor({ application, onClose, onSubmit }) {
       </DialogTitle>
       <Divider variant="fullWidth" light />
       <DialogContent>
-        <CodeMirror
-          value={application.application_file}
-          className={fullScreen ? classes.fullScreenCodeMirror : ""}
-          options={{
-            theme : "material",
-            lineNumbers : true,
-            lineWrapping : true,
-            gutters : ["CodeMirror-lint-markers"],
-            lint : true,
-            mode : "text/x-yaml",
-          }}
-          onChange={(_, data, val) => setYaml(val)}
-        />
+        <Paper id="editor" value={application.application_file} sx={{ height : "100%", minHeight : "300px" }} />
       </DialogContent>
       <Divider variant="fullWidth" light />
       <DialogActions>
@@ -268,7 +298,7 @@ function MesheryApplications({
     return () => {
       disposeConfSubscriptionRef.current.dispose();
     }
-  },[]);
+  }, []);
 
   const handleModalClose = () => {
     setModalOpen({
@@ -279,7 +309,7 @@ function MesheryApplications({
     });
   }
 
-  const initAppsSubscription = (pageNo=page.toString(), pagesize=pageSize.toString(), searchText=search, order=sortOrder) => {
+  const initAppsSubscription = (pageNo = page.toString(), pagesize = pageSize.toString(), searchText = search, order = sortOrder) => {
     if (disposeConfSubscriptionRef.current) {
       disposeConfSubscriptionRef.current.dispose();
     }
@@ -345,7 +375,7 @@ function MesheryApplications({
         body : application_file,
       }, () => {
         console.log("ApplicationFile Deploy API", `/api/application/deploy`);
-        enqueueSnackbar(`"${name}" application deployed` , {
+        enqueueSnackbar(`"${name}" application deployed`, {
           variant : "success",
           action : function Action(key) {
             return (
@@ -392,17 +422,17 @@ function MesheryApplications({
   const handleAppDownload = (id, source_type, name) => {
     updateProgress({ showProgress : true })
     dataFetch(
-        `/api/application/download/${id}/${source_type}`,
-        {
-          credentials : "include",
-          method : "GET",
-        },
-        () => {
-          fileDownloader(id, name, source_type);
-          console.log("ApplicationFile API", `/api/application/download/${id}/${source_type}`);
-          updateProgress({ showProgress : false });
-        },
-        handleError(ACTION_TYPES.DOWNLOAD_APP)
+      `/api/application/download/${id}/${source_type}`,
+      {
+        credentials : "include",
+        method : "GET",
+      },
+      () => {
+        fileDownloader(id, name, source_type);
+        console.log("ApplicationFile API", `/api/application/download/${id}/${source_type}`);
+        updateProgress({ showProgress : false });
+      },
+      handleError(ACTION_TYPES.DOWNLOAD_APP)
     );
   };
 
@@ -477,7 +507,7 @@ function MesheryApplications({
     updateProgress({ showProgress : true })
     if (type === FILE_OPS.DELETE) {
       const response = await showModal(1);
-      if (response=="No"){
+      if (response == "No") {
         updateProgress({ showProgress : false })
         return;
       }
@@ -650,7 +680,7 @@ function MesheryApplications({
               <Tooltip title="Click source type to download Application">
                 <div style={{ display : "flex" }}>
                   <b>{column.label}</b>
-                  <InfoIcon color="primary" style={{ scale : "0.8" }}/>
+                  <InfoIcon color="primary" style={{ scale : "0.8" }} />
                 </div>
               </Tooltip>
             </TableCell>
@@ -663,7 +693,7 @@ function MesheryApplications({
             <>
               <IconButton
                 title="click to download"
-                onClick={() => handleAppDownload(rowData.id ,rowData.type.String, rowData.name)}
+                onClick={() => handleAppDownload(rowData.id, rowData.type.String, rowData.name)}
               >
                 <img src={`/static/img/${(rowData.type.String).replaceAll(" ", "_").toLowerCase()}.svg`} width="45px" height="45px" />
               </IconButton>
@@ -846,7 +876,7 @@ function MesheryApplications({
           <YAMLEditor application={selectedRowData} onClose={resetSelectedRowData()} onSubmit={handleSubmit} />
         )}
         <div className={classes.topToolbar} >
-          {!selectedApplication.show && (applications.length>0 || viewType==="table") && <div className={classes.createButton}>
+          {!selectedApplication.show && (applications.length > 0 || viewType === "table") && <div className={classes.createButton}>
             <div>
               <Button
                 aria-label="Add Application"
@@ -858,63 +888,63 @@ function MesheryApplications({
                 style={{ marginRight : "2rem" }}
               >
                 <PublishIcon className={classes.addIcon} />
-              Import Application
+                Import Application
               </Button>
             </div>
 
           </div>
           }
           {!selectedApplication.show &&
-          <div className={classes.viewSwitchButton}>
-            <ViewSwitch view={viewType} changeView={setViewType} hideCatalog={true} />
-          </div>
+            <div className={classes.viewSwitchButton}>
+              <ViewSwitch view={viewType} changeView={setViewType} hideCatalog={true} />
+            </div>
           }
         </div>
         {
-          !selectedApplication.show && viewType==="table" &&
-            <MUIDataTable
-              title={<div className={classes.tableHeader}>Applications</div>}
-              data={applications}
-              columns={columns}
-              // @ts-ignore
-              options={options}
-              className={classes.muiRow}
-            />
+          !selectedApplication.show && viewType === "table" &&
+          <MUIDataTable
+            title={<div className={classes.tableHeader}>Applications</div>}
+            data={applications}
+            columns={columns}
+            // @ts-ignore
+            options={options}
+            className={classes.muiRow}
+          />
         }
         {
-          !selectedApplication.show && viewType==="grid" &&
-            // grid vieww
-            <ApplicationsGrid
-              applications={applications}
-              handleDeploy={handleDeploy}
-              handleUnDeploy={handleUnDeploy}
-              handleSubmit={handleSubmit}
-              urlUploadHandler={urlUploadHandler}
-              uploadHandler={uploadHandler}
-              setSelectedApplication={setSelectedApplication}
-              selectedApplication={selectedApplication}
-              pages={Math.ceil(count / pageSize)}
-              setPage={setPage}
-              selectedPage={page}
-              UploadImport={UploadImport}
-              types={types}
-              handleAppDownload={handleAppDownload}
-            />
+          !selectedApplication.show && viewType === "grid" &&
+          // grid vieww
+          <ApplicationsGrid
+            applications={applications}
+            handleDeploy={handleDeploy}
+            handleUnDeploy={handleUnDeploy}
+            handleSubmit={handleSubmit}
+            urlUploadHandler={urlUploadHandler}
+            uploadHandler={uploadHandler}
+            setSelectedApplication={setSelectedApplication}
+            selectedApplication={selectedApplication}
+            pages={Math.ceil(count / pageSize)}
+            setPage={setPage}
+            selectedPage={page}
+            UploadImport={UploadImport}
+            types={types}
+            handleAppDownload={handleAppDownload}
+          />
         }
         <ConfirmationMsg
           open={modalOpen.open}
           handleClose={handleModalClose}
           submit={
-            { deploy : () => handleDeploy(modalOpen.application_file, modalOpen.name),  unDeploy : () => handleUnDeploy(modalOpen.application_file, modalOpen.name) }
+            { deploy : () => handleDeploy(modalOpen.application_file, modalOpen.name), unDeploy : () => handleUnDeploy(modalOpen.application_file, modalOpen.name) }
           }
           isDelete={!modalOpen.deploy}
-          title={ modalOpen.name }
+          title={modalOpen.name}
           componentCount={modalOpen.count}
           tab={modalOpen.deploy ? 0 : 1}
         />
         <PromptComponent ref={modalRef} />
-        <UploadImport open={importModal.open} handleClose={handleUploadImportClose} isApplication = {true} aria-label="URL upload button" handleUrlUpload={urlUploadHandler} handleUpload={uploadHandler}
-          supportedTypes={types} configuration="Application"  />
+        <UploadImport open={importModal.open} handleClose={handleUploadImportClose} isApplication={true} aria-label="URL upload button" handleUrlUpload={urlUploadHandler} handleUpload={uploadHandler}
+          supportedTypes={types} configuration="Application" />
       </NoSsr>
     </>
   );

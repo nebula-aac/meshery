@@ -1,36 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
-import { withStyles, makeStyles, MuiThemeProvider } from "@material-ui/core/styles";
-import {  createTheme } from '@material-ui/core/styles';
-import {
-  NoSsr,
-  TableCell,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Divider,
-  Tooltip,
-  Typography,
-  Button
-} from "@material-ui/core";
-import { UnControlled as CodeMirror } from "react-codemirror2";
-import DeleteIcon from "@material-ui/icons/Delete";
+import { withStyles, MuiThemeProvider } from "@material-ui/core/styles";
+import { createTheme } from '@material-ui/core/styles';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import MUIDataTable from "mui-datatables";
 import Moment from "react-moment";
 import { withSnackbar } from "notistack";
-import CloseIcon from "@material-ui/icons/Close";
-import EditIcon from "@material-ui/icons/Edit";
-import DoneAllIcon from '@material-ui/icons/DoneAll';
 import { toggleCatalogContent, updateProgress } from "../lib/store";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
 import dataFetch from "../lib/data-fetch";
 import PromptComponent from "./PromptComponent";
 import UploadImport from "./UploadImport";
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import { FILE_OPS } from "../utils/Enum";
 import ViewSwitch from "./ViewSwitch";
 import CatalogFilter from "./CatalogFilter";
@@ -40,10 +20,39 @@ import { ctxUrl } from "../utils/multi-ctx";
 import ConfirmationMsg from "./ConfirmationModal";
 import UndeployIcon from "../public/static/img/UndeployIcon";
 import { getComponentsinFile } from "../utils/utils";
-import PublishIcon from "@material-ui/icons/Publish";
 import ConfigurationSubscription from "./graphql/subscriptions/ConfigurationSubscription";
 import fetchCatalogFilter from "./graphql/queries/CatalogFilterQuery";
 import LoadingScreen from "./LoadingComponents/LoadingComponent";
+
+// codemirror
+import { basicSetup, EditorView } from "codemirror"
+import { StreamLanguage } from "@codemirror/language"
+import { yaml } from "@codemirror/legacy-modes/mode/yaml"
+import { linter, lintGutter } from "@codemirror/lint"
+import { materialDark } from 'cm6-theme-material-dark'
+
+// mui v5
+import Button from "@mui/material/Button"
+import Dialog from "@mui/material/Dialog"
+import DialogActions from "@mui/material/DialogActions"
+import DialogContent from "@mui/material/DialogContent"
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from "@mui/material/IconButton";
+import Typography from '@mui/material/Typography'
+import Divider from "@mui/material/Divider"
+import TableCell from "@mui/material/TableCell"
+import Tooltip from "@mui/material/Tooltip"
+import Paper from '@mui/material/Paper'
+import NoSsr from "@mui/material/NoSsr"
+
+// mui v5 icons
+import CloseIcon from "@mui/icons-material/Close"
+import EditIcon from "@mui/icons-material/Edit";
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import DeleteIcon from "@mui/icons-material/Delete"
+import FullscreenIcon from '@mui/icons-material/Fullscreen';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
+import PublishIcon from "@mui/icons-material/Publish"
 
 const styles = (theme) => ({
   grid : {
@@ -74,6 +83,7 @@ const styles = (theme) => ({
   // }
 });
 
+/*
 const useStyles = makeStyles(() => ({
   ymlDialogTitle : {
     display : "flex",
@@ -89,8 +99,8 @@ const useStyles = makeStyles(() => ({
       height : '100%',
     }
   },
-
 }))
+*/
 
 function TooltipIcon({ children, onClick, title }) {
   return (
@@ -103,23 +113,42 @@ function TooltipIcon({ children, onClick, title }) {
 }
 
 function YAMLEditor({ filter, onClose, onSubmit }) {
-  const classes = useStyles();
-  const [yaml, setYaml] = useState("");
-  const [fullScreen, setFullScreen] = useState(false);
+  const [fullScreen, setFullScreen] = useState(false)
 
   const toggleFullScreen = () => {
-    setFullScreen(!fullScreen);
+    setFullScreen(!fullScreen)
   }
+
+  useEffect(() => {
+    const jsyaml = require('js-yaml')
+
+    const yamlLinter = linter(view => {
+      let diagnostics = []
+
+      try {
+        jsyaml.load(view.state.doc)
+      } catch (e) {
+        var loc = e.mark;
+        var from = loc ? loc.position : 0;
+        var to = from;
+        var severity = "error";
+        diagnostics.push({ from : from, to : to, message : e.message, severity : severity });
+      }
+      return diagnostics
+    })
+
+    new EditorView({
+      doc : "",
+      extensions : [basicSetup, StreamLanguage.define(yaml), lintGutter(), yamlLinter, materialDark],
+      parent : document.querySelector("#editor")
+    })
+  }, []);
 
   return (
     <Dialog onClose={onClose} aria-labelledby="filter-dialog-title" open maxWidth="md" fullScreen={fullScreen} fullWidth={!fullScreen}>
-      <DialogTitle disableTypography id="filter-dialog-title" className={classes.ymlDialogTitle}>
-        <Typography variant="h6" className={classes.ymlDialogTitleText}>
-          {filter.name}
-        </Typography>
-        <TooltipIcon
-          title={fullScreen ? "Exit Fullscreen" : "Enter Fullscreen"}
-          onClick={toggleFullScreen}>
+      <DialogTitle id="filter-dialog-title" sx={{ display : "flex", alignItems : "center" }}>
+        <Typography sx={{ flexGrow : 1 }}>{filter.name}</Typography>
+        <TooltipIcon title={fullScreen ? "Exit Fullscreen" : "Enter Fullscreen"} onClick={toggleFullScreen}>
           {fullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
         </TooltipIcon>
         <TooltipIcon title="Exit" onClick={onClose}>
@@ -128,21 +157,8 @@ function YAMLEditor({ filter, onClose, onSubmit }) {
       </DialogTitle>
       <Divider variant="fullWidth" light />
       <DialogContent>
-        <CodeMirror
-          value={filter.filter_file}
-          className={fullScreen ? classes.fullScreenCodeMirror : ""}
-          options={{
-            theme : "material",
-            lineNumbers : true,
-            lineWrapping : true,
-            gutters : ["CodeMirror-lint-markers"],
-            lint : true,
-            mode : "text/x-yaml",
-          }}
-          onChange={(val) => setYaml(val)}
-        />
+        <Paper id="editor" sx={{ height : "100%", minHeight : "300px" }} />
       </DialogContent>
-      <Divider variant="fullWidth" light />
       <DialogActions>
         <Tooltip title="Delete Filter">
           <IconButton
@@ -160,7 +176,7 @@ function YAMLEditor({ filter, onClose, onSubmit }) {
         </Tooltip>
       </DialogActions>
     </Dialog>
-  );
+  )
 }
 
 function resetSelectedFilter() {
@@ -217,7 +233,7 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
       },
       MUIDataTableSearch : {
         searchIcon : {
-          color : "#607d8b" ,
+          color : "#607d8b",
           marginTop : "7px",
           marginRight : "8px",
         },
@@ -301,7 +317,8 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
       },
       () => {
         enqueueSnackbar(`Catalog Content was ${catalogPref ? "enab" : "disab"}led`,
-          { variant : 'success',
+          {
+            variant : 'success',
             autoHideDuration : 4000,
             action : (key) => (
               <IconButton
@@ -365,7 +382,7 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
       fetchCatalogFilters.unsubscribe();
       disposeConfSubscriptionRef.current.dispose();
     }
-  },[])
+  }, [])
 
   /**
    * fetchFilters constructs the queries based on the parameters given
@@ -509,7 +526,7 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
     setFilters(filters.filter(content => content.visibility !== "public"))
   }
 
-  const initFiltersSubscription = (pageNo=page.toString(), pagesize=pageSize.toString(), searchText=search, order=sortOrder) => {
+  const initFiltersSubscription = (pageNo = page.toString(), pagesize = pageSize.toString(), searchText = search, order = sortOrder) => {
     if (disposeConfSubscriptionRef.current) {
       disposeConfSubscriptionRef.current.dispose();
     }
@@ -594,10 +611,10 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
 
     if (type === FILE_OPS.FILE_UPLOAD || type === FILE_OPS.URL_UPLOAD) {
       let body = { save : true }
-      if (type ===FILE_OPS.FILE_UPLOAD) {
+      if (type === FILE_OPS.FILE_UPLOAD) {
         body = JSON.stringify({ ...body, filter_data : { filter_file : data } })
       }
-      if (type ===  FILE_OPS.URL_UPLOAD) {
+      if (type === FILE_OPS.URL_UPLOAD) {
         body = JSON.stringify({ ...body, url : data })
       }
       dataFetch(
@@ -635,7 +652,8 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
     handleSubmit({
       data : link,
       name : "meshery_" + Math.floor(trueRandom() * 100),
-      type : FILE_OPS.URL_UPLOAD });
+      type : FILE_OPS.URL_UPLOAD
+    });
   }
 
   const columns = [
@@ -759,7 +777,7 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
                       setSelectedRowData(filters[tableMeta.rowIndex])
                     }}
                   />
-                </IconButton> }
+                </IconButton>}
               <IconButton>
                 <DoneAllIcon
                   title="Deploy"
@@ -790,11 +808,12 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
 
   async function showmodal(count) {
     let response = await modalRef.current.show({
-      title : `Delete ${count ? count : ""} Filter${count > 1 ? "s" : '' }?`,
+      title : `Delete ${count ? count : ""} Filter${count > 1 ? "s" : ''}?`,
 
-      subtitle : `Are you sure you want to delete ${count > 1 ? "these" : 'this' } ${count ? count : ""} filter${count > 1 ? "s" : '' }?`,
+      subtitle : `Are you sure you want to delete ${count > 1 ? "these" : 'this'} ${count ? count : ""} filter${count > 1 ? "s" : ''}?`,
 
-      options : ["Yes", "No"], })
+      options : ["Yes", "No"],
+    })
     return response;
   }
 
@@ -847,7 +866,7 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
     },
 
     onRowsDelete : async function handleDelete(row) {
-      let response  = await showmodal(Object.keys(row.lookup).length)
+      let response = await showmodal(Object.keys(row.lookup).length)
       console.log(response)
       if (response === "Yes") {
         const fid = Object.keys(row.lookup).map((idx) => filters[idx]?.id);
@@ -919,7 +938,7 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
           <YAMLEditor filter={selectedRowData} onClose={resetSelectedRowData()} onSubmit={handleSubmit} />
         )}
         <div className={classes.topToolbar} >
-          {!selectedFilter.show && (filters.length>0 || viewType==="table") && <div className={classes.createButton}>
+          {!selectedFilter.show && (filters.length > 0 || viewType === "table") && <div className={classes.createButton}>
             <div>
               <Button
                 aria-label="Add Filter"
@@ -930,8 +949,8 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
                 onClick={handleUploadImport}
                 style={{ marginRight : "2rem" }}
               >
-                <PublishIcon className={classes.addIcon} data-cy="import-button"/>
-              Import Filters
+                <PublishIcon className={classes.addIcon} data-cy="import-button" />
+                Import Filters
               </Button>
             </div>
           </div>
@@ -940,13 +959,13 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
             <CatalogFilter catalogVisibility={catalogVisibility} handleCatalogVisibility={handleCatalogVisibility} />
           </div>
           {!selectedFilter.show &&
-          <div className={classes.viewSwitchButton}>
-            <ViewSwitch data-cy="table-view" view={viewType} changeView={setViewType} />
-          </div>
+            <div className={classes.viewSwitchButton}>
+              <ViewSwitch data-cy="table-view" view={viewType} changeView={setViewType} />
+            </div>
           }
         </div>
         {
-          !selectedFilter.show && viewType==="table" && <MuiThemeProvider theme={getMuiTheme() }>
+          !selectedFilter.show && viewType === "table" && <MuiThemeProvider theme={getMuiTheme()}>
             <MUIDataTable
               title={<div className={classes.tableHeader}>Filters</div>}
               data={filters}
@@ -958,29 +977,29 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
           </MuiThemeProvider>
         }
         {
-          !selectedFilter.show && viewType==="grid" &&
-            // grid vieww
-            <FiltersGrid
-              filters={filters}
-              handleDeploy={handleDeploy}
-              handleUndeploy={handleUndeploy}
-              handleSubmit={handleSubmit}
-              handleClone={handleClone}
-              urlUploadHandler={urlUploadHandler}
-              uploadHandler={uploadHandler}
-              setSelectedFilter={setSelectedFilter}
-              selectedFilter={selectedFilter}
-              pages={Math.ceil(count / pageSize)}
-              setPage={setPage}
-              selectedPage={page}
-              UploadImport={UploadImport}
-            />
+          !selectedFilter.show && viewType === "grid" &&
+          // grid vieww
+          <FiltersGrid
+            filters={filters}
+            handleDeploy={handleDeploy}
+            handleUndeploy={handleUndeploy}
+            handleSubmit={handleSubmit}
+            handleClone={handleClone}
+            urlUploadHandler={urlUploadHandler}
+            uploadHandler={uploadHandler}
+            setSelectedFilter={setSelectedFilter}
+            selectedFilter={selectedFilter}
+            pages={Math.ceil(count / pageSize)}
+            setPage={setPage}
+            selectedPage={page}
+            UploadImport={UploadImport}
+          />
         }
         <ConfirmationMsg
           open={modalOpen.open}
           handleClose={handleModalClose}
           submit={
-            { deploy : () => handleDeploy(modalOpen.filter_file, modalOpen.name),  unDeploy : () => handleUndeploy(modalOpen.filter_file, modalOpen.name) }
+            { deploy : () => handleDeploy(modalOpen.filter_file, modalOpen.name), unDeploy : () => handleUndeploy(modalOpen.filter_file, modalOpen.name) }
           }
           isDelete={!modalOpen.deploy}
           title={modalOpen.name}
@@ -994,12 +1013,14 @@ function MesheryFilters({ updateProgress, enqueueSnackbar, closeSnackbar, user, 
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({ updateProgress : bindActionCreators(updateProgress, dispatch),
+const mapDispatchToProps = (dispatch) => ({
+  updateProgress : bindActionCreators(updateProgress, dispatch),
   toggleCatalogContent : bindActionCreators(toggleCatalogContent, dispatch)
 });
 
 const mapStateToProps = (state) => {
-  return { user : state.get("user")?.toObject(), selectedK8sContexts : state.get("selectedK8sContexts"),
+  return {
+    user : state.get("user")?.toObject(), selectedK8sContexts : state.get("selectedK8sContexts"),
     catalogVisibility : state.get("catalogVisibility")
   };
 };

@@ -11,11 +11,11 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // import 'billboard.js/dist/theme/insight.min.css';
 // import 'billboard.js/dist/theme/graph.min.css';
 import 'billboard.js/dist/billboard.min.css';
-import 'codemirror/addon/lint/lint.css';
+// import 'codemirror/addon/lint/lint.css';
 // codemirror + js-yaml imports when added to a page was preventing to navigating to that page using nextjs
 // link clicks, hence attempting to add them here
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
+// import 'codemirror/lib/codemirror.css';
+// import 'codemirror/theme/material.css';
 import { fromJS } from 'immutable';
 import _ from 'lodash';
 import withRedux from "next-redux-wrapper";
@@ -44,6 +44,7 @@ import "./styles/AnimatedMeshPattern.css"
 import "./styles/AnimatedMeshSync.css"
 import PlaygroundMeshDeploy from './extension/AccessMesheryModal';
 
+/*
 if (typeof window !== 'undefined') {
   require('codemirror/mode/yaml/yaml');
   require('codemirror/mode/javascript/javascript');
@@ -58,6 +59,7 @@ if (typeof window !== 'undefined') {
     window.jsonlint = require('jsonlint-mod');
   }
 }
+*/
 
 async function fetchContexts(number = 10, search = "") {
   return await promisifiedDataFetch(`/api/system/kubernetes/contexts?pageSize=${number}&search=${encodeURIComponent(search)}`)
