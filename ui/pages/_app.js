@@ -11,11 +11,6 @@ import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 // import 'billboard.js/dist/theme/insight.min.css';
 // import 'billboard.js/dist/theme/graph.min.css';
 import 'billboard.js/dist/billboard.min.css';
-import 'codemirror/addon/lint/lint.css';
-// codemirror + js-yaml imports when added to a page was preventing to navigating to that page using nextjs
-// link clicks, hence attempting to add them here
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
 import { fromJS } from 'immutable';
 import _ from 'lodash';
 import withRedux from "next-redux-wrapper";
@@ -49,21 +44,6 @@ import subscribeMeshSyncEvents from '../components/graphql/subscriptions/MeshSyn
 import { isTelemetryComponent, TelemetryComps } from '../utils/nameMapper';
 import { extractURLFromScanData } from '../components/ConnectionWizard/helpers/metrics';
 import { updateURLs } from '../utils/utils';
-
-if (typeof window !== 'undefined') {
-  require('codemirror/mode/yaml/yaml');
-  require('codemirror/mode/javascript/javascript');
-  require('codemirror/addon/lint/lint');
-  require('codemirror/addon/lint/yaml-lint');
-  require('codemirror/addon/lint/json-lint');
-  if (typeof window.jsyaml === 'undefined') {
-    window.jsyaml = require('js-yaml');
-  }
-  if (typeof window.jsonlint === 'undefined') {
-    // jsonlint did not work well with codemirror json-lint. Hence, found an alternative (jsonlint-mod) based on https://github.com/scniro/react-codemirror2/issues/21
-    window.jsonlint = require('jsonlint-mod');
-  }
-}
 
 async function fetchContexts(number = 10, search = "") {
   return await promisifiedDataFetch(`/api/system/kubernetes/contexts?pageSize=${number}&search=${encodeURIComponent(search)}`)

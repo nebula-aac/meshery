@@ -1,8 +1,82 @@
-import { Card, makeStyles, CardContent,  IconButton } from "@material-ui/core";
-import {  Eco } from "@material-ui/icons";
-import { useEffect, useState } from "react";
-import { UnControlled as CodeMirror } from "react-codemirror2";
+import { Eco } from "@material-ui/icons";
+import { Card, CardContent, IconButton } from "@material-ui/core";
+import { makeStyles } from "@mui/styles";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { StreamLanguage } from "@codemirror/language";
+import { oneDark } from "@codemirror/theme-one-dark";
+import { basicSetup } from "codemirror";
+import { useEffect, useMemo, useState } from "react";
 
+import CodeMirror from "rodemirror";
+
+const theme = createTheme();
+
+const useStyles = makeStyles((theme) => ({
+  wrapper : {
+    [theme.breakpoints.up('md')] : {
+      top : ({ scrollPos }) => scrollPos >= 106 ? 106 : window.scrollY > 0 ? 208 - scrollPos : "auto",
+      position : "fixed",
+      minWidth : "calc(50% - 175px)",
+      maxWidth : "calc(50% - 175px)",
+    },
+  },
+}))
+
+export default function CodeEditor({ cleanHandler }) {
+  const [yaml, isYaml] = useState(false);
+  const [setStyle] = useState(67);
+  const classes = useStyles();
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', () => { })
+    }
+  }, [])
+
+  const handleScroll = () => {
+    setStyle(window.scrollY)
+  }
+
+  const extensions = useMemo(
+    () =>
+      isYaml
+        ? [basicSetup, oneDark, StreamLanguage.define(yaml)]
+        : [basicSetup, oneDark],
+    [isYaml]
+  );
+
+  return (
+    <ThemeProvider theme={theme}>
+      <div className={classes.wrapper}>
+        <Card elevation={0} style={{ position : "sticky" }}>
+          <CardContent>
+            <CodeMirror
+              value={yaml}
+              extensions={extensions}
+            />
+            <IconButton
+              style={{
+                position : "absolute",
+                right : "24px",
+                bottom : "30px",
+                color : "#fff",
+                zIndex : 11,
+                backgroundColor : 'rgb(255,255,255,0.05)'
+              }}
+              onClick={cleanHandler}
+            >
+              <Eco />
+            </IconButton>
+          </CardContent>
+        </Card>
+      </div>
+    </ThemeProvider>
+  )
+}
+
+/*
 const useStyles = makeStyles(theme => ({
   cardRoot : {
     position : "sticky"
@@ -13,24 +87,14 @@ const useStyles = makeStyles(theme => ({
       height : ({ scrollPos }) => getDynamicVh(scrollPos),
     }
   },
-  wrapper : {
-    [theme.breakpoints.up('md')] : {
-      top : ({ scrollPos }) => scrollPos >= 106 ? 106 : window.scrollY > 0 ? 208 - scrollPos: "auto",
-      position : "fixed",
-      minWidth : "calc(50% - 175px)",
-      maxWidth : "calc(50% - 175px)",
-    },
-  },
+
   icon : {
-    position : "absolute",
-    right : "24px",
-    bottom : "30px",
-    color : "#fff",
-    zIndex : 11,
-    backgroundColor : 'rgb(255,255,255,0.05)'
+
   }
 }));
+*/
 
+/*
 export default function CodeEditor({ yaml, saveCodeEditorChanges, cleanHandler }) {
   const [style, setStyle] = useState(67)
   const classes = useStyles({ scrollPos : style });
@@ -81,7 +145,7 @@ export default function CodeEditor({ yaml, saveCodeEditorChanges, cleanHandler }
     </div>
   );
 }
-
+*/
 
 /**
  * Provides dynamic height according to scroll calculations
@@ -89,6 +153,7 @@ export default function CodeEditor({ yaml, saveCodeEditorChanges, cleanHandler }
  * @param {DoubleRange} scrollPos
  * @returns dynamically calcultaed height in vh
  */
+/*
 function getDynamicVh(scrollPos) {
   if (window.scrollY == 0) {
     return '67vh'
@@ -108,3 +173,4 @@ function getDynamicVh(scrollPos) {
 function getScrollPercentage() {
   return window.scrollY/(document.body.scrollHeight - window.innerHeight)
 }
+*/
