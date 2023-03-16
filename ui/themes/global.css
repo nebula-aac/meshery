@@ -1,0 +1,29 @@
+.root {
+    display: flex;
+    min-height: "100vh";
+}
+
+.appContent {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.mainContent {
+    flex: 1;
+    padding: '48px 36px 24px';
+}
+
+.footer {
+    background-color: "#FFF";
+}
+
+.footerDark {
+    background-color: "#202020";
+}
+
+.footerText {
+    cursor: pointer;
+    display: inline;
+    vertical-align: middle;
+}
