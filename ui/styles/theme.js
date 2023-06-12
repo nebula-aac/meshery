@@ -32,6 +32,7 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     position: "fixed",
+                    color: "primary",
                     // background: "#396679",
                     width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px`
                 }
