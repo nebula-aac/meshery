@@ -1,30 +1,9 @@
-import React from "react";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
+import React, { Fragment } from "react";
 import Typography from "@mui/material/Typography";
-import LandingLayout from "../layouts/landing";
-import Header from "../header/header";
-import Navigator from "../navigator/navigator";
-
-function Main(props) {
-  return (
-    <Box
-      component="main"
-      sx={{ flexGrow: 1, bgcolor: "background.default", p: 3 }}
-      {...props}
-    >
-      {props.children}
-    </Box>
-  );
-}
 
 export default function Dashboard() {
   return (
-    <LandingLayout>
-      <Header />
-      <Navigator />
-      <Main>
-        <Toolbar />
+    <Fragment>
         <Typography paragraph>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
           eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
@@ -54,7 +33,6 @@ export default function Dashboard() {
           eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
           posuere sollicitudin aliquam ultrices sagittis orci a.
         </Typography>
-      </Main>
-    </LandingLayout>
+    </Fragment>
   );
 }

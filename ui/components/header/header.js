@@ -1,10 +1,11 @@
 import { Settings } from "@mui/icons-material";
 import { AppBar, Box, IconButton, Toolbar, Typography } from "@mui/material";
 import Link from "next/link";
+import { useSelector } from "react-redux";
 
 export default function Header(props) {
-  const title = "Dashboard"
-  const isBeta = ""
+  const title = useSelector((state) => state.page.title)
+  const isBeta = useSelector((state) => state.page.isBeta)
 
   return (
     <AppBar

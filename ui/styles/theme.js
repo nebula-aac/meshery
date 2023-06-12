@@ -98,9 +98,6 @@ const theme = createTheme({
         secondary: {
             main: '#19857b',
         },
-        error: {
-            main: red.A400,
-        },
     },
     typography: {
         fontFamily: roboto.style.fontFamily,
