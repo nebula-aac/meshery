@@ -17,10 +17,10 @@ export const createThemeHelper = (mode) => {
 				paper: isDark ? neutral.main : white,
 			},
 			primary: {
-				main: isDark ? charcoal.main : keppel.main,
-				dark: isDark ? charcoal.dark : keppel.dark,
-				light: isDark ? charcoal.light : keppel.light,
-				contrastText: isDark ? black : white,
+				main: isDark ? keppel.main : charcoal.main,
+				dark: isDark ? keppel.dark : charcoal.dark,
+				light: isDark ? keppel.light : charcoal.light,
+				contrastText: isDark ? white: white,
 			},
 			secondary: {
 				main: keppel.main,

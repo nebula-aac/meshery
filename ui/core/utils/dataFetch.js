@@ -33,4 +33,17 @@ const dataFetch = (url, options = {}) => {
     });
 };
 
+/**
+ * promisifiedDataFetch adds a promise wrapper to the dataFetch function
+ * and ideal for use inside async functions - which is most of the functions
+ * @param {string} url url is the endpoint
+ * @param {Record<string, any>} options HTTP request options
+ * @returns
+ */
+export function promisifiedDataFetch(url, options = {}) {
+    return new Promise((resolve, reject) => {
+        dataFetch(url, options, result => resolve(result), err => reject(err));
+    });
+}
+
 export default dataFetch;

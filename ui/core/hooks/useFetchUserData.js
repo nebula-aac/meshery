@@ -1,6 +1,11 @@
-const { useEffect, useState } = require("react")
-const { useDispatch } = require("react-redux")
-const { default: dataFetch } = require("../utils/dataFetch")
+/**
+ * React Custom Hook
+ * useFetchUserData
+ * @TODO add dispatch
+ */
+import { useEffect, useState } from "react"
+import { useDispatch } from "react-redux"
+import dataFetch from "../utils/dataFetch"
 
 const useFetchUserData = (url, options = {}) => {
     const dispatch = useDispatch()

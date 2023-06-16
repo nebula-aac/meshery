@@ -1,3 +1,9 @@
+/**
+ * React Custom Hook
+ * useColorTheme
+ * 1. Used as a custom hook in MesheryThemeProvider
+ * 2. file location: /core/providers/MesheryThemeProvider.js
+ */
 import { createTheme } from "@mui/material"
 import { useMemo, useState } from "react"
 import { createThemeHelper } from "../themes/themes"

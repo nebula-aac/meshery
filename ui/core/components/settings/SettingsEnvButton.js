@@ -5,6 +5,7 @@ export default function MesherySettingsEnvButton() {
         <Button
             type='submit'
             variant='contained'
+            color="primary"
             size='large'
             sx={{
                 padding: '8px',

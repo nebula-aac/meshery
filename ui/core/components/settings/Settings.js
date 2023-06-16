@@ -7,11 +7,10 @@ import TabPanel from '@mui/lab/TabPanel';
 import Tab from '@mui/material/Tab';
 import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import Link from 'next/link';
 import { Fragment, useState } from 'react';
 import MeshConfig from './MeshConfig';
 import MeshAdapterConfig from './MeshAdapterConfig';
-import { Box } from '@mui/material';
+import Box from '@mui/material/Box';
 
 function allyProps(index) {
     return {
@@ -79,7 +78,6 @@ const SettingsTabsPanel = () => {
 export default function MesherySettings() {
     return (
         <Fragment>
-            <Link href="/">Go back home</Link>
             <SettingsTabsPanel />
         </Fragment>
     )

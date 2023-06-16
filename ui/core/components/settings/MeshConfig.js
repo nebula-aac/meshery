@@ -2,11 +2,12 @@ import { Box } from "@mui/material"
 import { Fragment } from "react"
 import MesherySettingsEnvButton from "./SettingsEnvButton"
 
-function SettingsEnvLayout(children) {
+function SettingsEnvLayout(props) {
     return (
         <Fragment>
             <Box>
                 <MesherySettingsEnvButton />
+                {props.children}
             </Box>
         </Fragment>
     )
