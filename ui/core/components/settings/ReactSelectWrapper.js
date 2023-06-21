@@ -1,7 +1,18 @@
-import CreatableSelect   from "react-select/creatable"
+import { Typography } from '@mui/material'
+import CreatableSelect from 'react-select/creatable'
 
-export default function ReactSelectWrapper() {
-    return (
+function NoOptionsMessage (props) {
+  return (
+    <Typography
+      color={'textSecondary'}
+    >
+      {props.children}
+    </Typography>
+  )
+}
+
+export default function ReactSelectWrapper () {
+  return (
         <CreatableSelect />
-    )
+  )
 }

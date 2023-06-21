@@ -1,17 +1,17 @@
-import withMetadata from '@/core/utils/getMetadataWrapper'
 import dynamic from 'next/dynamic'
-import { Fragment } from 'react'
+
+import { MesheryMetadataProvider } from '@/core/providers/MesheryMetadataProvider'
 
 const MesherySettings = dynamic(() => import('@/core/components/settings/Settings'), {
   loading: () => <p>Loading...</p>
 })
 
-const Settings = ({ getPath, pageTitle }) => {
+const Settings = () => {
   return (
-        <Fragment>
-            <MesherySettings />
-        </Fragment>
+    <MesheryMetadataProvider>
+      <MesherySettings />
+    </MesheryMetadataProvider>
   )
 }
 
-export default withMetadata(Settings)
+export default Settings

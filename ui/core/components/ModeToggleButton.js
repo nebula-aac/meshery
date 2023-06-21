@@ -1,24 +1,24 @@
-import { IconButton } from "@mui/material";
-import { useThemContext } from "../providers/MesheryThemeProvider";
-import { Fragment } from "react";
+import { DarkMode, LightMode } from '@mui/icons-material'
+import { IconButton } from '@mui/material'
+import { Fragment } from 'react'
 
-const { DarkMode, LightMode } = require("@mui/icons-material");
+import { useThemContext } from '../providers/MesheryThemeProvider'
 
-function DynamicIcon({ mode }) {
-    if (mode === 'dark') {
-        return <DarkMode />
-    }
-    return <LightMode />
+function DynamicIcon ({ mode }) {
+  if (mode === 'dark') {
+    return <DarkMode />
+  }
+  return <LightMode />
 }
 
-export default function ModeToggleButton() {
-    const { mode, toggleColorMode } = useThemContext()
+export default function ModeToggleButton () {
+  const { mode, toggleColorMode } = useThemContext()
 
-    return (
+  return (
         <Fragment>
             <IconButton color="inherit" onClick={toggleColorMode}>
                 <DynamicIcon mode={mode} />
             </IconButton>
         </Fragment>
-    )
+  )
 }

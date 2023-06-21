@@ -1,0 +1,23 @@
+.content {
+  backface-visibility: hidden;
+}
+
+.frontContent {
+    backface-visibility: hidden;
+}
+
+.backContent {
+  transform: scale(-1, 1);
+  max-width: inherit;
+  backface-visibility: hidden;
+}
+
+.flip-card-inner {
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+  position: relative;
+}
+
+.flip-card-flipped .innerCard {
+  transform: rotateY(180deg);
+}

@@ -1,54 +1,57 @@
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import ModeToggleButton from "../../../ModeToggleButton";
-import { Badge, Box, Typography } from "@mui/material";
-import Link from "next/link";
-import IconButton from "@mui/material/IconButton";
-import { Mail, More, Settings } from "@mui/icons-material";
-import { Fragment, useState } from "react";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { Notifications } from "@mui/icons-material";
-import { AccountCircle } from "@mui/icons-material";
-import K8sContextMenu from "./K8sContextMenu";
+import { AccountCircle, Mail, More, Notifications, Settings } from '@mui/icons-material'
+import { Badge, Box, Typography } from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import IconButton from '@mui/material/IconButton'
+import Menu from '@mui/material/Menu'
+import MenuItem from '@mui/material/MenuItem'
+import Toolbar from '@mui/material/Toolbar'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import { useContext, useEffect, useState } from 'react'
 
-export default function Header(props) {
-    const [anchorEl, setAnchorEl] = useState(null);
-    const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+import K8sContextMenu from './K8sContextMenu'
+import ModeToggleButton from '../../../ModeToggleButton'
 
-    const isMenuOpen = Boolean(anchorEl);
-    const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+import { MetadataContext } from '@/core/contexts/MetadataContext'
+import { MesheryMetadataProvider } from '@/core/providers/MesheryMetadataProvider'
 
-    const handleProfileMenuOpen = (event) => {
-        setAnchorEl(event.currentTarget);
-    };
+export default function Header (props) {
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
-    const handleMobileMenuClose = () => {
-        setMobileMoreAnchorEl(null);
-    };
+  const isMenuOpen = Boolean(anchorEl)
+  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-        handleMobileMenuClose();
-    };
+  const handleProfileMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget)
+  }
 
-    const handleMobileMenuOpen = (event) => {
-        setMobileMoreAnchorEl(event.currentTarget);
-    };
+  const handleMobileMenuClose = () => {
+    setMobileMoreAnchorEl(null)
+  }
 
-    const menuId = 'primary-search-account-menu';
-    const renderMenu = (
+  const handleMenuClose = () => {
+    setAnchorEl(null)
+    handleMobileMenuClose()
+  }
+
+  const handleMobileMenuOpen = (event) => {
+    setMobileMoreAnchorEl(event.currentTarget)
+  }
+
+  const menuId = 'primary-search-account-menu'
+  const renderMenu = (
         <Menu
             anchorEl={anchorEl}
             anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+              vertical: 'top',
+              horizontal: 'right'
             }}
             id={menuId}
             keepMounted
             transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+              vertical: 'top',
+              horizontal: 'right'
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}
@@ -56,21 +59,21 @@ export default function Header(props) {
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
-    );
+  )
 
-    const mobileMenuId = 'primary-search-account-menu-mobile';
-    const renderMobileMenu = (
+  const mobileMenuId = 'primary-search-account-menu-mobile'
+  const renderMobileMenu = (
         <Menu
             anchorEl={mobileMoreAnchorEl}
             anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+              vertical: 'top',
+              horizontal: 'right'
             }}
             id={mobileMenuId}
             keepMounted
             transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+              vertical: 'top',
+              horizontal: 'right'
             }}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}
@@ -116,25 +119,25 @@ export default function Header(props) {
                 <p>Toggle Mode</p>
             </MenuItem>
         </Menu>
-    );
+  )
 
-    return (
-        <Fragment>
-            <AppBar component={"nav"} {...props}>
+  return (
+        <MesheryMetadataProvider>
+            <AppBar component={'nav'} {...props}>
                 <Toolbar>
-                    <HeaderTitle pageTitle={"Dashboard"} />
+                    <HeaderTitle pageTitle={'Dashboard'} />
                     <Box sx={{ flexGrow: 1 }} />
-                    <Box sx={{ display: { xs: "none", md: "flex" }, position: "relative" }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' }, position: 'relative' }}>
                         <K8sContextMenu />
                     </Box>
-                    <Box data-test="settings-button" sx={{ display: { xs: "none", md: "flex" } }}>
+                    <Box data-test="settings-button" sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <Link href="/settings">
                             <IconButton size="large">
                                 <Settings color="inherit" />
                             </IconButton>
                         </Link>
                     </Box>
-                    <Box sx={{ display: { xs: "none", md: "flex" } }}>
+                    <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
@@ -178,16 +181,44 @@ export default function Header(props) {
             </AppBar>
             {renderMobileMenu}
             {renderMenu}
-        </Fragment>
-    )
+        </MesheryMetadataProvider>
+  )
 }
 
-function HeaderTitle({ getPath, pageTitle }) {
-    const isBeta = false
+/**
+ * HeaderTitle uses the MetadataContext to retrieve the page path and turn
+ * it into a title of the designated page.
+ */
+const HeaderTitle = () => {
+  const { pagePath, updateMetadata } = useContext(MetadataContext)
+  const router = useRouter()
 
-    return (
-        <Typography variant="h6" noWrap component={"div"} sx={{ display: { xs: "none", sm: "block" } }}>
-            {pageTitle}{isBeta ? <sup>BETA</sup> : ""}
+  useEffect(() => {
+    const handleRouteChange = (path) => {
+      updateMetadata(path, null, null)
+    }
+
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router, updateMetadata])
+
+  const getTitleFromPath = (path) => {
+    if (path === '') {
+      return 'Dashboard'
+    }
+
+    const pageTitle = path.replace('/', ' ')
+    return pageTitle.charAt(0).toUpperCase() + pageTitle.slice(1)
+  }
+
+  const pageTitle = getTitleFromPath(pagePath)
+
+  return (
+        <Typography variant="h6" noWrap component={'div'} sx={{ display: { xs: 'none', sm: 'block' } }}>
+            {pageTitle}
         </Typography>
-    )
+  )
 }

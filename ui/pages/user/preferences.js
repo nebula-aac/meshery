@@ -1,7 +1,8 @@
-import withMetadata from '@/core/utils/getMetadataWrapper'
 import { Paper } from '@mui/material'
-import { Fragment } from 'react'
 import dynamic from 'next/dynamic'
+import { Fragment } from 'react'
+
+import withMetadata from '@/core/utils/getMetadataWrapper'
 
 const SystemUserPreferences = dynamic(() => import('@/core/components/preferences/user_preference'), {
   loading: () => <p>Loading...</p>

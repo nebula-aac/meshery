@@ -1,16 +1,17 @@
-import { List, ListItemButton } from "@mui/material"
-import { Fragment } from "react"
-import { ExtensionPointContent } from "./extensionPointContent"
+import { List, ListItemButton } from '@mui/material'
+import { Fragment } from 'react'
+
+import { ExtensionPointContent } from './extensionPointContent'
 
 const RenderAccountExtension = ({ accountExtensions }) => {
-    if (accountExtensions && accountExtensions.length > 0) {
-        return (
+  if (accountExtensions && accountExtensions.length > 0) {
+    return (
             <List disablePadding>
                 {accountExtensions.map(({ id, href, title, show: showc }) => {
-                    if (typeof showc !== "undefined" && !showc) {
-                        return ""
-                    }
-                    return (
+                  if (typeof showc !== 'undefined' && !showc) {
+                    return ''
+                  }
+                  return (
                         <Fragment key={id}>
                             <ListItemButton key={id}>
                                 <ExtensionPointContent
@@ -20,11 +21,11 @@ const RenderAccountExtension = ({ accountExtensions }) => {
                                 />
                             </ListItemButton>
                         </Fragment>
-                    )
+                  )
                 })}
             </List>
-        )
-    }
+    )
+  }
 }
 
 export default RenderAccountExtension

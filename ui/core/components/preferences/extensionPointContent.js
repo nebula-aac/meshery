@@ -1,23 +1,23 @@
-import { ListItemText } from "@mui/material"
-import Link from "next/link"
+import { ListItemText } from '@mui/material'
+import Link from 'next/link'
 
 export const ExtensionPointContent = ({ href, name, updateExtensionType }) => {
-    const content = (
+  const content = (
         <div>
             <ListItemText>
                 {name}
             </ListItemText>
         </div>
-    )
+  )
 
-    if (href) {
-        return (
+  if (href) {
+    return (
             <Link href={href}>
                 <span onClick={() => updateExtensionType(name)}>
                     {content}
                 </span>
             </Link>
-        )
-    }
-    return content
+    )
+  }
+  return content
 }

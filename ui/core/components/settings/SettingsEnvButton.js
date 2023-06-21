@@ -1,20 +1,20 @@
-import { Button, Typography } from "@mui/material";
+import { Button, Typography } from '@mui/material'
 
-export default function MesherySettingsEnvButton() {
-    return (
+export default function MesherySettingsEnvButton () {
+  return (
         <Button
             type='submit'
             variant='contained'
             color="primary"
             size='large'
             sx={{
-                padding: '8px',
-                borderRadius: 2,
-                marginRight: '2rem',
+              padding: '8px',
+              borderRadius: 2,
+              marginRight: '2rem'
             }}
             data-cy='btn-reset-database'
         >
             <Typography>Add Cluster</Typography>
         </Button>
-    )
+  )
 }

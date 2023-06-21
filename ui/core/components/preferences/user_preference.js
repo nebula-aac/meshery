@@ -1,5 +1,5 @@
-import { NoSsr, Paper, Tab, Tabs, Tooltip } from "@mui/material"
-import { Fragment } from "react"
+import { NoSsr, Paper, Tab, Tabs, Tooltip } from '@mui/material'
+import { Fragment } from 'react'
 
 const SystemUserPreferences = ({
 
@@ -15,7 +15,6 @@ const SystemUserPreferences = ({
             </Paper>
         </NoSsr>
     </Fragment>
-
 }
 
 export default SystemUserPreferences

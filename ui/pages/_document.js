@@ -1,6 +1,7 @@
-import Document, { Html, Head, Main, NextScript } from 'next/document'
-import createEmotionCache from '@/core/utils/createEmotionCache'
 import createEmotionServer from '@emotion/server/create-instance'
+import Document, { Head, Html, Main, NextScript } from 'next/document'
+
+import createEmotionCache from '@/core/utils/createEmotionCache'
 
 export default function MesheryDocument ({ emotionStyleTags }) {
   return (

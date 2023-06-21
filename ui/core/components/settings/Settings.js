@@ -1,32 +1,33 @@
-import CloudIcon from '@mui/icons-material/Cloud';
-import PollIcon from '@mui/icons-material/Poll';
-import StorageIcon from '@mui/icons-material/Storage';
-import TabContext from '@mui/lab/TabContext';
-import TabList from '@mui/lab/TabList';
-import TabPanel from '@mui/lab/TabPanel';
-import Tab from '@mui/material/Tab';
-import Tooltip from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
-import { Fragment, useState } from 'react';
-import MeshConfig from './MeshConfig';
-import MeshAdapterConfig from './MeshAdapterConfig';
-import Box from '@mui/material/Box';
+import CloudIcon from '@mui/icons-material/Cloud'
+import PollIcon from '@mui/icons-material/Poll'
+import StorageIcon from '@mui/icons-material/Storage'
+import TabContext from '@mui/lab/TabContext'
+import TabList from '@mui/lab/TabList'
+import TabPanel from '@mui/lab/TabPanel'
+import Box from '@mui/material/Box'
+import Tab from '@mui/material/Tab'
+import Tooltip from '@mui/material/Tooltip'
+import Typography from '@mui/material/Typography'
+import { Fragment, useState } from 'react'
 
-function allyProps(index) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    }
+import MeshAdapterConfig from './MeshAdapterConfig'
+import MeshConfig from './MeshConfig'
+
+function allyProps (index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`
+  }
 }
 
 const SettingsTabsPanel = () => {
-    const [value, setValue] = useState('1')
+  const [value, setValue] = useState('1')
 
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    }
+  const handleChange = (event, newValue) => {
+    setValue(newValue)
+  }
 
-    return (
+  return (
         <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <TabList variant='fullWidth' onChange={handleChange} aria-label='settings-tabs'>
@@ -72,13 +73,13 @@ const SettingsTabsPanel = () => {
                 </Typography>
             </TabPanel>
         </TabContext>
-    );
-};
+  )
+}
 
-export default function MesherySettings() {
-    return (
+export default function MesherySettings () {
+  return (
         <Fragment>
             <SettingsTabsPanel />
         </Fragment>
-    )
+  )
 }

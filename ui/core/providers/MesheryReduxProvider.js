@@ -1,10 +1,11 @@
-import { Provider } from "react-redux";
-import { wrapper } from "../store/config";
+import { Provider } from 'react-redux'
 
-export default function MesheryReduxProvider({ children, ...rest }) {
-    const { store } = wrapper.useWrappedStore(rest)
+import { wrapper } from '../store/config'
 
-    console.log('Initial state: ', store.getState())
+export default function MesheryReduxProvider ({ children, ...rest }) {
+  const { store } = wrapper.useWrappedStore(rest)
 
-    return <Provider store={store}>{children}</Provider>
+  console.log('Initial state: ', store.getState())
+
+  return <Provider store={store}>{children}</Provider>
 }

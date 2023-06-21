@@ -1,23 +1,24 @@
-import { Box } from "@mui/material"
-import { Fragment } from "react"
-import MesherySettingsEnvButton from "./SettingsEnvButton"
+import { Box } from '@mui/material'
+import { Fragment } from 'react'
 
-function SettingsEnvLayout(props) {
-    return (
+import MesherySettingsEnvButton from './SettingsEnvButton'
+
+function SettingsEnvLayout (props) {
+  return (
         <Fragment>
             <Box>
                 <MesherySettingsEnvButton />
                 {props.children}
             </Box>
         </Fragment>
-    )
+  )
 }
-export default function MeshConfig() {
-    return (
+export default function MeshConfig () {
+  return (
         <SettingsEnvLayout>
             <Box component={'div'} sx={{ display: 'table', tableLayout: 'fixed', width: '100%' }}>
                 {/* <DataTable /> */}
             </Box>
         </SettingsEnvLayout>
-    )
+  )
 }
