@@ -1,7 +1,7 @@
 import { Dialog, DialogTitle } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { closeModal, openModal, setTabValue } from '../features/model/modalSlice'
+import { closeModal, openModal, setTabValue } from '../features/modal/modalSlice'
 
 function ConfirmationMsg () {
   const dispath = useDispatch()
