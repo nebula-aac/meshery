@@ -1,4 +1,3 @@
-import Grid from '@mui/material/Grid'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
@@ -7,6 +6,7 @@ import FiltersCard from './FiltersCard'
 import { addDeployedFilter, setCloneFilterId, setModalOpen } from '@/core/features/filters/filtersGridSlice'
 import { addFilter, removeFilter, setFilters } from '@/core/features/filters/filtersSlice'
 import { updateGridProps } from '@/core/features/grid/gridSlice'
+import { Stack } from '@mui/material'
 
 const INITIAL_GRID_SIZE = { xl: 4, md: 6, xs: 12 }
 const FULL_GRID_SIZE = { xl: 12, md: 12, xs: 12 }
@@ -26,15 +26,17 @@ function FilterCardGridItem ({
   }
 
   return (
-        <Grid item {...gridProps}>
+        <Stack {...gridProps}>
             <FiltersCard
                 name={filter.name}
             />
-        </Grid>
+        </Stack>
   )
 }
 
-function FiltersGrid () {
+function FiltersGrid ({
+  setSelectedFilter
+}) {
   const dispatch = useDispatch()
   const filters = useSelector((state) => state.filters)
 
@@ -83,7 +85,7 @@ function FiltersGrid () {
 
   return (
         <div>
-            <Grid container spacing={3}>
+            <Stack container spacing={3}>
                 {filters.map((filter) => {
                     <FilterCardGridItem
                         key={filter.id}
@@ -95,7 +97,7 @@ function FiltersGrid () {
                         setSelectedFilters={setSelectedFilter}
                     />
                 })}
-            </Grid>
+            </Stack>
         </div>
   )
 }

@@ -1,95 +1,100 @@
 import Box from '@mui/material/Box'
-import clsx from 'clsx'
-import { forwardRef, isValidElement, useEffect, useMemo, useState } from 'react'
 import Paper from '@mui/material/Paper'
+import clsx from 'clsx'
+import { forwardRef, isValidElement, useEffect, useMemo, useState, useRef } from 'react'
 
-import styles from './FlipCard.module.css'
+import { styled } from '@mui/material'
+import { animated, useSpring } from 'react-spring'
 
-const InnerCard = forwardRef(({
-  children,
-  className,
-  duration,
-  flipped,
-  ...props
-}, ref) => {
-  return (
-        <Paper
-            {...props}
-            ref={ref}
-            className={clsx(styles.innerCard, className, {
-              [styles['flip-card-flipped']]: flipped,
-              [styles.content]: true
-            })}
-            sx={{
-              padding: 2,
-              borderRadius: 1,
-              boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
-              cursor: 'pointer',
-              transform: flipped ? 'scale(-1,1)' : undefined,
-              transition: `transform ${duration}ms`,
-              transformOrigin: '50% 50% 10%',
-              backfaceVisibility: 'hidden'
-            }}
-        >
-            {children}
-        </Paper>
-  )
+const MesheryCardLayoutWrapper = styled(animated.div)({
+  height: "100%",
+  backgroundColor: "transparent",
+  perspective: "500px"
 })
 
-function GetChild (children, key) {
-  if (children.length !== 2) throw Error('FlipCard requires exactly two components')
+const MesheryCardContentWrapper = styled(animated.div)(({ flipped }) => ({
+  height: '100%',
+  backfaceVisibility: 'hidden',
+  transform: flipped ? 'scale(-1, 1)' : 'none',
+}))
 
-  return children[key]
+const MesheryCardLayout = ({ onClick = () => { }, children }) => {
+  return (
+    <MesheryCardLayoutWrapper onClick={onClick}>
+      {children}
+    </MesheryCardLayoutWrapper>
+  )
 }
 
-export default function FlipCard ({
+const MesheryFrontContent = ({ children }) => {
+  return <Box>{children}</Box>
+}
+
+const MesheryBackContent = ({ children }) => {
+  return <Box sx={{ transform: 'scale(-1,1)', maxWidth: 'inherit' }}>{children}</Box>
+}
+
+const MesheryCardContent = ({
+  flipped,
+  frontContent,
+  backContent
+}) => {
+  const animationProps = useSpring({
+    transform: `scale(${flipped ? -1 : 1}, 1)`,
+    config: { tension: 300, friction: 26 }
+  })
+
+  return (
+    <MesheryCardContentWrapper style={animationProps} flipped={flipped}>
+      {flipped ? <MesheryBackContent>{backContent}</MesheryBackContent> : <MesheryFrontContent>{frontContent}</MesheryFrontContent>}
+    </MesheryCardContentWrapper>
+  )
+}
+
+export default function FlipCard({
   duration = 300,
   onClick = () => { },
   onShow = () => { },
-  children,
+  frontContent,
+  backContent,
   ...props
 }) {
   const [flipped, setFlipped] = useState(false)
   const [activeBack, setActiveBack] = useState(false)
 
-  const Front = useMemo(() => GetChild(children, 0), [children])
-  const Back = useMemo(() => GetChild(children, 1), [children])
+  const timeout = useRef(null)
 
   useEffect(() => {
-    setActiveBack(flipped)
-  }, [flipped])
+    if (timeout.current) clearTimeout(timeout.current)
+
+    timeout.current = setTimeout(() => {
+      setActiveBack(flipped)
+    }, duration / 6)
+
+    return () => {
+      clearTimeout(timeout.currentt)
+    }
+  }, [duration, flipped])
+
+  if (!frontContent || !backContent) {
+    console.error("FlipCard requires two child items in order to create a Flip Card")
+    return null
+  }
 
   return (
-        <Box
-            {...props}
-            sx={{
-              height: '100%',
-              backgroundColor: 'transparent',
-              perspective: 125,
-              backfaceVisibility: 'hidden'
-            }}
-        >
-            <InnerCard
-              flipped={flipped}
-              duration={duration}
-                onClick={() => {
-                  setFlipped((flipped) => !flipped)
-                  onClick && onClick()
-                  onShow && onShow()
-                }}
-            >
-              {!activeBack
-                ? (
-                <Box className={styles.frontContent}>
-                  {isValidElement(Front) ? Front : null}
-                </Box>
-                  )
-                : (
-              <Box className={styles.backContent}>
-                {isValidElement(Back) ? Back : null}
-              </Box>
-                  )}
-            </InnerCard>
-        </Box>
+    <MesheryCardLayout
+      {...props}
+      onClick={() => {
+        setFlipped(!flipped)
+        onClick && onClick()
+        onShow && onShow()
+      }}
+    >
+      <MesheryCardContent
+        flipped={flipped}
+        frontContent={frontContent}
+        backContent={backContent}
+      />
+    </MesheryCardLayout>
   )
 }

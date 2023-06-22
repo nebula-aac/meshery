@@ -1,195 +1,273 @@
-import { defaultKeymap } from '@codemirror/commands'
-import { EditorState } from '@codemirror/state'
-import { EditorView, keymap } from '@codemirror/view'
-import { Delete, DoneAll, Fullscreen, FullscreenExit, Save } from '@mui/icons-material'
-import { Box, Button, Divider, Grid, IconButton, SvgIcon, Tooltip, Typography } from '@mui/material'
-import { Fragment, useCallback, useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-
-import FlipCard from '@/core/components/FlipCard'
-import { TooltipButton } from '@/core/components/TooltipButton'
-import { updateGridProps } from '@/core/features/grid/gridSlice'
+import { Fragment, useEffect, useState } from "react"
+import { Typography, Stack, Tooltip, IconButton, styled, Box, Divider, CardActions } from "@mui/material"
+import { Fullscreen, FullscreenExit } from "@mui/icons-material"
+import FlipCard from "@/core/components/FlipCard"
+import Moment from "react-moment"
+import { useDispatch, useSelector } from "react-redux"
+import { Editor } from "@/core/components/Editor"
+import { VISIBILITY } from "@/core/utils/constants"
+import YAMLDialog from "@/core/components/YAMLDialog"
+import { updateGridProps } from "@/core/features/grid/gridSlice"
+import { TooltipButton } from "@/core/components/TooltipButton"
 
 const INITIAL_GRID_SIZE = { xl: 4, md: 6, xs: 12 }
 const FULL_GRID_SIZE = { xl: 12, md: 12, xs: 12 }
 
-function FiltersCard ({
-  name,
-  filters,
-  fullScreen,
-  updated_at
-}) {
-  const dispatch = useDispatch()
-  // const filtersData = useSelector((state) => state.filter.filtersData)
-  const gridProps = useSelector((state) => state.grid.gridProps)
+const MesheryFrontContentWrapper = styled("div")({
+    display: "flex",
+    justifyContent: "space-between"
+})
 
-  const editor = useRef()
+const MesheryImg = styled("img")(({ theme }) => ({
+    marginRight: "0.5rem",
+    // filter: theme.palette.secondary.img
+}))
 
-  useEffect(() => {
-    const startState = EditorState.create({
-      doc: 'Hello World',
-      extensions: [keymap.of(defaultKeymap)]
-    })
+const MesheryTypography = styled(Typography)((({ theme }) => ({
+    // color: theme.palette.primary.main,
+    variant: "caption",
+    fontStyle: "italic"
+})))
 
-    const view = new EditorView({ state: startState, parent: editor.current })
+const MesheryCardActions = styled(CardActions)({
+    display: "flex",
+    justifyContent: 'flex-end',
+    alignItems: "center"
+})
 
-    return () => {
-      view.destroy()
-    }
-  }, [])
-
-  const [flipCardProps, setFlipCardProps] = useState({
-    fullScreen: false,
-    showCode: false
-  })
-
-  const toggleFullScreen = () => {
-    setFlipCardProps({
-      ...flipCardProps,
-      fullScreen: !flipCardProps.fullScreen
-    })
-  }
-
-  useEffect(() => {
-    if (flipCardProps.fullScreen) {
-      setFlipCardProps({
-        ...flipCardProps,
-        showCode: true
-      })
-    }
-  }, [flipCardProps.fullScreen])
-
-  const genericClickHandler = useCallback((ev, fn) => {
-    ev.stopPropagation()
-    fn()
-  }, [])
-
-  const handleRequestFullSize = () => {
-    dispatch(updateGridProps({ ...gridProps, FULL_GRID_SIZE }))
-  }
-
-  const handleRequestSizeRestore = () => {
-    dispatch(updateGridProps({ ...gridProps, INITIAL_GRID_SIZE }))
-  }
-
-  return (
-    <Fragment>
-      {flipCardProps.fullScreen && (
-        <section ref={editor} />
-      )}
-      <FlipCard
-        onClick={() => {
-          console.log(gridProps)
-          handleRequestFullSize()
-          handleRequestSizeRestore()
-        }}
-        duration={600}
-        onShow={() =>
-          setFlipCardProps({
-            ...flipCardProps,
-            showCode: true
-          })
-        }
-      >
+const FrontContent = ({
+    name,
+    visibility,
+    updated_at,
+    handleUndeploy,
+    handleDeploy,
+    handleClone,
+    genericClickHandler
+}) => {
+    return (
         <Fragment>
-          <div>
-            <Box component="div" sx={{ display: 'flex', justifyContent: 'space-between' }}>
-              <Typography variant="h6" component={'div'}>
-                {name}
-              </Typography>
-              <IconButton
-                title="click to download"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleDownload()
-                }}
-              >
-                <img src="" />
-              </IconButton>
-            </Box>
-            <div>
-              <div>
-                {updated_at
-                  ? (
-                    <Typography color="primary" variant="caption">
-                      Modified on:
-                    </Typography>
-                    )
-                  : null}
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <TooltipButton
-                title="Undeploy"
-                variant="contained"
-                // onClick={(ev) => genericClickHandler(ev, handleUnDeploy)}
-              >
-                <SvgIcon />
-              </TooltipButton>
-              <TooltipButton
-                title="Deploy"
-                variant="contained"
-                color="primary"
-                // onClick={(ev) => genericClickHandler(ev, handleDeploy)}
-              >
-                <DoneAll />
-              </TooltipButton>
-            </div>
-          </div>
-        </Fragment>
-
-        <Fragment>
-          <Grid container spacing={1} alignContent="space-between" alignItems={'center'}>
-            <Grid item xs={8}>
-              <Typography variant="h6">
-                {name}
-              </Typography>
-              <Tooltip title="Enter Fullscreen" arrow placement="top">
-                <IconButton
-                  onClick={(ev) =>
-                    genericClickHandler(ev, () => {
-                      toggleFullScreen()
-                    })
-                  }
+            <MesheryFrontContentWrapper>
+                <Typography variant="h6" component={"div"}>
+                    {name}
+                </Typography>
+                <MesheryImg src={`/static/img/${visibility}.svg`} />
+            </MesheryFrontContentWrapper>
+            <MesheryLastRanText>
+                <Box component={"div"}>
+                    {updated_at ? (
+                        <MesheryTypography>
+                            Modified On: <Moment format="LLL">{updated_at}</Moment>
+                        </MesheryTypography>
+                    ) : null}
+                </Box>
+            </MesheryLastRanText>
+            <MesheryCardActions>
+                <Stack 
+                    display={"grid"}
+                    gridTemplateColumns={"repeat(5,1fr)"}
+                    marginTop={"50px"}
+                    height={"100%"}
+                    width={"100%"}
+                    gap={".5rem"}
                 >
-                  {fullScreen ? <FullscreenExit /> : <Fullscreen />}
-                </IconButton>
-              </Tooltip>
-            </Grid>
-            <Grid item xs={12} onClick={(ev) => genericClickHandler(ev, () => { })}>
-              <Divider variant="fullWidth" light />
-              {/* <section ref={editor}></section> */}
-            </Grid>
-            <Grid item xs={8}>
-              <div>
-                <div>
-                  <Typography color="primary" variant="caption">
-                    Created at:
-                  </Typography>
-                </div>
-              </div>
-            </Grid>
-            <Grid item xs={12}>
-              <div>
-                <Tooltip title="Save" arrow placement="bottom">
-                  <IconButton onClick={(ev) => genericClickHandler(ev, updateHandler)}>
-                    <Save color="primary" />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Delete" arrow placement="bottom">
-                  <IconButton onClick={(ev) => genericClickHandler(ev, deleteHandler)}>
-                    <Delete color="primary" />
-                  </IconButton>
-                </Tooltip>
-              </div>
-            </Grid>
-          </Grid>
+                    <TooltipButton
+                        title={"undeploy"}
+                        variant={"contained"}
+                        onClick={(ev) => genericClickHandler(ev, handleUndeploy)}
+                    >
+                        Undeploy
+                    </TooltipButton>
+                    <TooltipButton
+                        title={"deploy"}
+                        variant={"contained"}
+                        color="primary"
+                        onClick={(ev) => genericClickHandler(ev, handleDeploy)}
+                    >
+                        Deploy
+                    </TooltipButton>
+                </Stack>
+                {visibility === VISIBILITY.PUBLISHED ?
+                    <TooltipButton title="clone"
+                        variant={"contained"}
+                        color="primary"
+                        onClick={(ev) => genericClickHandler(ev, handleClone)}>
+                        Clone
+                    </TooltipButton> : null
+                }
+            </MesheryCardActions>
         </Fragment>
-      </FlipCard>
-    </Fragment>
-  )
+    )
+}
+
+const MesheryBackContentWrapper = styled(Stack)({
+    marginBottom: "0.25rem",
+    minHeight: "6rem",
+    position: "relative",
+})
+
+const MesheryYamlDialogTitle = styled(Stack)({
+    display: "flex",
+    alignItems: "center"
+})
+
+const MesheryYamlDialogTitleText = styled(Typography)({
+    flexGrow: 1
+})
+
+const MesheryLastRanText = styled("div")({
+    marginRight: "0.5rem"
+})
+
+const BackContent = ({
+    name,
+    description = {},
+    updated_at,
+    created_at,
+    filter_file,
+    fullScreen,
+    showCode,
+    setYaml,
+    toggleFullScreen,
+    visibility
+}) => {
+    const catalogContentKeys = Object.keys(description)
+    const catalogContentValues = Object.values(description)
+
+    return (
+        <Fragment>
+            <MesheryBackContentWrapper spacing={1} alignItems={"center"}>
+                <MesheryYamlDialogTitle>
+                    <MesheryYamlDialogTitleText variant="h6">
+                        {name}
+                    </MesheryYamlDialogTitleText>
+                    <IconButton>
+                        {fullScreen ? <FullscreenExit /> : <Fullscreen />}
+                    </IconButton>
+                </MesheryYamlDialogTitle>
+                <Divider variant="fullWidth" light />
+
+                {catalogContentKeys.length === 0 ? (
+                    <Editor config_file={filter_file} />
+                ) : (
+                    catalogContentKeys.map((title, index) => (
+                        <Stack key={title} spacing={1}>
+                            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                                {title}
+                            </Typography>
+                            <Typography variant="body2">
+                                {catalogContentValues[index]}
+                            </Typography>
+                        </Stack>
+                    ))
+                )}
+
+                <Stack direction="row" justifyContent="flex-end" alignItems="center">
+                    <MesheryLastRanText>
+                        {created_at && (
+                            <Typography
+                                color="primary"
+                                variant="caption"
+                                sx={{ fontStyle: "italic" }}
+                            >
+                                Created at: <Moment format="LLL">{created_at}</Moment>
+                            </Typography>
+                        )}
+                    </MesheryLastRanText>
+                    {visibility === VISIBILITY.PRIVATE && (
+                        <div className={classes.deleteButton}>
+                            <Tooltip title="Delete" arrow interactive placement="bottom">
+                                <IconButton onClick={deleteHandler}>
+                                    <DeleteIcon color="primary" />
+                                </IconButton>
+                            </Tooltip>
+                        </div>
+                    )}
+                </Stack>
+            </MesheryBackContentWrapper>
+        </Fragment>
+    )
+}
+
+function FiltersCard({
+    fullScreen,
+    name = "Filters"
+}) {
+    const dispatch = useDispatch()
+    const gridProps = useSelector((state) => state.grid.gridProps)
+
+    const [flipCard, setFlipCard] = useState({
+        fullScreen: false,
+        showCode: false
+    })
+
+    const toggleFullScreen = () => {
+        setFlipCard({
+            ...flipCard,
+            fullScreen: !flipCard.fullScreen
+        })
+    }
+
+    useEffect(() => {
+        if (flipCard.fullScreen) {
+            setFlipCard({
+                ...flipCard,
+                showCode: true
+            })
+        }
+    }, [flipCard.fullScreen])
+
+    function genericClickHandler(ev, fn) {
+        ev.stopPropagation()
+        fn()
+    }
+
+    const handleRequestFullSize = () => {
+        dispatch(updateGridProps({ ...gridProps, FULL_GRID_SIZE }))
+    }
+
+    const handleRequestSizeRestore = () => {
+        dispatch(updateGridProps({ ...gridProps, INITIAL_GRID_SIZE }))
+    }
+
+    return (
+        <Fragment>
+            {flipCard.fullScreen && (
+                <YAMLDialog
+                    fullScreen={fullScreen}
+                    name={name}
+                    toggleFullScreen={toggleFullScreen}
+                    config_file={filter_file}
+                    deleteHandler={deleteHandler}
+                />
+            )}
+            <FlipCard
+                duration={300}
+                onClick={() => {
+                    handleRequestFullSize()
+                    handleRequestSizeRestore()
+                }}
+                onShow={() =>
+                    setFlipCard({
+                        ...flipCard,
+                        showCode: true,
+                    })}
+                frontContent={
+                    <FrontContent
+                        name={name}
+                        genericClickHandler={genericClickHandler}
+                    >
+
+                    </FrontContent>}
+                backContent={
+                    <BackContent
+                        toggleFullScreen={toggleFullScreen}
+                    >
+
+                    </BackContent>}
+            >
+            </FlipCard>
+        </Fragment>
+    )
 }
 
 export default FiltersCard
