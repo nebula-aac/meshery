@@ -6,25 +6,7 @@ import { forwardRef, isValidElement, useEffect, useMemo, useState, useRef } from
 import { styled } from '@mui/material'
 import { animated, useSpring } from 'react-spring'
 
-const MesheryCardLayoutWrapper = styled(animated.div)({
-  height: "100%",
-  backgroundColor: "transparent",
-  perspective: "500px"
-})
-
-const MesheryCardContentWrapper = styled(animated.div)(({ flipped }) => ({
-  height: '100%',
-  backfaceVisibility: 'hidden',
-  transform: flipped ? 'scale(-1, 1)' : 'none',
-}))
-
-const MesheryCardLayout = ({ onClick = () => { }, children }) => {
-  return (
-    <MesheryCardLayoutWrapper onClick={onClick}>
-      {children}
-    </MesheryCardLayoutWrapper>
-  )
-}
+import { MesheryCardLayoutWrapper, MesheryCardContentWrapper, MesheryCardLayout } from './MesheryCard'
 
 const MesheryFrontContent = ({ children }) => {
   return <Box>{children}</Box>
@@ -51,6 +33,7 @@ const MesheryCardContent = ({
   )
 }
 
+/*
 export default function FlipCard({
   duration = 300,
   onClick = () => { },
@@ -90,6 +73,30 @@ export default function FlipCard({
         onShow && onShow()
       }}
     >
+      <MesheryCardContent
+        flipped={flipped}
+        frontContent={frontContent}
+        backContent={backContent}
+      />
+    </MesheryCardLayout>
+  )
+}
+*/
+
+export default function FlipCard({
+  frontContent,
+  backContent,
+  toggleFullscreen,
+  ...props
+}) {
+  const [flipped, setFlipped] = useState(false)
+
+  toggleFullscreen = () => {
+    setFlipped(!flipped)
+  }
+
+  return (
+    <MesheryCardLayout onClick={toggleFullscreen} {...props}>
       <MesheryCardContent
         flipped={flipped}
         frontContent={frontContent}

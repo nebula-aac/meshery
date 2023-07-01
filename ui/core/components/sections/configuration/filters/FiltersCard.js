@@ -62,7 +62,7 @@ const FrontContent = ({
                 </Box>
             </MesheryLastRanText>
             <MesheryCardActions>
-                <Stack 
+                <Stack
                     display={"grid"}
                     gridTemplateColumns={"repeat(5,1fr)"}
                     marginTop={"50px"}
@@ -121,17 +121,22 @@ const MesheryLastRanText = styled("div")({
 const BackContent = ({
     name,
     description = {},
+    genericClickHandler = () => { },
     updated_at,
     created_at,
     filter_file,
     fullScreen,
+    setFullScreen,
     showCode,
     setYaml,
-    toggleFullScreen,
     visibility
 }) => {
     const catalogContentKeys = Object.keys(description)
     const catalogContentValues = Object.values(description)
+
+    const toggleFullScreen = () => {
+        setFullScreen(!fullScreen);
+    };
 
     return (
         <Fragment>
@@ -140,7 +145,13 @@ const BackContent = ({
                     <MesheryYamlDialogTitleText variant="h6">
                         {name}
                     </MesheryYamlDialogTitleText>
-                    <IconButton>
+                    <IconButton
+                        onClick={(ev) =>
+                            genericClickHandler(ev, () => {
+                                toggleFullScreen();
+                            })
+                        }
+                    >
                         {fullScreen ? <FullscreenExit /> : <Fullscreen />}
                     </IconButton>
                 </MesheryYamlDialogTitle>
@@ -189,32 +200,32 @@ const BackContent = ({
 }
 
 function FiltersCard({
+    created_at,
+    filter_file,
+    updated_at,
+    description,
     fullScreen,
-    name = "Filters"
+    name = "Filters",
+    visibility
 }) {
     const dispatch = useDispatch()
     const gridProps = useSelector((state) => state.grid.gridProps)
 
     const [flipCard, setFlipCard] = useState({
-        fullScreen: false,
         showCode: false
     })
 
     const toggleFullScreen = () => {
         setFlipCard({
-            ...flipCard,
-            fullScreen: !flipCard.fullScreen
-        })
-    }
+            showCode: flipCard.showCode
+        });
+    };
 
     useEffect(() => {
-        if (flipCard.fullScreen) {
-            setFlipCard({
-                ...flipCard,
-                showCode: true
-            })
+        if (fullScreen) {
+            toggleFullScreen();
         }
-    }, [flipCard.fullScreen])
+    }, [fullScreen])
 
     function genericClickHandler(ev, fn) {
         ev.stopPropagation()
@@ -235,7 +246,7 @@ function FiltersCard({
                 <YAMLDialog
                     fullScreen={fullScreen}
                     name={name}
-                    toggleFullScreen={toggleFullScreen}
+                    //toggleFullScreen={toggleFullScreen}
                     config_file={filter_file}
                     deleteHandler={deleteHandler}
                 />
@@ -243,8 +254,10 @@ function FiltersCard({
             <FlipCard
                 duration={300}
                 onClick={() => {
-                    handleRequestFullSize()
-                    handleRequestSizeRestore()
+                    setFlipCard({ showCode: !flipCard.showCode })
+                    // handleRequestSizeRestore()
+                    // toggleFullScreen()
+                    // handleRequestFullSize()
                 }}
                 onShow={() =>
                     setFlipCard({
@@ -260,10 +273,15 @@ function FiltersCard({
                     </FrontContent>}
                 backContent={
                     <BackContent
+                        name={name}
+                        description={description}
+                        updated_at={updated_at}
+                        created_at={created_at}
+                        filter_file={filter_file}
+                        fullScreen={flipCard.fullScreen}
                         toggleFullScreen={toggleFullScreen}
-                    >
-
-                    </BackContent>}
+                        visibility={visibility}
+                    />}
             >
             </FlipCard>
         </Fragment>

@@ -1,12 +1,17 @@
-import MesheryFilters from "@/core/components/sections/configuration/filters/MesheryFilters";
-import { MesheryMetadataProvider } from "@/core/providers/MesheryMetadataProvider";
+import dynamic from 'next/dynamic'
 
-function Filters() {
-    return (
+import { MesheryMetadataProvider } from '@/core/providers/MesheryMetadataProvider'
+
+const MesheryFilters = dynamic(() => import('@/core/components/sections/configuration/filters/MesheryFilters'), {
+  loading: () => <p>Loading...</p>
+})
+
+function Filters () {
+  return (
         <MesheryMetadataProvider>
             <MesheryFilters />
         </MesheryMetadataProvider>
-    )
+  )
 }
 
 export default Filters
