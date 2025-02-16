@@ -1,10 +1,16 @@
 package relationship_evaluation_policy
 
+import data.eval
 import rego.v1
 
-# Should be loaded always
-# This is the first file that is executed that is this is the entry point of the policy
-# The flow that the policy follows from evaluation to final trace
+# METADATA
+# entrypoint: true
+# description: "Evaluates relationships in the design file and updates the design file with the results.
+# Flow that the policy follows from evaluation to final trace:
+# 1. Evaluate relationships in the design file
+# 2. Identify relationships in the design file
+# 3. Perform actions based on the identified relationships
+# 4. Prepare the final design to return"
 default rels_in_design_file := []
 
 # Loads relationships from the design file if any exist.
@@ -20,11 +26,60 @@ filter_pending_relationships(rel, relationships) := rel if {
 }
 
 # scope for relationships to evaluate against
-# TODO: make this dynamic based on the models referenced in the design file
-relationships_to_evaluate_against := data.relationships
+# NEEDS IMPROVEMENT: make this dynamic based on the models referenced in the design file
+
+relationship_preference_key(rel) := sprintf("%s-%s-%s",[lower(rel.kind),lower(rel.type),lower(rel.subType)])
+
+models_in_design :=  {component.model | some component in input.components }
+
+is_rel_enabled(rel) := true if {
+	not input.preferences.layers.relationships
+}
+
+is_rel_enabled(rel) := true if {
+	rel_key := relationship_preference_key(rel)
+    not input.preferences.layers.relationships[rel_key] == false
+}
+
+is_rel_disabled(rel) := true  if {
+	not is_rel_enabled(rel)
+}
+
+
+
+relationships_to_evaluate_against := { rel |
+    some rel in data.relationships
+	some model in models_in_design
+	rel_key := relationship_preference_key(rel)
+	# print("rel_key",rel_key)
+	model.name == rel.model.name
+	is_rel_enabled(rel) == true
+	# print("model implicated and rel is enabled",model.name,rel_key)
+	# print("is_rel_enabled",rel_key,is_rel_enabled(rel))
+}
 
 # Main evaluation function that processes relationships and updates the design.
 evaluate := eval_results if {
+
+    print("model in design ",count(models_in_design))
+	print("all registered rels count",count(data.relationships))
+	print("rels to evaluate count",count(relationships_to_evaluate_against))
+
+	
+
+	relationship_policy_identifiers := [
+		{
+			"kind": "hierarchical",
+			"type": "sibling",
+			"subtype": "matchlabels",
+		},
+		{
+			"kind": "hierarchical",
+			"type": "parent",
+			"subtype": "alias",
+		},
+	]
+
 	# Iterate over relationships in the design file and resolve patches.
 	resultant_patches := {patched_object |
 		some rel in rels_in_design_file
@@ -103,7 +158,7 @@ evaluate := eval_results if {
 
 	# Identify additional components that need to be added.
 	components_added := [result |
-		some relationship in data.relationships
+		some relationship in relationships_to_evaluate_against
 		new_comps := identify_additions(updated_design_file, relationship)
 		some new_comp in new_comps
 		result := new_comp
@@ -121,7 +176,7 @@ evaluate := eval_results if {
 
 	# Identify all valid relationships after updates.
 	all_valid_relationships := union({result |
-		some relationship in data.relationships
+		some relationship in relationships_to_evaluate_against
 		result := identify_relationship(updated_design_file_with_new_comps, relationship)
 	})
 
@@ -149,7 +204,6 @@ evaluate := eval_results if {
 
 	# New Evaluation Flow
 
-
 	design_file_to_evaluate := json.patch(input, [
 		{
 			"op": "replace",
@@ -163,19 +217,23 @@ evaluate := eval_results if {
 		},
 	])
 
-
 	#1. Validate Relationships
-	validated_rels := validate_relationships_phase(design_file_to_evaluate)
+	validated_rels := union({rels |
+		some identifier in relationship_policy_identifiers
+		rels := eval.validate_relationships_phase(design_file_to_evaluate, identifier)
+	})
 
 	design_file_with_validated_rels := json.patch(design_file_to_evaluate, [{
 		"op": "replace",
 		"path": "/relationships",
-		"value":  validated_rels,
+		"value": validated_rels,
 	}])
 
-	
 	# 2. Identify relationships in the design file.
-	new_identified_rels := identify_relationships(design_file_with_validated_rels, relationships_to_evaluate_against)
+	new_identified_rels := union({rels |
+		some identifier in relationship_policy_identifiers
+		rels := eval.identify_relationships(design_file_with_validated_rels, relationships_to_evaluate_against, identifier)
+	})
 
 	print("New identified rels", count(new_identified_rels))
 	print("Validated rels", count(validated_rels))
@@ -190,7 +248,17 @@ evaluate := eval_results if {
 
 	print("All relationships", count(design_file_to_apply_actions.relationships))
 
-	actions_response := action_phase(design_file_to_apply_actions)
+	actions := union({actions |
+		some identifier in relationship_policy_identifiers
+		actions := eval.action_phase(design_file_to_apply_actions, identifier)
+		# print("actions from",identifier,count(actions.relationships_to_add))
+	})
+
+	# print("actions",actions)
+
+	actions_response := trace_from_actions(actions)
+
+	# print("Actions trace",actions_response)
 
 	# Prepare the final design to return.
 	design_to_return := final_design_from_actions(
@@ -210,12 +278,33 @@ evaluate := eval_results if {
 			"relationshipsUpdated": intermediate_rels,
 		},
 	}
+
+	print("Evaluation complete")
+}
+
+trace_from_actions(response) := {
+	"components_to_add": {action.value |
+		some action in response
+		action.op == "add_component"
+	},
+	"components_to_delete": {action.value |
+		some action in response
+		action.op == "delete_component"
+	},
+	"relationships_to_delete": {action.value |
+		some action in response
+		action.op == "delete_relationship"
+	},
+	"relationships_to_add": {action.value |
+		some action in response
+		action.op == "add_relationship"
+	},
 }
 
 # --- Post Processing Phase ---##
 delete_components(all_comps, comps_to_delete) := new_comps if {
 	count(comps_to_delete) > 0
-	ids_to_delete := { comp.id | some comp in comps_to_delete }
+	ids_to_delete := {comp.id | some comp in comps_to_delete}
 	new_comps := {comp |
 		some comp in all_comps
 		not comp.id in ids_to_delete
@@ -224,7 +313,7 @@ delete_components(all_comps, comps_to_delete) := new_comps if {
 
 delete_relationships(all_rels, rels_to_delete) := new_rels if {
 	count(rels_to_delete) > 0
-	ids_to_delete := {rel.id | some rel in rels_to_delete }
+	ids_to_delete := {rel.id | some rel in rels_to_delete}
 	new_rels := {rel |
 		some rel in all_rels
 		not rel.id in ids_to_delete
